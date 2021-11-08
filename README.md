@@ -4,6 +4,6 @@ This is my personal playground where I can play with different platforms and tec
 
 I wrote the same application in:
 
-Flutter - using Bloc Library, Floor
-Android - using Architecture Components and Compose UI
-iOS - using Combine and Swift UI
+- Flutter - using Bloc Library, Floor
+- Android - using Architecture Components and Compose UI
+- iOS - using Combine and Swift UI
