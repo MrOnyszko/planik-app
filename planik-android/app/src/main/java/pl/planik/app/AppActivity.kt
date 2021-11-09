@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import pl.planik.app.ui.theme.AppTheme
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class AppActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
