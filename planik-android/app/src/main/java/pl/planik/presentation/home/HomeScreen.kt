@@ -1,28 +1,32 @@
-package pl.planik.presentation.plan
+package pl.planik.presentation.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.ui.Scaffold
+import com.google.accompanist.insets.ui.TopAppBar
 import pl.planik.app.ui.theme.AppTheme
 
 @Composable
-fun HomeScreen(
-  navController: NavController,
-) {
+fun HomeScreen() {
   Scaffold(
+    modifier = Modifier.fillMaxSize(),
     topBar = {
       TopAppBar(
         title = {
-          Text("HomeScreen")
+          Text("Planik")
         },
+        contentPadding = rememberInsetsPaddingValues(
+          insets = LocalWindowInsets.current.systemBars,
+          applyBottom = false,
+        )
       )
     },
     content = { padding ->
@@ -40,6 +44,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreen_Preview() {
   AppTheme {
-    HomeScreen(rememberNavController())
+    HomeScreen()
   }
 }
