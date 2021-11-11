@@ -1,21 +1,10 @@
 <resources>
 
-  <style name="Theme.Planik" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-    <item name="colorSurface">@color/white</item>
-    <item name="colorOnSurface">@color/black</item>
-    <item name="colorPrimary">@color/white</item>
-    <item name="colorOnPrimary">@color/black</item>
-
-    <item name="android:statusBarColor">@color/gray</item>
-    <item name="android:navigationBarColor">@color/gray</item>
+  <style name="Theme.Planik" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">@color/color700</item>
+    <item name="colorPrimaryDark">@color/color900</item>
+    <item name="colorAccent">@color/color700</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:background">@color/status_bar</item>
   </style>
-
-  <style name="Theme.Planik.NoActionBar">
-    <item name="windowActionBar">false</item>
-    <item name="windowNoTitle">true</item>
-  </style>
-
-  <style name="Theme.Planik.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-  <style name="Theme.Planik.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

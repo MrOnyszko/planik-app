@@ -2,7 +2,8 @@ package pl.planik.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Navy = Color(0xFF073042)
-val Blue = Color(0xFF4285F4)
-val LightBlue = Color(0xFFD7EFFE)
-val Chartreuse = Color(0xFFEFF7CF)
+val Color200 = Color(0xffB0BEC5)
+val Color300 = Color(0xff90A4AE)
+val Color700 = Color(0xff455A64)
+val Color800 = Color(0xff37474F)
+val Color900 = Color(0xff263238)
