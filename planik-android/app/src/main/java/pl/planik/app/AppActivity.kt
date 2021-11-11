@@ -3,11 +3,8 @@ package pl.planik.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import pl.planik.app.ui.theme.AppTheme
 
@@ -17,24 +14,15 @@ class AppActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     setContent {
       AppTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(color = MaterialTheme.colors.background) {
-          Greeting("Android")
-        }
+        PlanikApp()
       }
     }
   }
 }
 
 @Composable
-fun Greeting(name: String) {
-  Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-  AppTheme {
-    Greeting("Android")
-  }
+fun PlanikApp(
+  appViewModel: AppViewModel = hiltViewModel()
+) {
+  AppNavigation(appViewModel)
 }

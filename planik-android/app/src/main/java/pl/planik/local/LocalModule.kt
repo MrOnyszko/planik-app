@@ -14,7 +14,11 @@ import pl.planik.local.source.UserLocalSourceImpl
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module
+@Module(
+  includes = [
+    LocalSourceModule::class
+  ]
+)
 class LocalModule {
 
   @Singleton

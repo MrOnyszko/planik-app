@@ -16,6 +16,9 @@ class UserLocalSourceImpl @Inject constructor(
   private val newUserToEntityMapper: NewUserToEntityMapper,
   private val userEntityToModelMapper: UserEntityToModelMapper,
 ) : UserLocalSource {
+
+  override fun hasUser(): Boolean = usersPreferences.uuid != null
+
   override suspend fun getUser(): User? {
     val uuid = usersPreferences.uuid?.uuid() ?: return null
     val entity = usersDao.queryUser(uuid = uuid)
