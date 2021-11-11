@@ -1,4 +1,10 @@
 <resources>
   <string name="app_name">Planik</string>
   <string name="back">back</string>
+
+  <string name="user_name_screen_header">Welcome in,\nPlanik!</string>
+  <string name="user_name_screen_input_placeholder">Provide your Nickname</string>
+  <string name="user_name_screen_confirm">Confirm</string>
+  <string name="user_name_thank_you_screen_header">Let\'s create\na new Plan!</string>
+  <string name="user_name_thank_you_screen_go">Go</string>
 </resources>

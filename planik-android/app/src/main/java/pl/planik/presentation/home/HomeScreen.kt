@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.Scaffold
 import com.google.accompanist.insets.ui.TopAppBar
+import pl.planik.R
 import pl.planik.app.ui.theme.AppTheme
 
 @Composable
@@ -21,7 +23,7 @@ fun HomeScreen() {
     topBar = {
       TopAppBar(
         title = {
-          Text("Planik")
+          Text(stringResource(id = R.string.app_name))
         },
         contentPadding = rememberInsetsPaddingValues(
           insets = LocalWindowInsets.current.systemBars,
