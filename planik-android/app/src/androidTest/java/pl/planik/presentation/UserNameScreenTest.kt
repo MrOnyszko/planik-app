@@ -1,12 +1,21 @@
 package pl.planik.presentation
 
-import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import pl.planik.R
+import pl.planik.app.AppActivity
 import pl.planik.app.ui.theme.AppTheme
+import pl.planik.onNodeWithString
+import pl.planik.presentation.common.LoadingTestTag
 import pl.planik.presentation.user.name.UserNameScreen
 import pl.planik.presentation.user.name.UserNameState
 
@@ -14,7 +23,8 @@ import pl.planik.presentation.user.name.UserNameState
 class UserNameScreenTest {
 
   @get:Rule
-  val composeTestRule = createComposeRule()
+  val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<AppActivity>, AppActivity> =
+    createAndroidComposeRule<AppActivity>()
 
   @Test
   fun userNameScreen_displaysLoading() {
@@ -27,7 +37,7 @@ class UserNameScreenTest {
         )
       }
     }
-    composeTestRule.onNodeWithTag("CircularProgressIndicator").assertIsDisplayed()
+    composeTestRule.onNodeWithTag(LoadingTestTag).assertIsDisplayed()
   }
 
   @Test
@@ -43,12 +53,13 @@ class UserNameScreenTest {
         )
       }
     }
-    composeTestRule.onNodeWithTag("CircularProgressIndicator").assertDoesNotExist()
+    composeTestRule.onNodeWithTag(LoadingTestTag).assertDoesNotExist()
 
-    composeTestRule.onNodeWithText("Planik").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Welcome in,\nPlanik!").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Provide your Nickname").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Confirm").assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.app_name).assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.user_name_screen_header).assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.user_name_screen_input_placeholder)
+      .assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.user_name_screen_confirm).assertIsDisplayed()
   }
 
   @Test
@@ -62,13 +73,14 @@ class UserNameScreenTest {
         )
       }
     }
-    composeTestRule.onNodeWithTag("CircularProgressIndicator").assertDoesNotExist()
+    composeTestRule.onNodeWithTag(LoadingTestTag).assertDoesNotExist()
 
-    composeTestRule.onNodeWithText("Planik").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Welcome in,\nPlanik!").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Provide your Nickname").assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.app_name).assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.user_name_screen_header).assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.user_name_screen_input_placeholder)
+      .assertIsDisplayed()
       .performTextInput("User")
-    composeTestRule.onNodeWithText("Confirm").assertIsDisplayed().performClick()
+    composeTestRule.onNodeWithString(R.string.user_name_screen_confirm).performClick()
   }
 
   @Test
@@ -82,10 +94,11 @@ class UserNameScreenTest {
         )
       }
     }
-    composeTestRule.onNodeWithTag("CircularProgressIndicator").assertDoesNotExist()
+    composeTestRule.onNodeWithTag(LoadingTestTag).assertDoesNotExist()
 
-    composeTestRule.onNodeWithText("Planik").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Let\'s create\na new Plan!").assertIsDisplayed()
-    composeTestRule.onNodeWithText("Go").assertIsDisplayed().performClick()
+    composeTestRule.onNodeWithString(R.string.app_name).assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.user_name_thank_you_screen_header).assertIsDisplayed()
+    composeTestRule.onNodeWithString(R.string.user_name_thank_you_screen_go).assertIsDisplayed()
+      .performClick()
   }
 }
