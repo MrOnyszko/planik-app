@@ -7,6 +7,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -24,22 +26,24 @@ import pl.planik.presentation.common.rememberFlowWithLifecycle
 @Composable
 fun UserNameScreen(
   onConfirm: () -> Unit,
+  viewModel: UserNameViewModel = hiltViewModel(),
 ) {
+  val viewState by rememberFlowWithLifecycle(viewModel.state)
+    .collectAsState(initial = UserNameState.Empty)
+
   UserNameScreen(
     onConfirm = onConfirm,
-    viewModel = hiltViewModel()
+    viewState = viewState,
+    submitAction = viewModel::submitAction
   )
 }
 
 @Composable
 internal fun UserNameScreen(
   onConfirm: () -> Unit,
-  viewModel: UserNameViewModel,
+  viewState: UserNameState,
+  submitAction: (UserNameAction) -> Unit,
 ) {
-
-  val viewState by rememberFlowWithLifecycle(viewModel.state)
-    .collectAsState(initial = UserNameState.Empty)
-
   Scaffold(
     modifier = Modifier.fillMaxSize(),
     topBar = {
@@ -55,7 +59,11 @@ internal fun UserNameScreen(
     },
     content = { paddingValues ->
       when {
-        viewState.isLoading -> CircularProgressIndicator()
+        viewState.isLoading -> CircularProgressIndicator(
+          modifier = Modifier.semantics {
+            testTag = "CircularProgressIndicator"
+          }
+        )
         viewState.created -> {
           Column(
             modifier = Modifier
@@ -105,7 +113,7 @@ internal fun UserNameScreen(
               value = text,
               onValueChange = { value ->
                 text = value
-                viewModel.submitAction(UserNameAction.NameTextChanges(value.text))
+                submitAction(UserNameAction.NameTextChanges(value.text))
               },
               modifier = Modifier
                 .fillMaxWidth()
@@ -123,7 +131,7 @@ internal fun UserNameScreen(
 
             Button(
               onClick = {
-                viewModel.submitAction(UserNameAction.Confirm)
+                submitAction(UserNameAction.Confirm)
               },
               modifier = Modifier
                 .fillMaxWidth()
