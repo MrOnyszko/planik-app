@@ -3,13 +3,16 @@ package pl.planik.presentation.user.name
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import pl.planik.app.hilt.DefaultCoroutineDispatcher
 import pl.planik.domain.service.UserService
 import javax.inject.Inject
 
 @HiltViewModel
 class UserNameViewModel @Inject constructor(
+  @DefaultCoroutineDispatcher private val dispatcher: CoroutineDispatcher,
   private val userService: UserService,
 ) : ViewModel() {
 
@@ -23,18 +26,18 @@ class UserNameViewModel @Inject constructor(
   )
 
   init {
-    viewModelScope.launch {
+    viewModelScope.launch(dispatcher) {
       pendingActions.collect { action ->
         when (action) {
           UserNameAction.Confirm -> {
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
               _state.emit(state.value.copy(isLoading = true))
               userService.createUser(state.value.name)
               _state.emit(state.value.copy(isLoading = false, created = true))
             }
           }
           is UserNameAction.NameTextChanges -> {
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
               _state.emit(state.value.copy(name = action.text))
             }
           }
@@ -44,7 +47,7 @@ class UserNameViewModel @Inject constructor(
   }
 
   fun submitAction(action: UserNameAction) {
-    viewModelScope.launch {
+    viewModelScope.launch(dispatcher) {
       pendingActions.emit(action)
     }
   }
