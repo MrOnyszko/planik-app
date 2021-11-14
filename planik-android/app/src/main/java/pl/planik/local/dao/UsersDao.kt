@@ -1,16 +1,10 @@
 package pl.planik.local.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.Update
+import androidx.room.*
 import pl.planik.local.entity.UserEntity
 import java.time.OffsetDateTime
 import java.time.ZoneId
-import java.util.UUID
+import java.util.*
 
 @Dao
 interface UsersDao {
@@ -24,7 +18,7 @@ interface UsersDao {
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   suspend fun insert(entity: UserEntity): Long
 
-  @Update(onConflict = OnConflictStrategy.ABORT)
+  @Update(onConflict = OnConflictStrategy.REPLACE)
   suspend fun update(entity: UserEntity): Int
 
   @Transaction
