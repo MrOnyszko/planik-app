@@ -10,4 +10,6 @@
   <string name="user_name_screen_confirm">Confirm</string>
   <string name="user_name_thank_you_screen_header">Let\'s create\na new Plan!</string>
   <string name="user_name_thank_you_screen_go">Go</string>
+
+  <string name="plan_screen_today_action_content_description">Scroll to today</string>
 </resources>

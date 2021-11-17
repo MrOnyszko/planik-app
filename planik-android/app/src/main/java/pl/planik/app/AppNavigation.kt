@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import pl.planik.presentation.home.HomeScreen
+import pl.planik.presentation.plan.PlanScreen
 import pl.planik.presentation.plans.PlansScreen
 import pl.planik.presentation.splash.SplashScreen
 import pl.planik.presentation.user.name.UserNameScreen
 
 sealed class Screen(val route: String) {
   object Splash : Screen("/")
-  object Home : Screen("/home")
+  object Plan : Screen("/plan")
   object CreateUser : Screen("/create-user")
   object Plans : Screen("/plans")
 }
@@ -26,13 +26,13 @@ fun AppNavigation(appViewModel: AppViewModel) {
     composable(Screen.Splash.route) {
       SplashScreen()
     }
-    composable(Screen.Home.route) {
-      HomeScreen()
+    composable(Screen.Plan.route) {
+      PlanScreen()
     }
     composable(Screen.CreateUser.route) {
       UserNameScreen(
         onConfirm = {
-          navController.navigate(Screen.Home.route) {
+          navController.navigate(Screen.Plan.route) {
             popUpTo(Screen.Splash.route) {
               inclusive = true
             }
@@ -49,5 +49,5 @@ fun AppNavigation(appViewModel: AppViewModel) {
     }
   }
 
-  navController.navigate(if (appViewModel.hasUser) Screen.Home.route else Screen.CreateUser.route)
+  navController.navigate(if (appViewModel.hasUser) Screen.Plan.route else Screen.CreateUser.route)
 }
