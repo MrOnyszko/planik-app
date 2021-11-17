@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -70,13 +71,13 @@ private fun UserNameForm(
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
-    Spacer(Modifier.height(64.dp))
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.huge)))
     Text(
       text = stringResource(id = R.string.user_name_screen_header),
       style = MaterialTheme.typography.h4,
       textAlign = TextAlign.Center
     )
-    Spacer(Modifier.height(48.dp))
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.xBig)))
 
     var text by remember { mutableStateOf(TextFieldValue()) }
 
@@ -88,7 +89,7 @@ private fun UserNameForm(
       },
       modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 24.dp),
+        .padding(horizontal = dimensionResource(id = R.dimen.large)),
       placeholder = {
         Text(stringResource(id = R.string.user_name_screen_input_placeholder))
       },
@@ -98,7 +99,7 @@ private fun UserNameForm(
       maxLines = 1
     )
 
-    Spacer(Modifier.height(24.dp))
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.large)))
 
     Button(
       onClick = {
@@ -106,8 +107,8 @@ private fun UserNameForm(
       },
       modifier = Modifier
         .fillMaxWidth()
-        .height(48.dp)
-        .padding(horizontal = 24.dp),
+        .height(dimensionResource(id = R.dimen.xBig))
+        .padding(horizontal = dimensionResource(id = R.dimen.large)),
       enabled = viewState.isConfirmEnabled,
     ) {
       Text(stringResource(id = R.string.user_name_screen_confirm))
@@ -127,19 +128,19 @@ private fun UserCreatedThankYouContent(
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
-    Spacer(Modifier.height(64.dp))
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.huge)))
     Text(
       text = stringResource(id = R.string.user_name_thank_you_screen_header),
       style = MaterialTheme.typography.h4,
       textAlign = TextAlign.Center,
     )
-    Spacer(Modifier.height(48.dp))
+    Spacer(Modifier.height(dimensionResource(id = R.dimen.xBig)))
     Button(
       onClick = onConfirm,
       modifier = Modifier
         .fillMaxWidth()
         .height(48.dp)
-        .padding(horizontal = 24.dp),
+        .padding(horizontal = dimensionResource(id = R.dimen.large)),
     ) {
       Text(text = stringResource(id = R.string.user_name_thank_you_screen_go))
     }

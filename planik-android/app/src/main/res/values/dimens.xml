@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <dimen name="tiny">4dp</dimen>
+  <dimen name="small">8dp</dimen>
+  <dimen name="xSmall">12dp</dimen>
+  <dimen name="medium">16dp</dimen>
+  <dimen name="xMedium">18dp</dimen>
+  <dimen name="large">24dp</dimen>
+  <dimen name="xLarge">32dp</dimen>
+  <dimen name="big">42dp</dimen>
+  <dimen name="xBig">48dp</dimen>
+  <dimen name="huge">64dp</dimen>
+</resources>

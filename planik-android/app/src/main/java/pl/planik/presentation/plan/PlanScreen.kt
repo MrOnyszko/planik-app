@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Today
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -123,7 +124,7 @@ fun Days(
       }
     }
     item {
-      Spacer(modifier = Modifier.height(48.dp))
+      Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.xBig)))
     }
   }
 }
@@ -136,7 +137,7 @@ private fun DayHeader(day: Day) {
     Row(
       Modifier
         .background(MaterialTheme.colors.background)
-        .padding(all = 16.dp)
+        .padding(all = dimensionResource(id = R.dimen.medium))
         .fillMaxSize(),
       horizontalArrangement = Arrangement.SpaceBetween,
       verticalAlignment = Alignment.CenterVertically
@@ -148,7 +149,7 @@ private fun DayHeader(day: Day) {
         textAlign = TextAlign.Start,
         style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold)
       )
-      Spacer(Modifier.width(24.dp))
+      Spacer(Modifier.width(dimensionResource(id = R.dimen.large)))
       Text(
         day.date.format(
           DateTimeFormatter.ofPattern("y-MM-dd").withLocale(Locale.getDefault())
@@ -181,9 +182,9 @@ fun DayEntryItem(dayEntry: DayEntry) {
       )
       Column(
         modifier = Modifier.padding(
-          top = 8.dp,
-          start = 4.dp,
-          bottom = 4.dp,
+          top = dimensionResource(id = R.dimen.small),
+          start = dimensionResource(id = R.dimen.tiny),
+          bottom = dimensionResource(id = R.dimen.tiny),
         )
       ) {
         Text(
@@ -218,7 +219,12 @@ private fun PauseBar(
     modifier = Modifier
       .fillMaxWidth()
       .background(color)
-      .padding(top = 4.dp, bottom = 4.dp, start = 4.dp, end = 8.dp)
+      .padding(
+        top = dimensionResource(id = R.dimen.tiny),
+        bottom = dimensionResource(id = R.dimen.tiny),
+        start = dimensionResource(id = R.dimen.tiny),
+        end = dimensionResource(id = R.dimen.small)
+      )
   )
 }
 
