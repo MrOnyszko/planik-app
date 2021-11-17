@@ -2,6 +2,9 @@
   <string name="app_name">Planik</string>
   <string name="back">back</string>
 
+  <string name="default_empty_text">Empty</string>
+  <string name="default_error_text">Error</string>
+
   <string name="user_name_screen_header">Welcome in,\nPlanik!</string>
   <string name="user_name_screen_input_placeholder">Provide your Nickname</string>
   <string name="user_name_screen_confirm">Confirm</string>
