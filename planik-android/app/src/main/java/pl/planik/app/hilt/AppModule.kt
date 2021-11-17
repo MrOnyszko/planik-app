@@ -55,6 +55,15 @@ class AppModule {
 
   @Singleton
   @Provides
+  @FormatShortTime
+  fun provideFormatShortTime(
+    @ApplicationContext context: Context
+  ): DateTimeFormatter {
+    return DateTimeFormatter.ofPattern("EEEE").withLocale(context.locale())
+  }
+
+  @Singleton
+  @Provides
   @DefaultCoroutineDispatcher
   fun providesDefaultCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.Default
 }

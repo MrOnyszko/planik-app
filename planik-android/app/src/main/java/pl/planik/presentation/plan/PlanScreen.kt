@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.ui.Scaffold
 import kotlinx.coroutines.launch
 import pl.planik.R
+import pl.planik.app.LocalDateFormatter
 import pl.planik.app.ui.theme.AppTheme
 import pl.planik.app.ui.theme.Gray100
 import pl.planik.app.ui.theme.Gray800
@@ -31,8 +32,6 @@ import pl.planik.domain.model.DayEntry
 import pl.planik.presentation.common.PlanikAppBar
 import pl.planik.presentation.common.When
 import pl.planik.presentation.common.rememberFlowWithLifecycle
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 @Composable
 fun PlanScreen(
@@ -131,6 +130,8 @@ fun Days(
 
 @Composable
 private fun DayHeader(day: Day) {
+  val localFormatter = LocalDateFormatter.current
+
   Surface(
     elevation = 0.5.dp
   ) {
@@ -143,17 +144,13 @@ private fun DayHeader(day: Day) {
       verticalAlignment = Alignment.CenterVertically
     ) {
       Text(
-        day.date.format(
-          DateTimeFormatter.ofPattern("EEEE").withLocale(Locale.getDefault())
-        ),
+        localFormatter.formatDayName(day.date),
         textAlign = TextAlign.Start,
         style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold)
       )
       Spacer(Modifier.width(dimensionResource(id = R.dimen.large)))
       Text(
-        day.date.format(
-          DateTimeFormatter.ofPattern("y-MM-dd").withLocale(Locale.getDefault())
-        ),
+        localFormatter.formatShortDate(day.date),
         textAlign = TextAlign.Start,
       )
     }
@@ -163,9 +160,9 @@ private fun DayHeader(day: Day) {
 @Composable
 fun DayEntryItem(dayEntry: DayEntry) {
 
-  val formatter = DateTimeFormatter.ofPattern("HH:mm").withLocale(Locale.getDefault())
-  val formattedStartTime = dayEntry.start.format(formatter)
-  val formattedEndTime = dayEntry.end.format(formatter)
+  val localFormatter = LocalDateFormatter.current
+  val formattedStartTime = localFormatter.formatShortTime(dayEntry.start.toLocalTime())
+  val formattedEndTime = localFormatter.formatShortTime(dayEntry.end.toLocalTime())
   val timeRange = "$formattedStartTime -- $formattedEndTime"
 
   Column {
@@ -176,8 +173,8 @@ fun DayEntryItem(dayEntry: DayEntry) {
         text = dayEntry.ordinal.toString(),
         textAlign = TextAlign.Center,
         modifier = Modifier
-          .width(32.dp)
-          .padding(start = 4.dp),
+          .width(dimensionResource(id = R.dimen.xLarge))
+          .padding(start = dimensionResource(id = R.dimen.tiny)),
         style = MaterialTheme.typography.caption
       )
       Column(

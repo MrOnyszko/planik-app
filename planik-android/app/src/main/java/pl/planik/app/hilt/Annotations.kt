@@ -15,4 +15,7 @@ annotation class ShortDate
 annotation class ShortTime
 
 @Qualifier
+annotation class FormatShortTime
+
+@Qualifier
 annotation class DefaultCoroutineDispatcher
