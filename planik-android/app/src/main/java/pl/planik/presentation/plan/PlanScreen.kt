@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Today
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -35,6 +36,7 @@ import pl.planik.presentation.common.rememberFlowWithLifecycle
 
 @Composable
 fun PlanScreen(
+  onPlansOpen: () -> Unit,
   viewModel: PlanViewModel = hiltViewModel(),
 ) {
   val viewState by rememberFlowWithLifecycle(viewModel.state)
@@ -42,6 +44,7 @@ fun PlanScreen(
 
   PlanScreen(
     viewState = viewState,
+    onPlansOpen = onPlansOpen,
     submitAction = viewModel::submitAction
   )
 }
@@ -49,13 +52,25 @@ fun PlanScreen(
 @Composable
 internal fun PlanScreen(
   viewState: PlanState,
+  onPlansOpen: () -> Unit = {},
   submitAction: (PlanAction) -> Unit,
 ) {
   Scaffold(
     modifier = Modifier.fillMaxSize(),
     topBar = {
       PlanikAppBar(
+        titleId = R.string.plans_screen_title,
         actions = {
+          IconButton(
+            onClick = onPlansOpen
+          ) {
+            Icon(
+              imageVector = Icons.Filled.List,
+              contentDescription = stringResource(
+                id = R.string.plan_screen_open_plans_action_content_description
+              )
+            )
+          }
           IconButton(
             onClick = {
               submitAction(PlanAction.Today)
@@ -75,7 +90,7 @@ internal fun PlanScreen(
       viewState.stateStatus.When(
         loaded = { Plan(paddingValues, viewState) }
       )
-    }
+    },
   )
 }
 

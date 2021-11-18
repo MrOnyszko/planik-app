@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import pl.planik.presentation.create.plan.CreatePlanScreen
 import pl.planik.presentation.plan.PlanScreen
 import pl.planik.presentation.plans.PlansScreen
 import pl.planik.presentation.splash.SplashScreen
@@ -13,6 +14,7 @@ sealed class Screen(val route: String) {
   object Splash : Screen("/")
   object Plan : Screen("/plan")
   object CreateUser : Screen("/create-user")
+  object CreatePlan : Screen("/plans/create-plan")
   object Plans : Screen("/plans")
 }
 
@@ -27,7 +29,11 @@ fun AppNavigation(appViewModel: AppViewModel) {
       SplashScreen()
     }
     composable(Screen.Plan.route) {
-      PlanScreen()
+      PlanScreen(
+        onPlansOpen = {
+          navController.navigate(Screen.Plans.route)
+        }
+      )
     }
     composable(Screen.CreateUser.route) {
       UserNameScreen(
@@ -42,9 +48,26 @@ fun AppNavigation(appViewModel: AppViewModel) {
     }
     composable(Screen.Plans.route) {
       PlansScreen(
+        onCreatePlanOpen = {
+          navController.navigate(Screen.CreatePlan.route)
+        },
         onBack = {
           navController.popBackStack()
         },
+      )
+    }
+    composable(Screen.CreatePlan.route) {
+      CreatePlanScreen(
+        onBack = {
+          navController.popBackStack()
+        },
+        onFinish = {
+          navController.navigate(Screen.Plan.route) {
+            popUpTo(Screen.Splash.route) {
+              inclusive = true
+            }
+          }
+        }
       )
     }
   }

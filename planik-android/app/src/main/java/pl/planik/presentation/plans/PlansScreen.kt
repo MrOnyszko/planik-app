@@ -1,14 +1,11 @@
 package pl.planik.presentation.plans
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronLeft
+import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,9 +16,11 @@ import com.google.accompanist.insets.ui.Scaffold
 import com.google.accompanist.insets.ui.TopAppBar
 import pl.planik.R
 import pl.planik.app.ui.theme.AppTheme
+import pl.planik.presentation.common.NavigationBackIcon
 
 @Composable
 fun PlansScreen(
+  onCreatePlanOpen: () -> Unit,
   onBack: () -> Unit,
 ) {
   Scaffold(
@@ -32,12 +31,7 @@ fun PlansScreen(
           Text(stringResource(id = R.string.app_name))
         },
         navigationIcon = {
-          IconButton(onClick = onBack) {
-            Icon(
-              imageVector = Icons.Filled.ChevronLeft,
-              contentDescription = ""
-            )
-          }
+          NavigationBackIcon(onBack)
         },
         contentPadding = rememberInsetsPaddingValues(
           insets = LocalWindowInsets.current.systemBars,
@@ -45,14 +39,21 @@ fun PlansScreen(
         )
       )
     },
-    content = { padding ->
-      Column(
-        modifier = Modifier.padding(padding),
-        verticalArrangement = Arrangement.Center
+    floatingActionButton = {
+      FloatingActionButton(
+        onClick = onCreatePlanOpen
       ) {
-        Text(text = "PlansScreen")
+        Icon(
+          imageVector = Icons.Filled.PlusOne,
+          contentDescription = ""
+        )
       }
-    }
+    },
+    contentPadding = rememberInsetsPaddingValues(
+      insets = LocalWindowInsets.current.navigationBars,
+      applyTop = false,
+    ),
+    content = {}
   )
 }
 
@@ -60,6 +61,9 @@ fun PlansScreen(
 @Composable
 fun PlansScreen_Preview() {
   AppTheme {
-    PlansScreen(onBack = {})
+    PlansScreen(
+      onCreatePlanOpen = {},
+      onBack = {}
+    )
   }
 }
