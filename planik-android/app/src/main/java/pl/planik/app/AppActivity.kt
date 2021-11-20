@@ -3,16 +3,20 @@ package pl.planik.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import pl.planik.app.ui.theme.AppTheme
 import javax.inject.Inject
 
+@ExperimentalPagerApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class AppActivity : ComponentActivity() {
 
@@ -37,6 +41,8 @@ class AppActivity : ComponentActivity() {
   }
 }
 
+@ExperimentalPagerApi
+@ExperimentalFoundationApi
 @Composable
 fun PlanikApp(
   appViewModel: AppViewModel = hiltViewModel()

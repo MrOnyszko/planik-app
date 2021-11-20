@@ -1,9 +1,11 @@
 package pl.planik.app
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import pl.planik.presentation.create.plan.CreatePlanScreen
 import pl.planik.presentation.plan.PlanScreen
 import pl.planik.presentation.plans.PlansScreen
@@ -18,6 +20,8 @@ sealed class Screen(val route: String) {
   object Plans : Screen("/plans")
 }
 
+@ExperimentalFoundationApi
+@ExperimentalPagerApi
 @Composable
 fun AppNavigation(appViewModel: AppViewModel) {
   val navController = rememberNavController()

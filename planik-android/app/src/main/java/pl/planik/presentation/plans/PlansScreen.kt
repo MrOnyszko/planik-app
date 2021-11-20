@@ -3,20 +3,18 @@ package pl.planik.presentation.plans
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.Scaffold
-import com.google.accompanist.insets.ui.TopAppBar
 import pl.planik.R
 import pl.planik.app.ui.theme.AppTheme
 import pl.planik.presentation.common.NavigationBackIcon
+import pl.planik.presentation.common.PlanikAppBar
 
 @Composable
 fun PlansScreen(
@@ -26,17 +24,11 @@ fun PlansScreen(
   Scaffold(
     modifier = Modifier.fillMaxSize(),
     topBar = {
-      TopAppBar(
-        title = {
-          Text(stringResource(id = R.string.app_name))
-        },
+      PlanikAppBar(
+        titleId = R.string.plans_screen_title,
         navigationIcon = {
           NavigationBackIcon(onBack)
-        },
-        contentPadding = rememberInsetsPaddingValues(
-          insets = LocalWindowInsets.current.systemBars,
-          applyBottom = false,
-        )
+        }
       )
     },
     floatingActionButton = {

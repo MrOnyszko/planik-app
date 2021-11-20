@@ -13,6 +13,7 @@
   <string name="user_name_thank_you_screen_header">Let\'s create\na new Plan!</string>
   <string name="user_name_thank_you_screen_go">Go</string>
 
+  <string name="plan_screen_toggle_plan_view_type_action_content_description">Toggle plan view type</string>
   <string name="plan_screen_today_action_content_description">Scroll to today</string>
   <string name="plan_screen_open_plans_action_content_description">Open plans screen</string>
 

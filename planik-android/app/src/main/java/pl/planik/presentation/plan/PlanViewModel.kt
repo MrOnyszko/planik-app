@@ -44,10 +44,30 @@ class PlanViewModel @Inject constructor(
           PlanAction.Today -> {
             viewModelScope.launch {
               val dayOfWeek = OffsetDateTime.now().dayOfWeek
-              val indexOfCurrentDay = state.value.plan?.entryIndexForDayOfWeek(dayOfWeek)
-              _state.emit(state.value.copy(indexOfCurrentDay = indexOfCurrentDay))
+              val indexOfCurrentDayEntry = state.value.plan?.entryIndexForDayOfWeek(dayOfWeek)
+              val indexOfCurrentDay = state.value.plan?.dayIndexForDayOfWeek(dayOfWeek)
+              _state.emit(
+                state.value.copy(
+                  indexOfCurrentDayEntry = indexOfCurrentDayEntry,
+                  indexOfCurrentDay = indexOfCurrentDay,
+                )
+              )
               delay(300)
-              _state.emit(state.value.copy(indexOfCurrentDay = null))
+              _state.emit(
+                state.value.copy(
+                  indexOfCurrentDayEntry = null,
+                  indexOfCurrentDay = null,
+                )
+              )
+            }
+          }
+          PlanAction.TogglePlanViewType -> {
+            viewModelScope.launch {
+              _state.emit(
+                state.value.copy(
+                  isVertical = !state.value.isVertical
+                )
+              )
             }
           }
         }

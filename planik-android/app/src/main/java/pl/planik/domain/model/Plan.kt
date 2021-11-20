@@ -13,7 +13,11 @@ data class Plan(
 ) {
   fun entryIndexForDayOfWeek(dayOfWeek: DayOfWeek): Int {
     val entries = days.flatMap { it.entries }
-    val entry = entries.first { it.start.dayOfWeek == dayOfWeek }
+    val entry = entries.firstOrNull { it.start.dayOfWeek == dayOfWeek } ?: return 0
     return entries.indexOf(entry)
+  }
+
+  fun dayIndexForDayOfWeek(dayOfWeek: DayOfWeek): Int {
+    return days.indexOfFirst { it.dayOfWeek == dayOfWeek }
   }
 }
