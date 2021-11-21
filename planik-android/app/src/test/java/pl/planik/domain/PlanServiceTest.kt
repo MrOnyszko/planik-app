@@ -87,7 +87,7 @@ class PlanServiceTest {
       val newPlan = NewPlan(name = planName)
 
       whenever(userLocalSourceMock.currentUserId()).thenAnswer { userId }
-      whenever(planLocalSourceMock.createPlan(newPlan)).thenAnswer { planId }
+      whenever(planLocalSourceMock.createPlan(userId, newPlan)).thenAnswer { planId }
       whenever(planLocalSourceMock.getPlan(planId, userId)).thenAnswer { expectedPlan }
       val plan = planService.addPlan(newPlan)
       assertThat(plan, equalTo(expectedPlan))
@@ -115,7 +115,6 @@ class PlanServiceTest {
     id = planId,
     name = planName,
     current = true,
-    archived = false,
     createdAt = OffsetDateTime.of(1990, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC),
     days = emptyList()
   )

@@ -23,7 +23,8 @@ class PlanService @Inject constructor(
   }
 
   suspend fun addPlan(newPlan: NewPlan): Plan? {
-    val id = planLocalSource.createPlan(newPlan)
+    val currentUserId = userLocalSource.currentUserId() ?: return null
+    val id = planLocalSource.createPlan(currentUserId, newPlan)
     return getPlan(id)
   }
 

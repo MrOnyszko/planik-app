@@ -8,6 +8,6 @@ interface PlanLocalSource {
   suspend fun hasPlan(): Boolean
   fun getCurrentPlan(userId: Int): Flow<Plan>
   suspend fun getPlan(id: Int, userId: Int): Plan?
-  suspend fun createPlan(newPlan: NewPlan): Int
+  suspend fun createPlan(userId: Int, newPlan: NewPlan): Int
   suspend fun deletePlan(id: Int)
 }

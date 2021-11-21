@@ -7,7 +7,6 @@ data class Plan(
   val id: Int,
   val name: String,
   val current: Boolean,
-  val archived: Boolean,
   val createdAt: OffsetDateTime,
   val days: List<Day>,
 ) {
