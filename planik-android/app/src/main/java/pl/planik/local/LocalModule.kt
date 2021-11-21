@@ -47,6 +47,12 @@ class LocalModule {
 @InstallIn(SingletonComponent::class)
 @Module
 abstract class LocalSourceModule {
+
+  @Binds
+  abstract fun bindsUserPreferences(
+    userPreferencesImpl: UserPreferencesImpl
+  ): UserPreferences
+
   @Binds
   abstract fun bindsUserLocalSource(
     userLocalSourceImpl: UserLocalSourceImpl

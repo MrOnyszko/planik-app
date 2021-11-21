@@ -3,30 +3,35 @@ package pl.planik.local
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.UUID
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface UserPreferences {
+  var uuid: String?
+  var id: Int
+}
+
 @Singleton
-class UserPreferences @Inject constructor(
+class UserPreferencesImpl @Inject constructor(
   @ApplicationContext context: Context
-) {
+) : UserPreferences {
 
   companion object {
     const val PREF_USER_ID = "user_id"
     const val PREF_USER_UUID = "user_uuid"
   }
 
-  private var sharedPreferences: SharedPreferences =
+  private val sharedPreferences: SharedPreferences =
     context.getSharedPreferences("${context.packageName}.preferences", Context.MODE_PRIVATE)
 
-  var uuid: String?
+  override var uuid: String?
     get() = sharedPreferences.getString(PREF_USER_UUID, null)
     set(value) {
       sharedPreferences.edit().putString(PREF_USER_UUID, value).apply()
     }
 
-  var id: Int
+  override var id: Int
     get() = sharedPreferences.getInt(PREF_USER_ID, -1)
     set(value) {
       sharedPreferences.edit().putInt(PREF_USER_ID, value).apply()

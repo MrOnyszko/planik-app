@@ -10,10 +10,10 @@ import java.util.*
 interface UsersDao {
 
   @Query("SELECT * FROM users WHERE id = :id")
-  suspend fun queryUser(id: Int): UserEntity
+  suspend fun queryUser(id: Int): UserEntity?
 
   @Query("SELECT * FROM users WHERE uuid = :uuid")
-  suspend fun queryUser(uuid: UUID): UserEntity
+  suspend fun queryUser(uuid: UUID): UserEntity?
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   suspend fun insert(entity: UserEntity): Long
