@@ -70,7 +70,7 @@ class UsersDaoTest {
       val createdUser = usersDao.queryUser(newUser.uuid)
       assertThat(createdUser, equalTo(newUser))
 
-      val toUpdate = createdUser.copy(
+      val toUpdate = createdUser!!.copy(
         email = "user@email.com",
         updatedAt = OffsetDateTime.of(2021, 11, 14, 0, 0, 0, 0, ZoneOffset.UTC)
       )
