@@ -15,8 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import pl.planik.app.ui.theme.AppTheme
 import javax.inject.Inject
 
-@ExperimentalPagerApi
-@ExperimentalFoundationApi
+@OptIn(ExperimentalPagerApi::class, ExperimentalFoundationApi::class)
 @AndroidEntryPoint
 class AppActivity : ComponentActivity() {
 
