@@ -40,6 +40,8 @@ class LocalModule {
   @Provides
   fun providesUsersDao(db: LocalDatabase) = db.usersDao()
 
+  @Provides
+  fun providesPlansDao(db: LocalDatabase) = db.plansDao()
 }
 
 @InstallIn(SingletonComponent::class)
