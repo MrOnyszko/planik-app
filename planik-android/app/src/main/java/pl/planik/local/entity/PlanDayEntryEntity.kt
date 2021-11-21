@@ -23,8 +23,8 @@ data class PlanDayEntryEntity(
   @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = -1,
   @ColumnInfo(name = "plan_id") val planId: Int,
   @ColumnInfo(name = "day_of_week") val dayOfWeek: Int,
-  @ColumnInfo(name = "start") val start: OffsetDateTime? = OffsetDateTime.now(ZoneId.of("UTC")),
-  @ColumnInfo(name = "end") val end: OffsetDateTime? = null,
+  @ColumnInfo(name = "start") val start: OffsetDateTime,
+  @ColumnInfo(name = "end") val end: OffsetDateTime,
   @ColumnInfo(name = "created_at") val createdAt: OffsetDateTime? = OffsetDateTime.now(ZoneId.of("UTC")),
   @ColumnInfo(name = "updated_at") val updatedAt: OffsetDateTime? = null
 )
