@@ -2,6 +2,7 @@ package pl.planik.app
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -43,7 +44,7 @@ fun AppNavigation(appViewModel: AppViewModel) {
       UserNameScreen(
         onConfirm = {
           navController.navigate(Screen.Plan.route) {
-            popUpTo(Screen.Splash.route) {
+            popUpTo(Screen.CreateUser.route) {
               inclusive = true
             }
           }
@@ -76,5 +77,17 @@ fun AppNavigation(appViewModel: AppViewModel) {
     }
   }
 
-  navController.navigate(if (appViewModel.hasUser) Screen.Plan.route else Screen.CreateUser.route)
+  LaunchedEffect(appViewModel.hasUser) {
+    navController.navigate(
+      if (appViewModel.hasUser) {
+        Screen.Plan.route
+      } else {
+        Screen.CreateUser.route
+      }
+    ) {
+      popUpTo(Screen.Splash.route) {
+        inclusive = true
+      }
+    }
+  }
 }
