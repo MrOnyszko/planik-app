@@ -22,11 +22,12 @@ interface UsersDao {
   suspend fun update(entity: UserEntity): Int
 
   @Transaction
-  suspend fun upsert(user: UserEntity) {
+  suspend fun upsert(user: UserEntity): Int {
     val id = insert(user)
     if (id == -1L) {
       update(user.copy(updatedAt = OffsetDateTime.now(ZoneId.of("UTC"))))
     }
+    return id.toInt()
   }
 
   @Delete

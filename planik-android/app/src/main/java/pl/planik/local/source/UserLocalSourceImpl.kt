@@ -17,9 +17,11 @@ class UserLocalSourceImpl @Inject constructor(
   private val userEntityToModelMapper: UserEntityToModelMapper,
 ) : UserLocalSource {
 
+  override fun currentUserId(): Int? = usersPreferences.id.takeIf { it != -1 }
+
   override fun hasUser(): Boolean = usersPreferences.uuid != null
 
-  override suspend fun getUser(): User? {
+  override suspend fun getCurrentUser(): User? {
     val uuid = usersPreferences.uuid?.uuid() ?: return null
     val entity = usersDao.queryUser(uuid = uuid)
     return userEntityToModelMapper.map(entity)
@@ -27,7 +29,8 @@ class UserLocalSourceImpl @Inject constructor(
 
   override suspend fun createUser(newUser: NewUser): User? {
     usersPreferences.uuid = newUser.uuid.toString()
-    usersDao.upsert(newUserToEntityMapper.map(newUser))
-    return getUser()
+    val id = usersDao.upsert(newUserToEntityMapper.map(newUser))
+    usersPreferences.id = id
+    return getCurrentUser()
   }
 }

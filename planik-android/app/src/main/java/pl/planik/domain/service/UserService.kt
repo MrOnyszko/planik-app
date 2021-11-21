@@ -11,7 +11,7 @@ class UserService @Inject constructor(
 
   fun hasUser(): Boolean = userLocalSource.hasUser()
 
-  suspend fun getCurrentUser(): User? = userLocalSource.getUser()
+  suspend fun getCurrentUser(): User? = userLocalSource.getCurrentUser()
 
   suspend fun createUser(nickname: String): User? {
     return userLocalSource.createUser(newUser = NewUser(nickname = nickname))

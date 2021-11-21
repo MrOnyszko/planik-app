@@ -9,7 +9,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import pl.planik.domain.source.PlanLocalSource
 import pl.planik.domain.source.UserLocalSource
+import pl.planik.local.source.PlanLocalSourceImpl
 import pl.planik.local.source.UserLocalSourceImpl
 import javax.inject.Singleton
 
@@ -47,4 +49,9 @@ abstract class LocalSourceModule {
   abstract fun bindsUserLocalSource(
     userLocalSourceImpl: UserLocalSourceImpl
   ): UserLocalSource
+
+  @Binds
+  abstract fun bindsPlanLocalSource(
+    userPlanLocalSourceImpl: PlanLocalSourceImpl
+  ): PlanLocalSource
 }

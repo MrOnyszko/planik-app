@@ -8,6 +8,9 @@ import java.time.ZoneId
 @Dao
 interface PlansDao {
 
+  @Query("SELECT COUNT(*) FROM plans")
+  suspend fun count(): Int
+
   @Query("SELECT * FROM plans WHERE id = :id")
   suspend fun queryById(id: Int): PlanEntity
 

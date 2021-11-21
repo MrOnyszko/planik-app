@@ -4,7 +4,8 @@ import pl.planik.domain.model.NewUser
 import pl.planik.domain.model.User
 
 interface UserLocalSource {
+  fun currentUserId(): Int?
   fun hasUser(): Boolean
-  suspend fun getUser(): User?
+  suspend fun getCurrentUser(): User?
   suspend fun createUser(newUser: NewUser): User?
 }
