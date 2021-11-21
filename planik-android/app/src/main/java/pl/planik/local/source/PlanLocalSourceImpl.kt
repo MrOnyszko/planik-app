@@ -14,7 +14,7 @@ class PlanLocalSourceImpl @Inject constructor(
 
   override suspend fun hasPlan(): Boolean = plansDao.count() > 0
 
-  override fun getCurrentPlan(): Flow<Plan> {
+  override fun getCurrentPlan(userId: Int): Flow<Plan> {
     return emptyFlow()
   }
 

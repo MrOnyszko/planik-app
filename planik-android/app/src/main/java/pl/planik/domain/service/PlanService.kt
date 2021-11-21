@@ -1,6 +1,7 @@
 package pl.planik.domain.service
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import pl.planik.domain.model.NewPlan
 import pl.planik.domain.model.Plan
 import pl.planik.domain.source.PlanLocalSource
@@ -11,7 +12,10 @@ class PlanService @Inject constructor(
   private val userLocalSource: UserLocalSource,
   private val planLocalSource: PlanLocalSource,
 ) {
-  fun getCurrentPlan(): Flow<Plan> = planLocalSource.getCurrentPlan()
+  fun getCurrentPlan(): Flow<Plan> {
+    val currentUserId = userLocalSource.currentUserId() ?: return emptyFlow()
+    return planLocalSource.getCurrentPlan(currentUserId)
+  }
 
   suspend fun getPlan(id: Int): Plan? {
     val currentUserId = userLocalSource.currentUserId() ?: return null
