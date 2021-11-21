@@ -29,8 +29,8 @@ class UserLocalSourceImpl @Inject constructor(
 
   override suspend fun createUser(newUser: NewUser): User? {
     usersPreferences.uuid = newUser.uuid.toString()
-    val id = usersDao.upsert(newUserToEntityMapper.map(newUser))
-    usersPreferences.id = id
+    val id = usersDao.insert(newUserToEntityMapper.map(newUser))
+    usersPreferences.id = id.toInt()
     return getCurrentUser()
   }
 }

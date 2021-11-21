@@ -20,10 +20,13 @@ import java.time.ZoneId
   ]
 )
 data class PlanEntity(
-  @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = -1,
   @ColumnInfo(name = "user_id") val userId: Int,
   @ColumnInfo(name = "name") val name: String,
   @ColumnInfo(name = "current") val current: Boolean,
   @ColumnInfo(name = "created_at") val createdAt: OffsetDateTime? = OffsetDateTime.now(ZoneId.of("UTC")),
   @ColumnInfo(name = "updated_at") val updatedAt: OffsetDateTime? = null
-)
+) {
+  @ColumnInfo(name = "id")
+  @PrimaryKey(autoGenerate = true)
+  var id: Int = 0
+}

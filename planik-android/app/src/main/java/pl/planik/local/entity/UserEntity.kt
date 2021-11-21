@@ -14,10 +14,13 @@ import java.util.*
   ]
 )
 data class UserEntity(
-  @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = -1,
   @ColumnInfo(name = "uuid") val uuid: UUID,
   @ColumnInfo(name = "nickname") val nickname: String,
   @ColumnInfo(name = "email") val email: String? = null,
   @ColumnInfo(name = "created_at") val createdAt: OffsetDateTime? = OffsetDateTime.now(ZoneId.of("UTC")),
   @ColumnInfo(name = "updated_at") val updatedAt: OffsetDateTime? = null
-)
+) {
+  @ColumnInfo(name = "id")
+  @PrimaryKey(autoGenerate = true)
+  var id: Int = 0
+}

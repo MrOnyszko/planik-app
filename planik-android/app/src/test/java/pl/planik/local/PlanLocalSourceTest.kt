@@ -10,6 +10,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import pl.planik.MainCoroutineScopeRule
@@ -81,10 +82,11 @@ class PlanLocalSourceTest {
   fun should_returnCurrentPlanFlow_When_ThereIsCurrentPlan() {
     coroutineScope.runBlockingTest {
       val userId = 3
-      val planWithDayEntries = createPlanWithEntriesEntity(id = 2, userId = userId, name = "xyz")
+      val planWithDayEntries =
+        createPlanWithEntriesEntity(planId = 2, userId = userId, name = "xyz")
       val expectPlan = createPlan(id = 2, name = "xyz")
       whenever(plansDaoMock.currentPlan(userId)).thenAnswer { flowOf(planWithDayEntries) }
-      val plan = userLocalSource.getCurrentPlan(userId).take(1).single()
+      val plan = userLocalSource.getCurrentPlan(userId).take(1).single()!!
       assertThat(plan.id, equalTo(expectPlan.id))
       assertThat(plan.name, equalTo(expectPlan.name))
       assertThat(plan.days[0].ordinal, equalTo(expectPlan.days[0].ordinal))
@@ -108,24 +110,17 @@ class PlanLocalSourceTest {
   @Test
   fun should_createNewPlan_When_DataIsProvided() {
     coroutineScope.runBlockingTest {
-      val userId = 1
+      val userId = 2
+      val planId = 3
       val newPlan = NewPlan(name = "Planner")
-      val planWithDayEntries = createPlanWithEntriesEntity(
-        id = 1,
-        userId = userId,
-        name = "Planner"
-      )
 
-      val planEntity = planWithDayEntries.plan!!.copy(id = -1)
-      val planDayEntries = planWithDayEntries.planDayEntries!!
-
-      whenever(plansDaoMock.insert(planEntity)).thenAnswer { 1L }
-      whenever(plansDaoMock.insert(planDayEntries)).thenAnswer {
+      whenever(plansDaoMock.insert(any())).thenAnswer { planId }
+      whenever(plansDaoMock.insertManyPlanDayEntryEntities(any())).thenAnswer {
         (1 until 8).map { it }.toList()
       }
 
       val id = userLocalSource.createPlan(userId, newPlan)
-      assertThat(id, equalTo(1))
+      assertThat(id, equalTo(planId))
     }
   }
 
@@ -137,25 +132,31 @@ class PlanLocalSourceTest {
     }
   }
 
-  private fun createPlanWithEntriesEntity(id: Int, userId: Int, name: String): PlanWithDayEntries {
+  private fun createPlanWithEntriesEntity(
+    planId: Int,
+    userId: Int,
+    name: String
+  ): PlanWithDayEntries {
     val createdAt = OffsetDateTime.of(2021, 11, 15, 10, 0, 0, 0, ZoneOffset.UTC)
     return PlanWithDayEntries().apply {
       plan = PlanEntity(
-        id = id,
         userId = userId,
         name = name,
         current = false,
         createdAt = createdAt,
-      )
+      ).apply {
+        id = planId
+      }
       planDayEntries = (1 until 8).map { index ->
         PlanDayEntryEntity(
-          id = index,
-          planId = id,
+          planId = planId,
           dayOfWeek = index,
           title = "-",
           start = createdAt.withHour(8).withMinute(0),
           end = createdAt.withHour(8).withMinute(45),
-        )
+        ).apply {
+          id = index
+        }
       }
     }
   }

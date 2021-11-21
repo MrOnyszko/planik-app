@@ -23,16 +23,16 @@ interface PlansDao {
 
   @Transaction
   @Query("SELECT * FROM plans WHERE user_id = :userId AND current = 1")
-  fun currentPlan(userId: Int): Flow<PlanWithDayEntries>
+  fun currentPlan(userId: Int): Flow<PlanWithDayEntries?>
 
   @Query("DELETE FROM plans WHERE id = :id")
   suspend fun deleteById(id: Int): Int
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
-  suspend fun insert(entity: PlanDayEntryEntity): Long
+  suspend fun insertPlanDayEntryEntity(entity: PlanDayEntryEntity): Long
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
-  suspend fun insert(entity: List<PlanDayEntryEntity>): List<Long>
+  suspend fun insertManyPlanDayEntryEntities(entity: List<PlanDayEntryEntity>): List<Long>
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   suspend fun insert(entity: PlanEntity): Long

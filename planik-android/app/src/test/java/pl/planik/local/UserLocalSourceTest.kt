@@ -94,10 +94,11 @@ class UserLocalSourceTest {
 
       whenever(usersDaoMock.queryUser(givenUuid)).thenAnswer {
         UserEntity(
-          id = 1,
           uuid = UUID.randomUUID(),
           nickname = "User"
-        )
+        ).apply {
+          id = 1
+        }
       }
 
       val user = userLocalSource.getCurrentUser()
@@ -120,18 +121,19 @@ class UserLocalSourceTest {
   fun should_CreateUser_When_NicknameIsProvided() {
     coroutineScope.runBlockingTest {
 
-      val id = 1
+      val userId = 1
       val nickname = "Nickname"
       val expectedUuid = UUID.nameUUIDFromBytes(nickname.toByteArray())
 
       whenever(userPreferencesMock.uuid).thenReturn(expectedUuid.toString())
-      whenever(usersDaoMock.upsert(any())).thenAnswer { id }
+      whenever(usersDaoMock.insert(any())).thenAnswer { userId }
       whenever(usersDaoMock.queryUser(expectedUuid)).thenAnswer {
         UserEntity(
-          id = id,
           uuid = expectedUuid,
           nickname = nickname
-        )
+        ).apply {
+          id = userId
+        }
       }
 
       val newUser = NewUser(nickname = nickname)

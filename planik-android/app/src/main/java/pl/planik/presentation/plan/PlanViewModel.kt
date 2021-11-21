@@ -28,7 +28,7 @@ class PlanViewModel @Inject constructor(
     planService.getCurrentPlan()
   ) { state, plan ->
     state.copy(
-      stateStatus = StateStatus.LOADED,
+      stateStatus = if (plan == null) StateStatus.EMPTY else StateStatus.LOADED,
       plan = plan,
     )
   }.stateIn(

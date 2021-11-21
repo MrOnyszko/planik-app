@@ -19,7 +19,6 @@ import pl.planik.local.dao.UsersDao
 import pl.planik.local.entity.UserEntity
 import java.io.IOException
 import java.time.OffsetDateTime
-import java.time.ZoneOffset
 import java.util.*
 
 @ExperimentalCoroutinesApi
@@ -61,25 +60,7 @@ class UsersDaoTest {
     }
   }
 
-  @Test
-  @Throws(Exception::class)
-  fun updatesUser() {
-    coroutineScope.runBlockingTest {
-      val newUser = createUser()
-      usersDao.insert(newUser)
-      val createdUser = usersDao.queryUser(newUser.uuid)
-      assertThat(createdUser, equalTo(newUser))
-
-      val toUpdate = createdUser!!.copy(
-        email = "user@email.com",
-        updatedAt = OffsetDateTime.of(2021, 11, 14, 0, 0, 0, 0, ZoneOffset.UTC)
-      )
-      val result = usersDao.update(toUpdate)
-      val updated = usersDao.queryUser(toUpdate.uuid)
-      assertThat(updated, equalTo(toUpdate))
-      assertThat(result, equalTo(1))
-    }
-  }
+  // todo: test update
 
   private fun createUser(nickname: String = "User") = UserEntity(
     uuid = UUID.nameUUIDFromBytes(nickname.toByteArray()),

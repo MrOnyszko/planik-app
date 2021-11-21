@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
- class UserEntityToModelMapper @Inject constructor() : Mapper<UserEntity, User> {
+class UserEntityToModelMapper @Inject constructor() : Mapper<UserEntity, User> {
   override fun map(value: UserEntity): User = User(
     id = value.id,
     uuid = value.uuid,

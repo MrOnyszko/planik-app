@@ -12,7 +12,7 @@ class PlanService @Inject constructor(
   private val userLocalSource: UserLocalSource,
   private val planLocalSource: PlanLocalSource,
 ) {
-  fun getCurrentPlan(): Flow<Plan> {
+  fun getCurrentPlan(): Flow<Plan?> {
     val currentUserId = userLocalSource.currentUserId() ?: return emptyFlow()
     return planLocalSource.getCurrentPlan(currentUserId)
   }

@@ -20,7 +20,6 @@ import java.time.ZoneId
   ]
 )
 data class PlanDayEntryEntity(
-  @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Int = -1,
   @ColumnInfo(name = "plan_id") val planId: Int,
   @ColumnInfo(name = "day_of_week") val dayOfWeek: Int,
   @ColumnInfo(name = "title") val title: String,
@@ -28,4 +27,8 @@ data class PlanDayEntryEntity(
   @ColumnInfo(name = "end") val end: OffsetDateTime,
   @ColumnInfo(name = "created_at") val createdAt: OffsetDateTime? = OffsetDateTime.now(ZoneId.of("UTC")),
   @ColumnInfo(name = "updated_at") val updatedAt: OffsetDateTime? = null
-)
+) {
+  @ColumnInfo(name = "id")
+  @PrimaryKey(autoGenerate = true)
+  var id: Int = 0
+}
