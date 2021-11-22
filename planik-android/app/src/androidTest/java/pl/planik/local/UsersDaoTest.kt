@@ -51,7 +51,7 @@ class UsersDaoTest {
 
   @Test
   @Throws(Exception::class)
-  fun insertsAndQueriesUserByUuid() {
+  fun should_InsertAndQueries_When_UserUuidIsProvided() {
     coroutineScope.runBlockingTest {
       val entity = createUser()
       usersDao.insert(entity)
@@ -60,7 +60,23 @@ class UsersDaoTest {
     }
   }
 
-  // todo: test update
+  @Test
+  fun should_AddUserAndUpdateIt_When_UserWasAdded() {
+    coroutineScope.runBlockingTest {
+      val entity = createUser(nickname = "A")
+      val userId = usersDao.insert(entity).toInt()
+      val user = usersDao.queryUser(userId)
+
+      val toUpdate = user!!.copy(nickname = "B").apply { id = userId }
+      usersDao.update(toUpdate)
+      val updatedUser = usersDao.queryUser(userId)
+
+      assertThat(userId, equalTo(1))
+      assertThat(user, equalTo(entity))
+      assertThat(user.id, equalTo(1))
+      assertThat(updatedUser?.nickname, equalTo("B"))
+    }
+  }
 
   private fun createUser(nickname: String = "User") = UserEntity(
     uuid = UUID.nameUUIDFromBytes(nickname.toByteArray()),
