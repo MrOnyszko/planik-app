@@ -85,7 +85,7 @@ class UserNameViewModelTest {
           UserNameState.Empty,
           UserNameState.Empty.copy(name = "User"),
           UserNameState.Empty.copy(name = "User", isLoading = true),
-          UserNameState.Empty.copy(name = "User", isLoading = false, created = true),
+          UserNameState.Empty.copy(name = "User", isLoading = false, userHasBeenCreated = true),
         )
 
         assertEquals(currentStates, states)

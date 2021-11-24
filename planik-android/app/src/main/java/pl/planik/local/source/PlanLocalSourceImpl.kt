@@ -10,6 +10,7 @@ import pl.planik.local.dao.PlansDao
 import pl.planik.local.entity.PlanDayEntryEntity
 import pl.planik.local.entity.PlanEntity
 import pl.planik.local.mapper.to.model.PlanWithDayEntriesToModelMapper
+import java.time.ZoneId
 import javax.inject.Inject
 
 class PlanLocalSourceImpl @Inject constructor(
@@ -37,7 +38,7 @@ class PlanLocalSourceImpl @Inject constructor(
     val plan = PlanEntity(
       userId = userId,
       name = newPlan.name,
-      current = true,
+      current = false,
       createdAt = now
     )
 
@@ -56,6 +57,19 @@ class PlanLocalSourceImpl @Inject constructor(
     plansDao.insertManyPlanDayEntryEntities(dayEntries)
 
     return planId.toInt()
+  }
+
+  override suspend fun updatePlan(plan: Plan): Int? {
+    val entity = plansDao.queryById(plan.id)
+    if (entity != null) {
+      val entityToUpdate = entity.copy(
+        name = plan.name,
+        current = plan.current,
+        updatedAt = dateProvider.offsetDateTimeNow(ZoneId.of("UTC")),
+      ).apply { id = entity.id }
+      return plansDao.update(entityToUpdate)
+    }
+    return null
   }
 
   override suspend fun deletePlan(id: Int) {

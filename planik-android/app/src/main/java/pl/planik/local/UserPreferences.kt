@@ -10,6 +10,7 @@ import javax.inject.Singleton
 interface UserPreferences {
   var uuid: String?
   var id: Int
+  var hasPlan: Boolean
 }
 
 @Singleton
@@ -20,6 +21,7 @@ class UserPreferencesImpl @Inject constructor(
   companion object {
     const val PREF_USER_ID = "user_id"
     const val PREF_USER_UUID = "user_uuid"
+    const val PREF_USER_HAS_PLAN = "has_plan"
   }
 
   private val sharedPreferences: SharedPreferences =
@@ -35,6 +37,12 @@ class UserPreferencesImpl @Inject constructor(
     get() = sharedPreferences.getInt(PREF_USER_ID, -1)
     set(value) {
       sharedPreferences.edit().putInt(PREF_USER_ID, value).apply()
+    }
+
+  override var hasPlan: Boolean
+    get() = sharedPreferences.getBoolean(PREF_USER_HAS_PLAN, false)
+    set(value) {
+      sharedPreferences.edit().putBoolean(PREF_USER_HAS_PLAN, value).apply()
     }
 
 }

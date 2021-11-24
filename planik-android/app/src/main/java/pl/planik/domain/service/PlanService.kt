@@ -12,6 +12,8 @@ class PlanService @Inject constructor(
   private val userLocalSource: UserLocalSource,
   private val planLocalSource: PlanLocalSource,
 ) {
+  suspend fun hasPlan(): Boolean = planLocalSource.hasPlan()
+
   fun getCurrentPlan(): Flow<Plan?> {
     val currentUserId = userLocalSource.currentUserId() ?: return emptyFlow()
     return planLocalSource.getCurrentPlan(currentUserId)
@@ -25,6 +27,12 @@ class PlanService @Inject constructor(
   suspend fun addPlan(newPlan: NewPlan): Plan? {
     val currentUserId = userLocalSource.currentUserId() ?: return null
     val id = planLocalSource.createPlan(currentUserId, newPlan)
+    userLocalSource.setHasPlan(true)
+    return getPlan(id)
+  }
+
+  suspend fun updatePlan(plan: Plan): Plan? {
+    val id = planLocalSource.updatePlan(plan) ?: return null
     return getPlan(id)
   }
 

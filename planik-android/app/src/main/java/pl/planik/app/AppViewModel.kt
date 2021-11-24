@@ -7,10 +7,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppViewModel @Inject constructor(
-  private val userService: UserService
+  private val userService: UserService,
 ) : ViewModel() {
 
   val hasUser: Boolean
     get() = userService.hasUser()
+
+  val hasPlan: Boolean
+    get() = userService.hasPlan()
 
 }

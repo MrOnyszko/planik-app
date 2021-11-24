@@ -33,7 +33,7 @@ class UserNameViewModel @Inject constructor(
             viewModelScope.launch(dispatcher) {
               _state.emit(state.value.copy(isLoading = true))
               userService.createUser(state.value.name)
-              _state.emit(state.value.copy(isLoading = false, created = true))
+              _state.emit(state.value.copy(isLoading = false, userHasBeenCreated = true))
             }
           }
           is UserNameAction.NameTextChanges -> {

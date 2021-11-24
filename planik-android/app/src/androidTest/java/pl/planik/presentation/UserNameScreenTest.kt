@@ -27,25 +27,10 @@ class UserNameScreenTest {
     createAndroidComposeRule<AppActivity>()
 
   @Test
-  fun userNameScreen_displaysLoading() {
-    composeTestRule.setContent {
-      AppTheme {
-        UserNameScreen(
-          onConfirm = {},
-          viewState = UserNameState.Empty.copy(isLoading = true),
-          submitAction = {}
-        )
-      }
-    }
-    composeTestRule.onNodeWithTag(LoadingTestTag).assertIsDisplayed()
-  }
-
-  @Test
   fun userNameScreen_displaysContentWithNameProvided() {
     composeTestRule.setContent {
       AppTheme {
         UserNameScreen(
-          onConfirm = {},
           viewState = UserNameState(
             name = "User"
           ),
@@ -67,7 +52,6 @@ class UserNameScreenTest {
     composeTestRule.setContent {
       AppTheme {
         UserNameScreen(
-          onConfirm = {},
           viewState = UserNameState.Empty,
           submitAction = {}
         )
@@ -81,24 +65,5 @@ class UserNameScreenTest {
       .assertIsDisplayed()
       .performTextInput("User")
     composeTestRule.onNodeWithString(R.string.user_name_screen_confirm).performClick()
-  }
-
-  @Test
-  fun userNameScreen_displaysContent_UserCreated() {
-    composeTestRule.setContent {
-      AppTheme {
-        UserNameScreen(
-          onConfirm = {},
-          viewState = UserNameState.Empty.copy(created = true),
-          submitAction = {}
-        )
-      }
-    }
-    composeTestRule.onNodeWithTag(LoadingTestTag).assertDoesNotExist()
-
-    composeTestRule.onNodeWithString(R.string.app_name).assertIsDisplayed()
-    composeTestRule.onNodeWithString(R.string.user_name_thank_you_screen_header).assertIsDisplayed()
-    composeTestRule.onNodeWithString(R.string.user_name_thank_you_screen_go).assertIsDisplayed()
-      .performClick()
   }
 }

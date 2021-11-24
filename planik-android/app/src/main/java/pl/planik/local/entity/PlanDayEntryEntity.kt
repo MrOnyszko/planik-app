@@ -8,7 +8,7 @@ import java.time.ZoneId
   tableName = "plan_day_entries",
   foreignKeys = [
     ForeignKey(
-      entity = UserEntity::class,
+      entity = PlanEntity::class,
       parentColumns = ["id"],
       childColumns = ["plan_id"],
       onDelete = ForeignKey.CASCADE,

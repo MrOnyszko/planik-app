@@ -21,6 +21,12 @@ class UserLocalSourceImpl @Inject constructor(
 
   override fun hasUser(): Boolean = usersPreferences.uuid != null
 
+  override fun hasPlan(): Boolean = usersPreferences.hasPlan
+
+  override fun setHasPlan(value: Boolean) {
+    usersPreferences.hasPlan = value
+  }
+
   override suspend fun getCurrentUser(): User? {
     val uuid = usersPreferences.uuid?.uuid() ?: return null
     val entity = usersDao.queryUser(uuid = uuid) ?: return null

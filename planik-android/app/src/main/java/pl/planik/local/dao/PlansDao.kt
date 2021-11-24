@@ -15,7 +15,7 @@ interface PlansDao {
   suspend fun count(): Int
 
   @Query("SELECT * FROM plans WHERE id = :id")
-  suspend fun queryById(id: Int): PlanEntity
+  suspend fun queryById(id: Int): PlanEntity?
 
   @Transaction
   @Query("SELECT * FROM plans WHERE id = :id AND user_id = :userId")

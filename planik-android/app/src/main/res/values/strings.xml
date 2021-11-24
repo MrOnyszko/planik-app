@@ -6,20 +6,22 @@
   <string name="default_error_text">Error</string>
   <string name="navigation_icon_action_content_description">On navigation back</string>
 
-
   <string name="user_name_screen_header">Welcome in,\nPlanik!</string>
   <string name="user_name_screen_input_placeholder">Provide your Nickname</string>
   <string name="user_name_screen_confirm">Confirm</string>
-  <string name="user_name_thank_you_screen_header">Let\'s create\na new Plan!</string>
-  <string name="user_name_thank_you_screen_go">Go</string>
+
+  <string name="create_plan_incentive_screen_header">Let\'s create\na new Plan!</string>
+  <string name="create_plan_incentive_screen_go">Go</string>
 
   <string name="plan_screen_toggle_plan_view_type_action_content_description">Toggle plan view type</string>
+  <string name="plan_screen_done_all_action_content_description">Done all</string>
   <string name="plan_screen_today_action_content_description">Scroll to today</string>
   <string name="plan_screen_open_plans_action_content_description">Open plans screen</string>
 
   <string name="plans_screen_title">Plans</string>
 
   <string name="create_plan_screen_title">Create plan</string>
+  <string name="create_plan_screen_add_entry">Add entry</string>
   <string name="create_plan_screen_thank_you_screen_header">You have successfully created Plan!</string>
   <string name="create_plan_screen_thank_you_screen_primary_action">Finish</string>
 </resources>
