@@ -1,5 +1,9 @@
 package pl.planik.local.source
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import pl.planik.domain.model.NewPlan
@@ -30,6 +34,22 @@ class PlanLocalSourceImpl @Inject constructor(
   override suspend fun getPlan(id: Int, userId: Int): Plan? {
     val plan = plansDao.queryOne(id, userId) ?: return null
     return planWithDayEntriesToModelMapper.map(plan)
+  }
+
+  override fun pagedPlans(pageSize: Int): Flow<PagingData<Plan>> {
+    return Pager(PagingConfig(pageSize = 20)) {
+      plansDao.pagedPlans()
+    }.flow.map { pagingData ->
+      pagingData.map { entity ->
+        Plan(
+          id = entity.id,
+          name = entity.name,
+          current = entity.current,
+          createdAt = entity.createdAt!!,
+          days = emptyList()
+        )
+      }
+    }
   }
 
   override suspend fun createPlan(userId: Int, newPlan: NewPlan): Int {

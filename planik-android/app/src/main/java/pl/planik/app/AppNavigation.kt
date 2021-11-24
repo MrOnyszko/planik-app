@@ -64,6 +64,9 @@ fun AppNavigation(appViewModel: AppViewModel) {
         onBack = {
           navController.navigateUp()
         },
+        onPlanOpen = { id ->
+//          navController.navigate(Screen.CreatePlan.route)
+        }
       )
     }
     composable(Screen.CreatePlan.route) {

@@ -1,5 +1,6 @@
 package pl.planik.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import pl.planik.local.entity.PlanDayEntryEntity
@@ -20,6 +21,9 @@ interface PlansDao {
   @Transaction
   @Query("SELECT * FROM plans WHERE id = :id AND user_id = :userId")
   suspend fun queryOne(id: Int, userId: Int): PlanWithDayEntries?
+
+  @Query("SELECT * FROM plans ORDER BY created_at")
+  fun pagedPlans(): PagingSource<Int, PlanEntity>
 
   @Transaction
   @Query("SELECT * FROM plans WHERE user_id = :userId AND current = 1")

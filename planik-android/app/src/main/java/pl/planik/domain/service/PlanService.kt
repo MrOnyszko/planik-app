@@ -1,5 +1,6 @@
 package pl.planik.domain.service
 
+import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import pl.planik.domain.model.NewPlan
@@ -23,6 +24,8 @@ class PlanService @Inject constructor(
     val currentUserId = userLocalSource.currentUserId() ?: return null
     return planLocalSource.getPlan(id, currentUserId)
   }
+
+  fun pagedPlans(pageSize: Int): Flow<PagingData<Plan>> = planLocalSource.pagedPlans(pageSize)
 
   suspend fun addPlan(newPlan: NewPlan): Plan? {
     val currentUserId = userLocalSource.currentUserId() ?: return null
