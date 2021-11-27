@@ -4,7 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pl.planik.app.hilt.DefaultCoroutineDispatcher
 import pl.planik.domain.model.NewPlan
@@ -16,6 +21,7 @@ import javax.inject.Inject
 class CreatePlanViewModel @Inject constructor(
   @DefaultCoroutineDispatcher private val dispatcher: CoroutineDispatcher,
   private val planService: PlanService,
+  arguments: CreatePlanRouteArguments,
 ) : ViewModel() {
 
   private val pendingActions = MutableSharedFlow<CreatePlanAction>()
@@ -39,7 +45,12 @@ class CreatePlanViewModel @Inject constructor(
       }
     }
 
-    applyCreatePlan()
+    val planId = arguments.planId
+    if (planId != null && planId > 0) {
+      applyLoadPlan(planId)
+    } else {
+      applyCreatePlan()
+    }
   }
 
   fun submitAction(action: CreatePlanAction) {
@@ -57,6 +68,20 @@ class CreatePlanViewModel @Inject constructor(
           planId = plan?.id,
           plan = plan,
           name = ""
+        )
+      )
+    }
+  }
+
+  private fun applyLoadPlan(id: Int) {
+    viewModelScope.launch(dispatcher) {
+      val plan = planService.getPlan(id)
+      _state.emit(
+        state.value.copy(
+          stateStatus = StateStatus.LOADED,
+          planId = plan?.id,
+          plan = plan,
+          name = plan?.name ?: ""
         )
       )
     }

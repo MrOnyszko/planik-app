@@ -10,20 +10,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.pager.ExperimentalPagerApi
-import pl.planik.presentation.create.plan.CreatePlanIncentiveScreen
+import pl.planik.presentation.create.plan.CreatePlanRoute
 import pl.planik.presentation.create.plan.CreatePlanScreen
+import pl.planik.presentation.create.plan.incentive.CreatePlanIncentiveRoute
+import pl.planik.presentation.create.plan.incentive.CreatePlanIncentiveScreen
+import pl.planik.presentation.plan.PlanRoute
 import pl.planik.presentation.plan.PlanScreen
+import pl.planik.presentation.plans.PlansRoute
 import pl.planik.presentation.plans.PlansScreen
+import pl.planik.presentation.splash.SplashRoute
 import pl.planik.presentation.splash.SplashScreen
+import pl.planik.presentation.user.name.UserNameRoute
 import pl.planik.presentation.user.name.UserNameScreen
 
-sealed class Screen(val route: String) {
-  object Splash : Screen("/splash")
-  object Plan : Screen("/plan")
-  object CreateUser : Screen("/create-user")
-  object CreatePlan : Screen("/create-plan")
-  object CreatePlanIncentive : Screen("/create-plan-incentive")
-  object Plans : Screen("/plans")
+sealed class ScreenRoute {
+  abstract val routeName: String
+
+  abstract class Route : ScreenRoute()
 }
 
 @ExperimentalFoundationApi
@@ -33,61 +36,63 @@ fun AppNavigation(appViewModel: AppViewModel) {
   val navController = rememberNavController()
   NavHost(
     navController = navController,
-    startDestination = Screen.Splash.route,
+    startDestination = SplashRoute.routeName,
   ) {
-    composable(Screen.Splash.route) {
+    composable(SplashRoute.routeName) {
       SplashScreen()
     }
-    composable(Screen.Plan.route) {
+    composable(PlanRoute.routeName) {
       PlanScreen(
         onPlansOpen = {
-          navController.navigate(Screen.Plans.route)
+          navController.navigate(PlansRoute.routeName)
         }
       )
     }
-    composable(Screen.CreateUser.route) {
+    composable(UserNameRoute.routeName) {
       UserNameScreen(
         onConfirm = {
-          navController.navigate(Screen.CreatePlanIncentive.route) {
-            popUpTo(Screen.CreateUser.route) {
-              inclusive = true
-            }
-          }
+          navController.navigate(
+            CreatePlanIncentiveRoute.routeName,
+            UserNameRoute.popUpInclusiveTo()
+          )
         }
       )
     }
-    composable(Screen.Plans.route) {
+    composable(PlansRoute.routeName) {
       PlansScreen(
         onCreatePlanOpen = {
-          navController.navigate(Screen.CreatePlan.route)
+          navController.navigate(CreatePlanRoute.createRoute())
         },
         onBack = {
           navController.navigateUp()
         },
         onPlanOpen = { id ->
-//          navController.navigate(Screen.CreatePlan.route)
+          navController.navigate(CreatePlanRoute.createRoute(id))
         }
       )
     }
-    composable(Screen.CreatePlan.route) {
+    composable(
+      route = CreatePlanRoute.routeName,
+      arguments = CreatePlanRoute.arguments()
+    ) {
       CreatePlanScreen(
         onNavigateUp = navController.canPop {
           navController.popBackStack()
         },
         onThankYouPrimaryAction = {
           navController.navigate(
-            Screen.Plan.route,
-            Screen.CreatePlan.popUpInclusiveTo()
+            PlanRoute.routeName,
+            CreatePlanRoute.popUpInclusiveTo()
           )
         }
       )
     }
-    composable(Screen.CreatePlanIncentive.route) {
+    composable(CreatePlanIncentiveRoute.routeName) {
       CreatePlanIncentiveScreen(
         onPrimaryAction = {
           navController.navigate(
-            Screen.CreatePlan.route,
-            Screen.CreatePlanIncentive.popUpInclusiveTo()
+            CreatePlanRoute.routeName,
+            CreatePlanIncentiveRoute.popUpInclusiveTo()
           )
         }
       )
@@ -99,14 +104,14 @@ fun AppNavigation(appViewModel: AppViewModel) {
       when {
         appViewModel.hasUser -> {
           if (appViewModel.hasPlan) {
-            Screen.Plan.route
+            PlanRoute.routeName
           } else {
-            Screen.CreatePlanIncentive.route
+            CreatePlanIncentiveRoute.routeName
           }
         }
-        else -> Screen.CreateUser.route
+        else -> UserNameRoute.routeName
       },
-      Screen.Splash.popUpInclusiveTo()
+      SplashRoute.popUpInclusiveTo()
     )
   }
 }
@@ -116,8 +121,8 @@ fun NavController.canPop(block: () -> Unit) = when {
   else -> null
 }
 
-fun Screen.popUpInclusiveTo(): NavOptions {
+fun ScreenRoute.popUpInclusiveTo(): NavOptions {
   return navOptions {
-    popUpTo(route) { inclusive = true }
+    popUpTo(routeName) { inclusive = true }
   }
 }
