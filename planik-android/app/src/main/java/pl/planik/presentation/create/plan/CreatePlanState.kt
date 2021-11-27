@@ -11,7 +11,12 @@ data class CreatePlanState(
   val name: String = "",
   val plan: Plan? = null,
   val planId: Int? = null,
-  val created: Boolean = false
+  val dayEntryInput: String? = null,
+  val showThankYouScreen: Boolean = false
 ) {
   val days: List<Day> = plan?.days ?: emptyList()
+
+  val doneAllVisible = !showThankYouScreen && planId == null
+
+  val isFabVisible = !showThankYouScreen
 }

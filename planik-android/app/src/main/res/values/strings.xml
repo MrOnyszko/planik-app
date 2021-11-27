@@ -22,6 +22,9 @@
 
   <string name="create_plan_screen_title">Create plan</string>
   <string name="create_plan_screen_add_entry">Add entry</string>
+  <string name="create_plan_screen_save_action">Save</string>
+  <string name="create_plan_screen_plan_name_input_placeholder">Plan name</string>
+  <string name="create_plan_screen_entry_name_input_placeholder">Entry name, #start - #end</string>
   <string name="create_plan_screen_thank_you_screen_header">You have successfully created Plan!</string>
   <string name="create_plan_screen_thank_you_screen_primary_action">Finish</string>
 </resources>

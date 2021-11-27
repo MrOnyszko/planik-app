@@ -41,6 +41,12 @@ class CreatePlanViewModel @Inject constructor(
           is CreatePlanAction.PlanNameTextChanges -> applyTextChanges(action)
           CreatePlanAction.UpdatePlanName -> applyPlanNameUpdate()
           CreatePlanAction.Done -> applyDoneAll()
+          CreatePlanAction.AddDayEntry -> {
+
+          }
+          is CreatePlanAction.DayEntryNameTextChanges -> {
+
+          }
         }
       }
     }
@@ -65,7 +71,6 @@ class CreatePlanViewModel @Inject constructor(
       _state.emit(
         state.value.copy(
           stateStatus = StateStatus.LOADED,
-          planId = plan?.id,
           plan = plan,
           name = ""
         )
@@ -110,7 +115,7 @@ class CreatePlanViewModel @Inject constructor(
       val plan = state.value.plan?.copy(current = true, name = name)
       if (plan != null) {
         val updatedPlan = planService.updatePlan(plan)
-        _state.emit(state.value.copy(plan = updatedPlan, created = true))
+        _state.emit(state.value.copy(plan = updatedPlan, showThankYouScreen = true))
       }
     }
   }
