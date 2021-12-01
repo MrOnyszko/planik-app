@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import pl.planik.domain.model.NewDayEntry
 import pl.planik.domain.model.NewPlan
 import pl.planik.domain.model.Plan
 import pl.planik.domain.source.PlanLocalSource
@@ -94,5 +95,17 @@ class PlanLocalSourceImpl @Inject constructor(
 
   override suspend fun deletePlan(id: Int) {
     plansDao.deleteById(id)
+  }
+
+  override suspend fun addDayEntry(planId: Int, newDayEntry: NewDayEntry): Int {
+    val now = dateProvider.offsetDateTimeNow()
+    val dayEntry = PlanDayEntryEntity(
+      planId = planId,
+      dayOfWeek = newDayEntry.dayOfWeek.value,
+      title = newDayEntry.title,
+      start = now.withHour(newDayEntry.start.hour).withMinute(newDayEntry.start.minute),
+      end = now.withHour(newDayEntry.end.hour).withMinute(newDayEntry.end.minute),
+    )
+    return plansDao.insertPlanDayEntryEntity(dayEntry).toInt()
   }
 }

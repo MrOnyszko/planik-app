@@ -1,6 +1,7 @@
 package pl.planik.app.hilt
 
 import android.content.Context
+import android.text.format.DateFormat
 import androidx.core.os.ConfigurationCompat
 import dagger.Module
 import dagger.Provides
@@ -55,7 +56,11 @@ class AppModule {
   fun provideShortTimeFormatter(
     @ApplicationContext context: Context
   ): DateTimeFormatter {
-    return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(context.locale())
+    return if (DateFormat.is24HourFormat(context)) {
+      DateTimeFormatter.ofPattern("HH:mm").withLocale(context.locale())
+    } else {
+      DateTimeFormatter.ofPattern("HH:mm a").withLocale(context.locale())
+    }
   }
 
   @Singleton
@@ -73,6 +78,5 @@ class AppModule {
   fun providesDefaultCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.Default
 }
 
-private fun Context.locale(): Locale {
-  return ConfigurationCompat.getLocales(this.resources.configuration).get(0);
-}
+private fun Context.locale(): Locale =
+  ConfigurationCompat.getLocales(this.resources.configuration).get(0)

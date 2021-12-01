@@ -1,9 +1,17 @@
 package pl.planik.app
 
+import android.content.Context
+import android.text.format.DateFormat
 import android.text.format.DateUtils
-import pl.planik.app.hilt.*
+import dagger.hilt.android.qualifiers.ApplicationContext
+import pl.planik.app.hilt.FormatShortTime
+import pl.planik.app.hilt.MediumDate
+import pl.planik.app.hilt.MediumDateTime
+import pl.planik.app.hilt.ShortDate
+import pl.planik.app.hilt.ShortTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
+import java.time.OffsetTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.Temporal
 import javax.inject.Inject
@@ -11,12 +19,16 @@ import javax.inject.Singleton
 
 @Singleton
 class DateFormatter @Inject constructor(
+  @ApplicationContext private val context: Context,
   @ShortTime private val shortTimeFormatter: DateTimeFormatter,
   @ShortDate private val shortDateFormatter: DateTimeFormatter,
   @MediumDate private val mediumDateFormatter: DateTimeFormatter,
   @MediumDateTime private val mediumDateTimeFormatter: DateTimeFormatter,
   @FormatShortTime private val formatShortTime: DateTimeFormatter
 ) {
+
+  fun is24hClock(): Boolean = DateFormat.is24HourFormat(context)
+
   fun formatShortDate(temporalAmount: Temporal): String =
     shortDateFormatter.format(temporalAmount)
 
@@ -25,6 +37,8 @@ class DateFormatter @Inject constructor(
 
   fun formatMediumDateTime(temporalAmount: Temporal): String =
     mediumDateTimeFormatter.format(temporalAmount)
+
+  fun formatShortTime(offsetTime: OffsetTime): String = shortTimeFormatter.format(offsetTime)
 
   fun formatShortTime(localTime: LocalTime): String = shortTimeFormatter.format(localTime)
 

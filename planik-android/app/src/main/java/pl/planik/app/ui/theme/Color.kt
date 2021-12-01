@@ -2,6 +2,7 @@ package pl.planik.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val Error = Color(0xFFF44336)
 val Color200 = Color(0xFF9FA8DA)
 val Color300 = Color(0xFF7986CB)
 val Color700 = Color(0xFF303F9F)

@@ -3,13 +3,30 @@ package pl.planik.presentation.plan
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.Surface
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.contentColorFor
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +38,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import pl.planik.R
 import pl.planik.app.LocalDateFormatter
@@ -29,6 +48,7 @@ import pl.planik.app.ui.theme.Gray800
 import pl.planik.domain.model.Day
 import pl.planik.domain.model.DayEntry
 import pl.planik.presentation.common.Empty
+import java.time.DayOfWeek
 
 @ExperimentalFoundationApi
 @Composable
@@ -57,8 +77,17 @@ fun PlanStickyHeadersList(
 @Composable
 fun PlanPager(
   pagerState: PagerState,
-  days: List<Day>
+  days: List<Day>,
+  onDayChange: (dayOfWeek: DayOfWeek) -> Unit = {},
 ) {
+  LaunchedEffect(pagerState) {
+    snapshotFlow { pagerState.currentPage }
+      .distinctUntilChanged()
+      .collect { page ->
+        onDayChange(days[page].dayOfWeek)
+      }
+  }
+
   Column(
     verticalArrangement = Arrangement.Top
   ) {
@@ -147,7 +176,6 @@ private fun PlanTabsContent(
           )
         }
       }
-
     }
   }
 }

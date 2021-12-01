@@ -11,7 +11,7 @@
   <dimen name="xBig">48dp</dimen>
   <dimen name="huge">64dp</dimen>
 
-  <dimen name="bottomSheet">540dp</dimen>
+  <dimen name="bottomSheet">524dp</dimen>
   <dimen name="bottomSheetFabPadding">116dp</dimen>
 
   <dimen name="h1">96sp</dimen>

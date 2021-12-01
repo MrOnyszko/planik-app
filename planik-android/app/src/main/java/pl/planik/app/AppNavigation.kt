@@ -91,7 +91,7 @@ fun AppNavigation(appViewModel: AppViewModel) {
       CreatePlanIncentiveScreen(
         onPrimaryAction = {
           navController.navigate(
-            CreatePlanRoute.routeName,
+            CreatePlanRoute.createRoute(),
             CreatePlanIncentiveRoute.popUpInclusiveTo()
           )
         }

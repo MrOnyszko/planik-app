@@ -23,8 +23,13 @@
   <string name="create_plan_screen_title">Create plan</string>
   <string name="create_plan_screen_add_entry">Add entry</string>
   <string name="create_plan_screen_save_action">Save</string>
+  <string name="create_plan_screen_entry_name_input_placeholder">Entry name</string>
   <string name="create_plan_screen_plan_name_input_placeholder">Plan name</string>
-  <string name="create_plan_screen_entry_name_input_placeholder">Entry name, #start - #end</string>
+  <string name="create_plan_screen_entry_start_input_placeholder">Start time</string>
+  <string name="create_plan_screen_entry_end_input_placeholder">End end</string>
   <string name="create_plan_screen_thank_you_screen_header">You have successfully created Plan!</string>
   <string name="create_plan_screen_thank_you_screen_primary_action">Finish</string>
+
+  <string name="time_selection_clear_action_content_description">Clear</string>
+  <string name="time_selection_dropdown_action_content_description">Dropdown</string>
 </resources>

@@ -7,4 +7,9 @@
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:background">@color/status_bar</item>
   </style>
+
+  <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+    <item name="colorAccent">@color/color700</item>
+    <item name="colorControlNormal">@color/color700</item>
+  </style>
 </resources>
