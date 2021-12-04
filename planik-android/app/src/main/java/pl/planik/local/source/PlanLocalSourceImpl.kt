@@ -59,7 +59,7 @@ class PlanLocalSourceImpl @Inject constructor(
     val plan = PlanEntity(
       userId = userId,
       name = newPlan.name,
-      current = false,
+      current = newPlan.current,
       createdAt = now
     )
 
