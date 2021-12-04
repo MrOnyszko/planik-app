@@ -2,7 +2,6 @@ package pl.planik.domain
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -19,8 +18,6 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 class UserServiceTest {
-
-  private val testDispatcher = TestCoroutineDispatcher()
 
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()

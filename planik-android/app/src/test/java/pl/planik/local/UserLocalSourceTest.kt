@@ -2,13 +2,16 @@ package pl.planik.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import pl.planik.MainCoroutineScopeRule
 import pl.planik.domain.model.NewUser
 import pl.planik.local.dao.UsersDao
@@ -20,8 +23,6 @@ import java.util.*
 
 @ExperimentalCoroutinesApi
 class UserLocalSourceTest {
-
-  private val testDispatcher = TestCoroutineDispatcher()
 
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()

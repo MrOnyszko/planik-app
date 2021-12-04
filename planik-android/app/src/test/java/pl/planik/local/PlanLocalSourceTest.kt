@@ -1,9 +1,14 @@
+@file:Suppress("SameParameterValue")
+
 package pl.planik.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -23,6 +28,7 @@ import pl.planik.local.dao.PlansDao
 import pl.planik.local.entity.PlanDayEntryEntity
 import pl.planik.local.entity.PlanEntity
 import pl.planik.local.entity.PlanWithDayEntries
+import pl.planik.local.mapper.to.model.PlanDayEntryEntityToModelMapper
 import pl.planik.local.mapper.to.model.PlanWithDayEntriesToModelMapper
 import pl.planik.local.source.PlanLocalSourceImpl
 import java.time.DayOfWeek
@@ -31,8 +37,6 @@ import java.time.ZoneOffset
 
 @ExperimentalCoroutinesApi
 class PlanLocalSourceTest {
-
-  private val testDispatcher = TestCoroutineDispatcher()
 
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -51,6 +55,7 @@ class PlanLocalSourceTest {
     plansDao = plansDaoMock,
     dateProvider = dateProviderMock,
     planWithDayEntriesToModelMapper = planWithDayEntriesToModelMapper,
+    planDayEntryEntityToModelMapper = PlanDayEntryEntityToModelMapper()
   )
 
   private val now = OffsetDateTime.of(2021, 11, 15, 10, 0, 0, 0, ZoneOffset.UTC)
@@ -176,7 +181,7 @@ class PlanLocalSourceTest {
           entries = listOf(
             DayEntry(
               id = index,
-              ordinal = 0,
+              dayOfWeek = DayOfWeek.of(index),
               title = "-",
               start = createdAt.withHour(8).withMinute(0),
               end = createdAt.withHour(8).withMinute(45),

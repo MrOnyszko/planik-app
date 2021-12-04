@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -25,8 +24,6 @@ import java.time.ZoneOffset
 
 @ExperimentalCoroutinesApi
 class PlanServiceTest {
-
-  private val testDispatcher = TestCoroutineDispatcher()
 
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
