@@ -78,28 +78,33 @@ fun PlanStickyHeadersList(
 fun PlanPager(
   pagerState: PagerState,
   days: List<Day>,
+  empty: @Composable () -> Unit = { Empty() },
   onDayChange: (dayOfWeek: DayOfWeek) -> Unit = {},
 ) {
-  LaunchedEffect(pagerState) {
-    snapshotFlow { pagerState.currentPage }
-      .distinctUntilChanged()
-      .collect { page ->
-        onDayChange(days[page].dayOfWeek)
-      }
-  }
+  if (days.isEmpty()) {
+    empty()
+  } else {
+    LaunchedEffect(pagerState) {
+      snapshotFlow { pagerState.currentPage }
+        .distinctUntilChanged()
+        .collect { page ->
+          onDayChange(days[page].dayOfWeek)
+        }
+    }
 
-  Column(
-    verticalArrangement = Arrangement.Top
-  ) {
-    PlanTabs(
-      pagerState = pagerState,
-      backgroundColor = MaterialTheme.colors.surface,
-      days = days,
-    )
-    PlanTabsContent(
-      pagerState = pagerState,
-      days = days,
-    )
+    Column(
+      verticalArrangement = Arrangement.Top
+    ) {
+      PlanTabs(
+        pagerState = pagerState,
+        backgroundColor = MaterialTheme.colors.surface,
+        days = days,
+      )
+      PlanTabsContent(
+        pagerState = pagerState,
+        days = days,
+      )
+    }
   }
 }
 
