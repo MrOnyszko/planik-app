@@ -10,7 +10,8 @@ import pl.planik.domain.model.UpdateDayEntry
 
 interface PlanLocalSource {
   suspend fun hasPlan(): Boolean
-  fun getCurrentPlan(userId: Int): Flow<Plan?>
+  fun observeCurrentPlan(userId: Int): Flow<Plan?>
+  fun observePlan(id: Int, currentUserId: Int): Flow<Plan?>
   suspend fun getPlan(id: Int, userId: Int): Plan?
   fun pagedPlans(pageSize: Int): Flow<PagingData<Plan>>
   suspend fun createPlan(userId: Int, newPlan: NewPlan): Int

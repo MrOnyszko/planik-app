@@ -58,38 +58,47 @@ class CreatePlanViewModel @Inject constructor(
   private fun loadOrCreate() {
     val planId = arguments.planId
     if (planId != null) {
-      applyLoadPlan(planId)
+      applyObservingPlan(planId)
     } else {
-      applyCreatePlan()
+      applyCreateAndObservePlan()
+      _state.value.plan?.id?.let { id ->
+        applyObservingPlan(id)
+      }
     }
   }
 
-  private fun applyCreatePlan() {
+  private fun applyCreateAndObservePlan() {
     viewModelScope.launch(dispatcher) {
       _state.emit(state.value.copy(stateStatus = StateStatus.LOADING))
-      val plan = planService.addPlan(NewPlan())
-      _state.emit(
-        state.value.copy(
-          stateStatus = StateStatus.LOADED,
-          plan = plan,
-        )
-      )
+      val newPlan = planService.addPlan(NewPlan())
+      if (newPlan?.id != null) {
+        planService.observePlan(newPlan.id).collect { plan ->
+          _state.emit(
+            state.value.copy(
+              stateStatus = StateStatus.LOADED,
+              planId = plan?.id,
+              plan = plan,
+              planName = plan?.name ?: ""
+            )
+          )
+        }
+      }
     }
   }
 
-  private fun applyLoadPlan(id: Int) {
+  private fun applyObservingPlan(id: Int) {
     viewModelScope.launch(dispatcher) {
       _state.emit(state.value.copy(stateStatus = StateStatus.LOADING))
-
-      val plan = planService.getPlan(id)
-      _state.emit(
-        state.value.copy(
-          stateStatus = StateStatus.LOADED,
-          planId = plan?.id,
-          plan = plan,
-          planName = plan?.name ?: ""
+      planService.observePlan(id).collect { plan ->
+        _state.emit(
+          state.value.copy(
+            stateStatus = StateStatus.LOADED,
+            planId = plan?.id,
+            plan = plan,
+            planName = plan?.name ?: ""
+          )
         )
-      )
+      }
     }
   }
 

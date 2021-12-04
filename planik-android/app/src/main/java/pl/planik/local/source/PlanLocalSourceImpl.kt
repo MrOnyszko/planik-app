@@ -30,8 +30,14 @@ class PlanLocalSourceImpl @Inject constructor(
 
   override suspend fun hasPlan(): Boolean = plansDao.count() > 0
 
-  override fun getCurrentPlan(userId: Int): Flow<Plan?> {
-    return plansDao.currentPlan(userId).map { entity ->
+  override fun observeCurrentPlan(userId: Int): Flow<Plan?> {
+    return plansDao.observeCurrentPlan(userId).map { entity ->
+      entity?.let { planWithDayEntriesToModelMapper.map(it) }
+    }
+  }
+
+  override fun observePlan(id: Int, currentUserId: Int): Flow<Plan?> {
+    return plansDao.observePlan(id, currentUserId).map { entity ->
       entity?.let { planWithDayEntriesToModelMapper.map(it) }
     }
   }

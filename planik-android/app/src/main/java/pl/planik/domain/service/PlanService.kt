@@ -18,9 +18,14 @@ class PlanService @Inject constructor(
 ) {
   suspend fun hasPlan(): Boolean = planLocalSource.hasPlan()
 
-  fun getCurrentPlan(): Flow<Plan?> {
+  fun observeCurrentPlan(): Flow<Plan?> {
     val currentUserId = userLocalSource.currentUserId() ?: return emptyFlow()
-    return planLocalSource.getCurrentPlan(currentUserId)
+    return planLocalSource.observeCurrentPlan(currentUserId)
+  }
+
+  fun observePlan(id: Int): Flow<Plan?> {
+    val currentUserId = userLocalSource.currentUserId() ?: return emptyFlow()
+    return planLocalSource.observePlan(id, currentUserId)
   }
 
   suspend fun getPlan(id: Int): Plan? {

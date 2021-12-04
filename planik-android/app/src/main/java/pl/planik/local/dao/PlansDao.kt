@@ -33,7 +33,11 @@ interface PlansDao {
 
   @Transaction
   @Query("SELECT * FROM plans WHERE user_id = :userId AND current = 1")
-  fun currentPlan(userId: Int): Flow<PlanWithDayEntries?>
+  fun observeCurrentPlan(userId: Int): Flow<PlanWithDayEntries?>
+
+  @Transaction
+  @Query("SELECT * FROM plans WHERE id = :id AND user_id = :userId")
+  fun observePlan(id: Int, userId: Int): Flow<PlanWithDayEntries?>
 
   @Query("DELETE FROM plans WHERE id = :id")
   suspend fun deleteById(id: Int): Int

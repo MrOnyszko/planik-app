@@ -121,7 +121,7 @@ internal fun CreatePlanScreen(
               submitAction = submitAction,
               onItemTap = { dayEntry ->
                 onPrimaryAction(
-                  viewState.planId!!,
+                  viewState.plan?.id!!,
                   viewState.currentDayOfWeek,
                   dayEntry.id,
                 )
@@ -138,7 +138,7 @@ internal fun CreatePlanScreen(
         },
         onClick = {
           onPrimaryAction(
-            viewState.planId!!,
+            viewState.plan?.id!!,
             viewState.currentDayOfWeek,
             null, // dayEntryId
           )

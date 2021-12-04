@@ -7,7 +7,13 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pl.planik.app.hilt.DefaultCoroutineDispatcher
 import pl.planik.domain.service.PlanService
@@ -25,7 +31,7 @@ class PlanViewModel @Inject constructor(
   private val _state = MutableStateFlow(PlanState())
 
   val state: StateFlow<PlanState> = _state.combine(
-    planService.getCurrentPlan()
+    planService.observeCurrentPlan()
   ) { state, plan ->
     state.copy(
       stateStatus = if (plan == null) StateStatus.EMPTY else StateStatus.LOADED,

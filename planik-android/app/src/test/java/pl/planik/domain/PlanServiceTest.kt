@@ -50,9 +50,13 @@ class PlanServiceTest {
       val planName = "Plan"
       val expectedPlan = createPlan(planId, planName)
       whenever(userLocalSourceMock.currentUserId()).thenAnswer { userId }
-      whenever(planLocalSourceMock.getCurrentPlan(userId = userId)).thenAnswer { flowOf(expectedPlan) }
+      whenever(planLocalSourceMock.observeCurrentPlan(userId = userId)).thenAnswer {
+        flowOf(
+          expectedPlan
+        )
+      }
 
-      val plan = planService.getCurrentPlan().take(1).single()
+      val plan = planService.observeCurrentPlan().take(1).single()
       assertThat(plan, equalTo(expectedPlan))
     }
   }
@@ -62,8 +66,8 @@ class PlanServiceTest {
     coroutineScope.runBlockingTest {
       val userId = 1
       whenever(userLocalSourceMock.currentUserId()).thenAnswer { userId }
-      whenever(planLocalSourceMock.getCurrentPlan(userId)).thenAnswer { emptyFlow<Plan>() }
-      val plan = planService.getCurrentPlan()
+      whenever(planLocalSourceMock.observeCurrentPlan(userId)).thenAnswer { emptyFlow<Plan>() }
+      val plan = planService.observeCurrentPlan()
       assertThat(plan, equalTo(emptyFlow()))
     }
   }
@@ -72,7 +76,7 @@ class PlanServiceTest {
   fun should_returnCurrentPlanEmptyFlow_When_ThereIsNoUser() {
     coroutineScope.runBlockingTest {
       whenever(userLocalSourceMock.currentUserId()).thenAnswer { null }
-      val plan = planService.getCurrentPlan()
+      val plan = planService.observeCurrentPlan()
       assertThat(plan, equalTo(emptyFlow()))
     }
   }

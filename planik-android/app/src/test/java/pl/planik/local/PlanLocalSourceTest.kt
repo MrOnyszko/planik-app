@@ -85,8 +85,8 @@ class PlanLocalSourceTest {
       val planWithDayEntries =
         createPlanWithEntriesEntity(planId = 2, userId = userId, name = "xyz")
       val expectPlan = createPlan(id = 2, name = "xyz")
-      whenever(plansDaoMock.currentPlan(userId)).thenAnswer { flowOf(planWithDayEntries) }
-      val plan = userLocalSource.getCurrentPlan(userId).take(1).single()!!
+      whenever(plansDaoMock.observeCurrentPlan(userId)).thenAnswer { flowOf(planWithDayEntries) }
+      val plan = userLocalSource.observeCurrentPlan(userId).take(1).single()!!
       assertThat(plan.id, equalTo(expectPlan.id))
       assertThat(plan.name, equalTo(expectPlan.name))
       assertThat(plan.days[0].ordinal, equalTo(expectPlan.days[0].ordinal))
@@ -101,8 +101,8 @@ class PlanLocalSourceTest {
   fun should_returnCurrentPlanEmptyFlow_When_ThereIsNoCurrentPlan() {
     coroutineScope.runBlockingTest {
       val userId = 1
-      whenever(plansDaoMock.currentPlan(userId)).thenAnswer { emptyFlow<PlanWithDayEntries>() }
-      val plan = userLocalSource.getCurrentPlan(userId).take(1).singleOrNull()
+      whenever(plansDaoMock.observeCurrentPlan(userId)).thenAnswer { emptyFlow<PlanWithDayEntries>() }
+      val plan = userLocalSource.observeCurrentPlan(userId).take(1).singleOrNull()
       assertThat(plan, equalTo(null))
     }
   }
