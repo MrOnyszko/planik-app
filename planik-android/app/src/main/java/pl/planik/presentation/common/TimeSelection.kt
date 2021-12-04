@@ -29,13 +29,13 @@ import java.time.OffsetTime
 fun TimeSelection(
   @StringRes resLabelId: Int,
   modifier: Modifier = Modifier,
-  value: OffsetTime,
+  value: OffsetTime?,
   isError: Boolean = false,
   valueChanged: (value: OffsetTime) -> Unit
 ) {
   val localFormatter = LocalDateFormatter.current
   val time = remember {
-    mutableStateOf(localFormatter.formatShortTime(value))
+    mutableStateOf(value?.let { localFormatter.formatShortTime(value) } ?: "")
   }
 
   val dialog = TimePickerDialog(
@@ -45,8 +45,8 @@ fun TimeSelection(
       time.value = localFormatter.formatShortTime(offsetTime)
       valueChanged(offsetTime)
     },
-    value.hour,
-    value.minute,
+    value?.hour ?: 8,
+    value?.minute ?: 45,
     localFormatter.is24hClock()
   )
 

@@ -1,6 +1,5 @@
 package pl.planik.presentation.create.plan
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
@@ -21,17 +19,14 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DoneAll
-import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -40,9 +35,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.ui.Scaffold
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.launch
 import pl.planik.R
 import pl.planik.app.ui.theme.AppTheme
 import pl.planik.presentation.common.NavigationBackIcon
@@ -51,10 +48,12 @@ import pl.planik.presentation.common.StateStatus
 import pl.planik.presentation.common.When
 import pl.planik.presentation.common.rememberFlowWithLifecycle
 import pl.planik.presentation.plan.PlanPager
+import java.time.DayOfWeek
 
 @Composable
 fun CreatePlanScreen(
   onThankYouPrimaryAction: () -> Unit,
+  onPrimaryAction: (planId: Int, dayOfWeek: DayOfWeek) -> Unit,
   onNavigateUp: (() -> Unit)? = null,
   viewModel: CreatePlanViewModel = hiltViewModel(),
 ) {
@@ -62,6 +61,7 @@ fun CreatePlanScreen(
     .collectAsState(initial = CreatePlanState())
 
   CreatePlanScreen(
+    onPrimaryAction = onPrimaryAction,
     onNavigateUp = onNavigateUp,
     onThankYouPrimaryAction = onThankYouPrimaryAction,
     viewState = viewState,
@@ -76,35 +76,13 @@ fun CreatePlanScreen(
 )
 @Composable
 internal fun CreatePlanScreen(
+  onPrimaryAction: (planId: Int, dayOfWeek: DayOfWeek) -> Unit,
   onThankYouPrimaryAction: () -> Unit,
   onNavigateUp: (() -> Unit)? = null,
   viewState: CreatePlanState,
   submitAction: (CreatePlanAction) -> Unit,
 ) {
-  val coroutineScope = rememberCoroutineScope()
-  val focusManager = LocalFocusManager.current
-  val focusRequester = remember { FocusRequester() }
-  val fabVisible = remember { mutableStateOf(true) }
-  val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
-
-  fun toggleBottomSheet() {
-    fabVisible.value = !fabVisible.value
-    coroutineScope.launch {
-      if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-        bottomSheetScaffoldState.bottomSheetState.expand()
-        focusManager.clearFocus()
-        focusRequester.freeFocus()
-        focusRequester.requestFocus()
-      } else {
-        focusRequester.freeFocus()
-        focusManager.clearFocus()
-        bottomSheetScaffoldState.bottomSheetState.collapse()
-      }
-    }
-  }
-
-  BottomSheetScaffold(
-    scaffoldState = bottomSheetScaffoldState,
+  Scaffold(
     modifier = Modifier.fillMaxSize(),
     topBar = {
       PlanikAppBar(
@@ -127,6 +105,9 @@ internal fun CreatePlanScreen(
         }
       )
     },
+    contentPadding = rememberInsetsPaddingValues(
+      insets = LocalWindowInsets.current.navigationBars,
+    ),
     content = { paddingValues ->
       viewState.stateStatus.When(
         loaded = {
@@ -139,36 +120,16 @@ internal fun CreatePlanScreen(
       )
     },
     floatingActionButton = {
-      AnimatedVisibility(
-        visible = fabVisible.value && viewState.isFabVisible,
-      ) {
-        ExtendedFloatingActionButton(
-          modifier = Modifier.padding(
-            bottom = dimensionResource(id = R.dimen.bottomSheetFabPadding)
-          ),
-          text = {
-            Text(stringResource(id = R.string.create_plan_screen_add_entry))
-          },
-          onClick = {
-            toggleBottomSheet()
-          }
-        )
-      }
-    },
-    sheetPeekHeight = 0.dp,
-    sheetGesturesEnabled = false,
-    sheetContent = {
-      DayEntryForm(
-        isError = viewState.isDayEntryErrorVisible,
-        name = viewState.planName,
-        onSend = {
-          if (viewState.isDayEntryFormValid) {
-            toggleBottomSheet()
-          }
-          submitAction(CreatePlanAction.AddDayEntry)
+      ExtendedFloatingActionButton(
+        text = {
+          Text(stringResource(id = R.string.create_plan_screen_add_entry))
         },
-        focusRequester = focusRequester,
-        submitAction = submitAction
+        onClick = {
+          onPrimaryAction(
+            viewState.planId!!,
+            viewState.currentDayOfWeek,
+          )
+        }
       )
     },
   )
@@ -250,6 +211,7 @@ private fun CreatePlanContent(
 fun CreatePlanScreen_Form_Preview() {
   AppTheme {
     CreatePlanScreen(
+      onPrimaryAction = { _, _ -> },
       onNavigateUp = {},
       onThankYouPrimaryAction = {},
       viewState = CreatePlanState(stateStatus = StateStatus.LOADED, isThankYouVisible = false),
@@ -263,6 +225,7 @@ fun CreatePlanScreen_Form_Preview() {
 fun CreatePlanScreen_Created_Preview() {
   AppTheme {
     CreatePlanScreen(
+      onPrimaryAction = { _, _ -> },
       onNavigateUp = {},
       onThankYouPrimaryAction = {},
       viewState = CreatePlanState(stateStatus = StateStatus.LOADED, isThankYouVisible = true),

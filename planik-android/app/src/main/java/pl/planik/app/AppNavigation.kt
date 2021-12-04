@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.google.accompanist.pager.ExperimentalPagerApi
+import pl.planik.presentation.create.day.entry.CreateDayEntryRoute
+import pl.planik.presentation.create.day.entry.CreateDayEntryScreen
 import pl.planik.presentation.create.plan.CreatePlanRoute
 import pl.planik.presentation.create.plan.CreatePlanScreen
 import pl.planik.presentation.create.plan.incentive.CreatePlanIncentiveRoute
@@ -79,6 +81,11 @@ fun AppNavigation(appViewModel: AppViewModel) {
         onNavigateUp = navController.canPop {
           navController.popBackStack()
         },
+        onPrimaryAction = { planId, dayOfWeek ->
+          navController.navigate(
+            CreateDayEntryRoute.createRoute(planId, dayOfWeek),
+          )
+        },
         onThankYouPrimaryAction = {
           navController.navigate(
             PlanRoute.routeName,
@@ -94,6 +101,19 @@ fun AppNavigation(appViewModel: AppViewModel) {
             CreatePlanRoute.createRoute(),
             CreatePlanIncentiveRoute.popUpInclusiveTo()
           )
+        }
+      )
+    }
+    composable(
+      route = CreateDayEntryRoute.routeName,
+      arguments = CreateDayEntryRoute.arguments(),
+    ) {
+      CreateDayEntryScreen(
+        onNavigateUp = navController.canPop {
+          navController.popBackStack()
+        },
+        onPrimaryAction = {
+          navController.popBackStack()
         }
       )
     }

@@ -24,18 +24,4 @@ data class CreatePlanState(
 
   val doneAllVisible = !isThankYouVisible && planId == null
 
-  val isFabVisible = !isThankYouVisible
-
-  val hasDayEntryName = dayEntryName?.isNotBlank() == true
-
-  val hasDayEntryStart = dayEntryStart != null
-
-  val hasDayEntryEnd = dayEntryEnd != null
-
-  val isDayEntryEndNotBeforeStart = dayEntryStart?.let { dayEntryEnd?.isBefore(it) } == false
-
-  val isDayEntryFormValid = hasDayEntryName
-    && hasDayEntryStart
-    && hasDayEntryEnd
-    && isDayEntryEndNotBeforeStart
 }
