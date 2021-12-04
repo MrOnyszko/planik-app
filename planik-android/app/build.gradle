@@ -15,7 +15,7 @@ android {
   compileSdk 31
 
   defaultConfig {
-    applicationId "pl.planik"
+    applicationId "pl.planik.android"
     minSdk 23
     targetSdk 31
     versionCode 1
