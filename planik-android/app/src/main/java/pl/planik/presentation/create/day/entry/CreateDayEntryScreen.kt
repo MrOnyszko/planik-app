@@ -31,6 +31,7 @@ import pl.planik.R
 import pl.planik.presentation.common.NavigationBackIcon
 import pl.planik.presentation.common.PlanikAppBar
 import pl.planik.presentation.common.TimeSelection
+import pl.planik.presentation.common.When
 import pl.planik.presentation.common.rememberFlowWithLifecycle
 
 @Composable
@@ -47,7 +48,6 @@ fun CreateDayEntryScreen(
       onPrimaryAction()
     }
   }
-
   CreateDayEntryScreen(
     viewState = viewState,
     onNavigateUp = onNavigateUp,
@@ -69,58 +69,59 @@ internal fun CreateDayEntryScreen(
       )
     },
     content = { paddingValues ->
-      Column(
-        Modifier
-          .fillMaxWidth()
-          .padding(horizontal = dimensionResource(id = R.dimen.medium))
-          .padding(paddingValues)
-      ) {
-        Spacer(Modifier.height(dimensionResource(id = R.dimen.medium)))
-        Row(
-          modifier = Modifier.fillMaxWidth(),
-          horizontalArrangement = Arrangement.SpaceAround,
-        ) {
-          TimeSelection(
-            isError = viewState.hasDayEntryStart,
-            modifier = Modifier.weight(0.5f),
-            resLabelId = R.string.create_plan_screen_entry_start_input_placeholder,
-            value = null,
-            valueChanged = { value ->
-              submitAction(CreateDayEntryAction.DayEntryStartChanges(value))
+      viewState.stateStatus.When(
+        loaded = {
+          Column(
+            Modifier
+              .fillMaxWidth()
+              .padding(horizontal = dimensionResource(id = R.dimen.medium))
+              .padding(paddingValues)
+          ) {
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium)))
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.SpaceAround,
+            ) {
+              TimeSelection(
+                modifier = Modifier.weight(0.5f),
+                resLabelId = R.string.create_plan_screen_entry_start_input_placeholder,
+                value = viewState.start,
+                valueChanged = { value ->
+                  submitAction(CreateDayEntryAction.DayEntryStartChanges(value))
+                }
+              )
+              Spacer(Modifier.width(dimensionResource(id = R.dimen.medium)))
+              TimeSelection(
+                modifier = Modifier.weight(0.5f),
+                resLabelId = R.string.create_plan_screen_entry_end_input_placeholder,
+                value = viewState.end,
+                valueChanged = { value ->
+                  submitAction(CreateDayEntryAction.DayEntryEndChanges(value))
+                }
+              )
             }
-          )
-          Spacer(Modifier.width(dimensionResource(id = R.dimen.medium)))
-          TimeSelection(
-            isError = viewState.hasDayEntryEnd,
-            modifier = Modifier.weight(0.5f),
-            resLabelId = R.string.create_plan_screen_entry_end_input_placeholder,
-            value = null,
-            valueChanged = { value ->
-              submitAction(CreateDayEntryAction.DayEntryEndChanges(value))
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium)))
+            DayEntryNameInput(
+              text = viewState.title,
+              onValueChange = { value ->
+                submitAction(CreateDayEntryAction.DayEntryNameTextChanges(value.text))
+              },
+            )
+            Spacer(Modifier.height(dimensionResource(id = R.dimen.medium)))
+            Button(
+              onClick = {
+                submitAction(CreateDayEntryAction.Confirm)
+              },
+              modifier = Modifier
+                .fillMaxWidth()
+                .height(dimensionResource(id = R.dimen.xBig)),
+              enabled = viewState.isDayEntryFormValid,
+            ) {
+              Text(stringResource(id = R.string.user_name_screen_confirm))
             }
-          )
+          }
         }
-        Spacer(Modifier.height(dimensionResource(id = R.dimen.medium)))
-        DayEntryNameInput(
-          isError = viewState.hasDayEntryName,
-          text = viewState.dayEntryName ?: "",
-          onValueChange = { value ->
-            submitAction(CreateDayEntryAction.DayEntryNameTextChanges(value.text))
-          },
-        )
-        Spacer(Modifier.height(dimensionResource(id = R.dimen.medium)))
-        Button(
-          onClick = {
-            submitAction(CreateDayEntryAction.Confirm)
-          },
-          modifier = Modifier
-            .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.xBig)),
-          enabled = viewState.isDayEntryFormValid,
-        ) {
-          Text(stringResource(id = R.string.user_name_screen_confirm))
-        }
-      }
+      )
     },
   )
 }
@@ -128,17 +129,17 @@ internal fun CreateDayEntryScreen(
 
 @Composable
 private fun DayEntryNameInput(
-  text: String = "",
+  text: String,
   isError: Boolean = false,
   onValueChange: (TextFieldValue) -> Unit,
 ) {
-  var textFieldValue by remember { mutableStateOf(TextFieldValue(text = text)) }
+  var textState by remember { mutableStateOf(TextFieldValue(text)) }
 
   OutlinedTextField(
     isError = isError,
-    value = textFieldValue,
+    value = textState,
     onValueChange = { value ->
-      textFieldValue = value
+      textState = value
       onValueChange(value)
     },
     modifier = Modifier.fillMaxWidth(),

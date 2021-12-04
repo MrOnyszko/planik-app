@@ -1,7 +1,13 @@
 package pl.planik.local.dao
 
 import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import pl.planik.local.entity.PlanDayEntryEntity
 import pl.planik.local.entity.PlanEntity
@@ -32,8 +38,14 @@ interface PlansDao {
   @Query("DELETE FROM plans WHERE id = :id")
   suspend fun deleteById(id: Int): Int
 
+  @Query("SELECT * FROM plan_day_entries WHERE id = :id AND plan_id = :planId")
+  suspend fun queryPlanDayEntryEntity(id: Int, planId: Int): PlanDayEntryEntity?
+
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   suspend fun insertPlanDayEntryEntity(entity: PlanDayEntryEntity): Long
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun updatePlanDayEntryEntity(entity: PlanDayEntryEntity): Long
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   suspend fun insertManyPlanDayEntryEntities(entity: List<PlanDayEntryEntity>): List<Long>

@@ -6,14 +6,17 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import pl.planik.domain.model.DayEntry
 import pl.planik.domain.model.NewDayEntry
 import pl.planik.domain.model.NewPlan
 import pl.planik.domain.model.Plan
+import pl.planik.domain.model.UpdateDayEntry
 import pl.planik.domain.source.PlanLocalSource
 import pl.planik.foundation.DateProvider
 import pl.planik.local.dao.PlansDao
 import pl.planik.local.entity.PlanDayEntryEntity
 import pl.planik.local.entity.PlanEntity
+import pl.planik.local.mapper.to.model.PlanDayEntryEntityToModelMapper
 import pl.planik.local.mapper.to.model.PlanWithDayEntriesToModelMapper
 import java.time.ZoneId
 import javax.inject.Inject
@@ -22,6 +25,7 @@ class PlanLocalSourceImpl @Inject constructor(
   private val plansDao: PlansDao,
   private val dateProvider: DateProvider,
   private val planWithDayEntriesToModelMapper: PlanWithDayEntriesToModelMapper,
+  private val planDayEntryEntityToModelMapper: PlanDayEntryEntityToModelMapper,
 ) : PlanLocalSource {
 
   override suspend fun hasPlan(): Boolean = plansDao.count() > 0
@@ -97,6 +101,11 @@ class PlanLocalSourceImpl @Inject constructor(
     plansDao.deleteById(id)
   }
 
+  override suspend fun getDayEntry(dayEntryId: Int, planId: Int): DayEntry? {
+    val entity = plansDao.queryPlanDayEntryEntity(dayEntryId, planId) ?: return null
+    return planDayEntryEntityToModelMapper.map(entity)
+  }
+
   override suspend fun addDayEntry(planId: Int, newDayEntry: NewDayEntry): Int {
     val now = dateProvider.offsetDateTimeNow()
     val dayEntry = PlanDayEntryEntity(
@@ -107,5 +116,20 @@ class PlanLocalSourceImpl @Inject constructor(
       end = now.withHour(newDayEntry.end.hour).withMinute(newDayEntry.end.minute),
     )
     return plansDao.insertPlanDayEntryEntity(dayEntry).toInt()
+  }
+
+  override suspend fun updateDayEntry(
+    dayEntryId: Int,
+    planId: Int,
+    dayEntry: UpdateDayEntry
+  ): Int? {
+    val now = dateProvider.offsetDateTimeNow()
+    val existing = plansDao.queryPlanDayEntryEntity(dayEntryId, planId) ?: return null
+    val entity = existing.copy(
+      title = dayEntry.title,
+      start = now.withHour(dayEntry.start.hour).withMinute(dayEntry.start.minute),
+      end = now.withHour(dayEntry.end.hour).withMinute(dayEntry.end.minute),
+    ).apply { id = dayEntryId }
+    return plansDao.updatePlanDayEntryEntity(entity).toInt()
   }
 }

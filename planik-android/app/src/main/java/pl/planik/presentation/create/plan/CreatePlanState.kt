@@ -15,6 +15,7 @@ data class CreatePlanState(
   val planName: String = "",
   val plan: Plan? = null,
   val planId: Int? = null,
+  val selectedDayEntryId: Int? = null,
   val dayEntryName: String? = null,
   val dayEntryStart: OffsetTime? = null,
   val dayEntryEnd: OffsetTime? = null,

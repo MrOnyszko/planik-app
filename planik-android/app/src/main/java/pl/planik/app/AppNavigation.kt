@@ -81,9 +81,9 @@ fun AppNavigation(appViewModel: AppViewModel) {
         onNavigateUp = navController.canPop {
           navController.popBackStack()
         },
-        onPrimaryAction = { planId, dayOfWeek ->
+        onPrimaryAction = { planId, dayOfWeek, dayEntryId ->
           navController.navigate(
-            CreateDayEntryRoute.createRoute(planId, dayOfWeek),
+            CreateDayEntryRoute.createRoute(planId, dayOfWeek, dayEntryId),
           )
         },
         onThankYouPrimaryAction = {

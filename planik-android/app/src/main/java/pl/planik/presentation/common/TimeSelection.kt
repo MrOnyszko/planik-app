@@ -31,7 +31,7 @@ fun TimeSelection(
   modifier: Modifier = Modifier,
   value: OffsetTime?,
   isError: Boolean = false,
-  valueChanged: (value: OffsetTime) -> Unit
+  valueChanged: (value: OffsetTime?) -> Unit
 ) {
   val localFormatter = LocalDateFormatter.current
   val time = remember {
@@ -59,7 +59,10 @@ fun TimeSelection(
     trailingIcon = {
       if (time.value.isNotBlank()) {
         IconButton(
-          onClick = { time.value = "" }
+          onClick = {
+            time.value = ""
+            valueChanged(null)
+          }
         ) {
           Icon(
             imageVector = Icons.Filled.Clear,

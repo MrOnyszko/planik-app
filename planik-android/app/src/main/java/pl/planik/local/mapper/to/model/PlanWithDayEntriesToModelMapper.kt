@@ -36,7 +36,7 @@ class PlanWithDayEntriesToModelMapper @Inject constructor(
           entries = entries.mapIndexed { index, entry ->
             DayEntry(
               id = entry.id,
-              ordinal = index,
+              dayOfWeek = DayOfWeek.of(entry.dayOfWeek),
               title = entry.title,
               start = entry.start,
               end = entry.end,

@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pl.planik.app.hilt.DefaultCoroutineDispatcher
 import pl.planik.domain.model.NewDayEntry
+import pl.planik.domain.model.UpdateDayEntry
 import pl.planik.domain.service.PlanService
+import pl.planik.presentation.common.StateStatus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +28,7 @@ class CreateDayEntryViewModel @Inject constructor(
   private val initialState = CreateDayEntryState(
     planId = arguments.planId,
     currentDayOfWeek = arguments.dayOfWeek,
+    dayEntryId = arguments.dayEntryId,
   )
 
   private val pendingActions = MutableSharedFlow<CreateDayEntryAction>()
@@ -42,11 +45,49 @@ class CreateDayEntryViewModel @Inject constructor(
     viewModelScope.launch(dispatcher) {
       pendingActions.collect { action ->
         when (action) {
-          CreateDayEntryAction.Confirm -> applyAddEntry()
+          CreateDayEntryAction.Confirm -> {
+            if (_state.value.isEditMode) {
+              applyUpdateEntry()
+            } else {
+              applyAddEntry()
+            }
+          }
           is CreateDayEntryAction.DayEntryEndChanges -> applyDayEntryEndChanges(action)
           is CreateDayEntryAction.DayEntryNameTextChanges -> applyDayEntryTextChanges(action)
           is CreateDayEntryAction.DayEntryStartChanges -> applyDayEntryStartChanges(action)
         }
+      }
+    }
+
+    loadDayEntryInEditMode()
+  }
+
+  private fun loadDayEntryInEditMode() {
+    if (_state.value.isEditMode) {
+      loadDayEntry()
+    } else {
+      viewModelScope.launch(dispatcher) {
+        _state.emit(state.value.copy(stateStatus = StateStatus.LOADED))
+      }
+    }
+  }
+
+  private fun loadDayEntry() {
+    viewModelScope.launch(dispatcher) {
+      _state.emit(state.value.copy(stateStatus = StateStatus.LOADING))
+      val dayEntryId = _state.value.dayEntryId ?: return@launch
+      val planId = _state.value.planId ?: return@launch
+      val dayEntry = planService.getDayEntry(dayEntryId, planId)
+      if (dayEntry != null) {
+        _state.emit(
+          _state.value.copy(
+            stateStatus = StateStatus.LOADED,
+            currentDayOfWeek = dayEntry.dayOfWeek,
+            title = dayEntry.title,
+            start = dayEntry.start.toOffsetTime(),
+            end = dayEntry.end.toOffsetTime()
+          )
+        )
       }
     }
   }
@@ -59,14 +100,14 @@ class CreateDayEntryViewModel @Inject constructor(
 
   private fun applyDayEntryTextChanges(action: CreateDayEntryAction.DayEntryNameTextChanges) {
     viewModelScope.launch(dispatcher) {
-      _state.emit(state.value.copy(dayEntryName = action.text))
+      _state.emit(state.value.copy(title = action.text))
     }
   }
 
   private fun applyDayEntryStartChanges(action: CreateDayEntryAction.DayEntryStartChanges) {
     viewModelScope.launch(dispatcher) {
       _state.emit(
-        _state.value.copy(dayEntryStart = action.value)
+        _state.value.copy(start = action.value)
       )
     }
   }
@@ -74,7 +115,7 @@ class CreateDayEntryViewModel @Inject constructor(
   private fun applyDayEntryEndChanges(action: CreateDayEntryAction.DayEntryEndChanges) {
     viewModelScope.launch(dispatcher) {
       _state.emit(
-        _state.value.copy(dayEntryEnd = action.value)
+        _state.value.copy(end = action.value)
       )
     }
   }
@@ -83,12 +124,26 @@ class CreateDayEntryViewModel @Inject constructor(
     viewModelScope.launch(dispatcher) {
       val planId = state.value.planId ?: return@launch
       val newDayEntry = NewDayEntry(
-        title = state.value.dayEntryName ?: return@launch,
+        title = state.value.title,
         dayOfWeek = state.value.currentDayOfWeek,
-        start = state.value.dayEntryStart ?: return@launch,
-        end = state.value.dayEntryEnd ?: return@launch,
+        start = state.value.start ?: return@launch,
+        end = state.value.end ?: return@launch,
       )
       planService.addDayEntry(planId, newDayEntry)
+      _state.emit(state.value.copy(created = true))
+    }
+  }
+
+  private fun applyUpdateEntry() {
+    viewModelScope.launch(dispatcher) {
+      val planId = state.value.planId ?: return@launch
+      val dayEntryId = state.value.dayEntryId ?: return@launch
+      val newDayEntry = UpdateDayEntry(
+        title = state.value.title,
+        start = state.value.start ?: return@launch,
+        end = state.value.end ?: return@launch,
+      )
+      planService.updateDayEntry(dayEntryId, planId, newDayEntry)
       _state.emit(state.value.copy(created = true))
     }
   }

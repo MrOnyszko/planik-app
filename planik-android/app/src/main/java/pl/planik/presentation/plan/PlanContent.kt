@@ -2,6 +2,7 @@ package pl.planik.presentation.plan
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Surface
@@ -61,8 +62,11 @@ fun PlanStickyHeadersList(
       stickyHeader {
         DayHeader(day)
       }
-      items(day.entries) { dayEntry ->
-        DayEntryItem(dayEntry)
+      itemsIndexed(day.entries) { index, dayEntry ->
+        DayEntryItem(
+          dayEntry = dayEntry,
+          index = index,
+        )
       }
     }
     item {
@@ -79,6 +83,7 @@ fun PlanPager(
   pagerState: PagerState,
   days: List<Day>,
   empty: @Composable () -> Unit = { Empty() },
+  onItemTap: (item: DayEntry) -> Unit = {},
   onDayChange: (dayOfWeek: DayOfWeek) -> Unit = {},
 ) {
   if (days.isEmpty()) {
@@ -103,6 +108,7 @@ fun PlanPager(
       PlanTabsContent(
         pagerState = pagerState,
         days = days,
+        onItemTap = onItemTap
       )
     }
   }
@@ -152,6 +158,7 @@ private fun PlanTabs(
 @ExperimentalPagerApi
 @Composable
 private fun PlanTabsContent(
+  onItemTap: (item: DayEntry) -> Unit,
   pagerState: PagerState,
   days: List<Day>
 ) {
@@ -172,8 +179,14 @@ private fun PlanTabsContent(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top
       ) {
-        items(days[page].entries) { dayEntry ->
-          DayEntryItem(dayEntry)
+        itemsIndexed(days[page].entries) { index, dayEntry ->
+          DayEntryItem(
+            modifier = Modifier.clickable {
+              onItemTap(dayEntry)
+            },
+            index = index,
+            dayEntry = dayEntry,
+          )
         }
         item {
           Spacer(
@@ -215,19 +228,24 @@ private fun DayHeader(day: Day) {
 }
 
 @Composable
-private fun DayEntryItem(dayEntry: DayEntry) {
-
+private fun DayEntryItem(
+  modifier: Modifier = Modifier,
+  index: Int,
+  dayEntry: DayEntry
+) {
   val localFormatter = LocalDateFormatter.current
   val formattedStartTime = localFormatter.formatShortTime(dayEntry.start.toLocalTime())
   val formattedEndTime = localFormatter.formatShortTime(dayEntry.end.toLocalTime())
   val timeRange = "$formattedStartTime -- $formattedEndTime"
 
-  Column {
+  Column(
+    modifier = modifier,
+  ) {
     Row(
       verticalAlignment = Alignment.CenterVertically
     ) {
       Text(
-        text = dayEntry.ordinal.toString(),
+        text = index.toString(),
         textAlign = TextAlign.Center,
         modifier = Modifier
           .width(dimensionResource(id = R.dimen.xLarge))

@@ -42,6 +42,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import pl.planik.R
 import pl.planik.app.ui.theme.AppTheme
+import pl.planik.domain.model.DayEntry
 import pl.planik.presentation.common.NavigationBackIcon
 import pl.planik.presentation.common.PlanikAppBar
 import pl.planik.presentation.common.StateStatus
@@ -53,7 +54,7 @@ import java.time.DayOfWeek
 @Composable
 fun CreatePlanScreen(
   onThankYouPrimaryAction: () -> Unit,
-  onPrimaryAction: (planId: Int, dayOfWeek: DayOfWeek) -> Unit,
+  onPrimaryAction: (planId: Int, dayOfWeek: DayOfWeek, dayEntryId: Int?) -> Unit,
   onNavigateUp: (() -> Unit)? = null,
   viewModel: CreatePlanViewModel = hiltViewModel(),
 ) {
@@ -76,7 +77,7 @@ fun CreatePlanScreen(
 )
 @Composable
 internal fun CreatePlanScreen(
-  onPrimaryAction: (planId: Int, dayOfWeek: DayOfWeek) -> Unit,
+  onPrimaryAction: (planId: Int, dayOfWeek: DayOfWeek, dayEntryId: Int?) -> Unit,
   onThankYouPrimaryAction: () -> Unit,
   onNavigateUp: (() -> Unit)? = null,
   viewState: CreatePlanState,
@@ -114,7 +115,18 @@ internal fun CreatePlanScreen(
           if (viewState.isThankYouVisible) {
             PlanCreatedThankYouContent(paddingValues, onThankYouPrimaryAction)
           } else {
-            CreatePlanContent(paddingValues, submitAction, viewState)
+            CreatePlanContent(
+              paddingValues = paddingValues,
+              viewState = viewState,
+              submitAction = submitAction,
+              onItemTap = { dayEntry ->
+                onPrimaryAction(
+                  viewState.planId!!,
+                  viewState.currentDayOfWeek,
+                  dayEntry.id,
+                )
+              }
+            )
           }
         }
       )
@@ -128,6 +140,7 @@ internal fun CreatePlanScreen(
           onPrimaryAction(
             viewState.planId!!,
             viewState.currentDayOfWeek,
+            null, // dayEntryId
           )
         }
       )
@@ -182,8 +195,9 @@ private fun PlanNameInput(
 @Composable
 private fun CreatePlanContent(
   paddingValues: PaddingValues,
+  viewState: CreatePlanState,
   submitAction: (CreatePlanAction) -> Unit,
-  viewState: CreatePlanState
+  onItemTap: (item: DayEntry) -> Unit,
 ) {
   Column(
     modifier = Modifier
@@ -202,6 +216,7 @@ private fun CreatePlanContent(
       onDayChange = { dayOfWeek ->
         submitAction(CreatePlanAction.DayOfWeekChanges(dayOfWeek))
       },
+      onItemTap = onItemTap
     )
   }
 }
@@ -211,7 +226,7 @@ private fun CreatePlanContent(
 fun CreatePlanScreen_Form_Preview() {
   AppTheme {
     CreatePlanScreen(
-      onPrimaryAction = { _, _ -> },
+      onPrimaryAction = { _, _, _ -> },
       onNavigateUp = {},
       onThankYouPrimaryAction = {},
       viewState = CreatePlanState(stateStatus = StateStatus.LOADED, isThankYouVisible = false),
@@ -225,7 +240,7 @@ fun CreatePlanScreen_Form_Preview() {
 fun CreatePlanScreen_Created_Preview() {
   AppTheme {
     CreatePlanScreen(
-      onPrimaryAction = { _, _ -> },
+      onPrimaryAction = { _, _, _ -> },
       onNavigateUp = {},
       onThankYouPrimaryAction = {},
       viewState = CreatePlanState(stateStatus = StateStatus.LOADED, isThankYouVisible = true),

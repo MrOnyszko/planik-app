@@ -3,9 +3,11 @@ package pl.planik.domain.service
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import pl.planik.domain.model.DayEntry
 import pl.planik.domain.model.NewDayEntry
 import pl.planik.domain.model.NewPlan
 import pl.planik.domain.model.Plan
+import pl.planik.domain.model.UpdateDayEntry
 import pl.planik.domain.source.PlanLocalSource
 import pl.planik.domain.source.UserLocalSource
 import javax.inject.Inject
@@ -46,7 +48,15 @@ class PlanService @Inject constructor(
     return plan
   }
 
+  suspend fun getDayEntry(dayEntryId: Int, planId: Int): DayEntry? {
+    return planLocalSource.getDayEntry(dayEntryId, planId)
+  }
+
   suspend fun addDayEntry(planId: Int, newDayEntry: NewDayEntry): Int {
     return planLocalSource.addDayEntry(planId, newDayEntry)
+  }
+
+  suspend fun updateDayEntry(dayEntryId: Int, planId: Int, dayEntry: UpdateDayEntry): Int? {
+    return planLocalSource.updateDayEntry(dayEntryId, planId, dayEntry)
   }
 }
