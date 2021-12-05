@@ -1,6 +1,6 @@
 # Planik
 
-![](app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp)
+![](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
 ## Languages, libraries and tools used
 
