@@ -1,0 +1,1 @@
+enum GeneralFailure { notFound, fatal }
