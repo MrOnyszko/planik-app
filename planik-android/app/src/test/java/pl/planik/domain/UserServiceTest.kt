@@ -48,6 +48,22 @@ class UserServiceTest {
   }
 
   @Test
+  fun should_returnHasPlanTrue_When_AtLeastOnePlanWasCreated() {
+    whenever(userLocalSourceMock.hasPlan()).thenReturn(true)
+
+    val hasUser = userService.hasPlan()
+    assert(hasUser)
+  }
+
+  @Test
+  fun should_returnHasPlanFalse_When_AtLeastOnePlanWasNotCreated() {
+    whenever(userLocalSourceMock.hasPlan()).thenReturn(false)
+
+    val hasUser = userService.hasPlan()
+    assert(!hasUser)
+  }
+
+  @Test
   fun should_returnCurrentUser_When_UserWasCreated() {
     coroutineScope.runBlockingTest {
       val expectedUser = User(
