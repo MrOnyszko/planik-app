@@ -8,7 +8,13 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pl.planik.app.hilt.DefaultCoroutineDispatcher
 import pl.planik.domain.model.Plan
@@ -32,14 +38,13 @@ class PlansViewModel @Inject constructor(
       initialValue = PlansState(stateStatus = StateStatus.LOADED),
     )
 
-  val plans: Flow<PagingData<Plan>> = planService.pagedPlans(pageSize = 20)
-    .cachedIn(viewModelScope)
+  val plans: Flow<PagingData<Plan>> by lazy {
+    planService.pagedPlans(pageSize = 20).cachedIn(viewModelScope)
+  }
 
   init {
     viewModelScope.launch(dispatcher) {
-      pendingActions.collect { action ->
-
-      }
+      pendingActions.collect { }
     }
   }
 

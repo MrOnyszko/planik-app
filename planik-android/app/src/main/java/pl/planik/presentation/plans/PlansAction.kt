@@ -1,5 +1,3 @@
 package pl.planik.presentation.plans
 
-sealed class PlansAction {
-
-}
+sealed class PlansAction
