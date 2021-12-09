@@ -1,0 +1,1 @@
+./replace.sh --argument "$1" --type "dao" --destination "../modules/local/lib/db/"

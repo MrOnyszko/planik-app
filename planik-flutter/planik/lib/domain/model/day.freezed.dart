@@ -37,11 +37,8 @@ const $Day = _$DayTearOff();
 /// @nodoc
 mixin _$Day {
   int get ordinal => throw _privateConstructorUsedError;
-
   String get name => throw _privateConstructorUsedError;
-
   DateTime get date => throw _privateConstructorUsedError;
-
   List<DayEntry> get entries => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -60,7 +57,6 @@ class _$DayCopyWithImpl<$Res> implements $DayCopyWith<$Res> {
   _$DayCopyWithImpl(this._value, this._then);
 
   final Day _value;
-
   // ignore: unused_field
   final $Res Function(Day) _then;
 
@@ -185,16 +181,12 @@ abstract class _Day implements Day {
 
   @override
   int get ordinal;
-
   @override
   String get name;
-
   @override
   DateTime get date;
-
   @override
   List<DayEntry> get entries;
-
   @override
   @JsonKey(ignore: true)
   _$DayCopyWith<_Day> get copyWith => throw _privateConstructorUsedError;

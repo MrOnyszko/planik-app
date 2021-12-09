@@ -11,6 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  flutter_localizations:
+    sdk: flutter
+
   cupertino_icons: 1.0.2
 
   flutter_lints: ^1.0.0
@@ -32,6 +36,10 @@ dependencies:
   get_it: 7.2.0
   # https://pub.dev/packages/adaptive_theme
   adaptive_theme: 2.3.0
+  # https://pub.dev/packages/google_fonts
+  google_fonts: 2.1.0
+  # https://pub.dev/packages/intl
+  intl: 0.17.0
 
 dev_dependencies:
   flutter_test:

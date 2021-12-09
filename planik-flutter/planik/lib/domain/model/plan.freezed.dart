@@ -39,13 +39,9 @@ const $Plan = _$PlanTearOff();
 /// @nodoc
 mixin _$Plan {
   int get id => throw _privateConstructorUsedError;
-
   String get name => throw _privateConstructorUsedError;
-
   bool get current => throw _privateConstructorUsedError;
-
   DateTime get createdAt => throw _privateConstructorUsedError;
-
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -64,7 +60,6 @@ class _$PlanCopyWithImpl<$Res> implements $PlanCopyWith<$Res> {
   _$PlanCopyWithImpl(this._value, this._then);
 
   final Plan _value;
-
   // ignore: unused_field
   final $Res Function(Plan) _then;
 
@@ -206,19 +201,14 @@ abstract class _Plan implements Plan {
 
   @override
   int get id;
-
   @override
   String get name;
-
   @override
   bool get current;
-
   @override
   DateTime get createdAt;
-
   @override
   DateTime get updatedAt;
-
   @override
   @JsonKey(ignore: true)
   _$PlanCopyWith<_Plan> get copyWith => throw _privateConstructorUsedError;

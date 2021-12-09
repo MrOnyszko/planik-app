@@ -78,19 +78,16 @@ class MockUserDao extends _i1.Mock implements _i3.UserDao {
       (super.noSuchMethod(Invocation.method(#insertOrUpdateOne, [entity]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
-
   @override
   _i4.Future<void> deleteOneById(int? id) =>
       (super.noSuchMethod(Invocation.method(#deleteOneById, [id]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
-
   @override
   _i4.Future<void> deleteMany(List<_i5.UserEntity>? entities) =>
       (super.noSuchMethod(Invocation.method(#deleteMany, [entities]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
-
   @override
   String toString() => super.toString();
 }

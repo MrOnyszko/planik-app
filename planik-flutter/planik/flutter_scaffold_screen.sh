@@ -1,0 +1,1 @@
+./replace.sh --argument "$1" --type "screen" --destination "../lib/presentation/screens"

@@ -41,15 +41,10 @@ const $DayEntry = _$DayEntryTearOff();
 /// @nodoc
 mixin _$DayEntry {
   int get id => throw _privateConstructorUsedError;
-
   int get dayOfWeek => throw _privateConstructorUsedError;
-
   String get title => throw _privateConstructorUsedError;
-
   DateTime get start => throw _privateConstructorUsedError;
-
   DateTime get end => throw _privateConstructorUsedError;
-
   int get pauseMinutes => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -69,7 +64,6 @@ class _$DayEntryCopyWithImpl<$Res> implements $DayEntryCopyWith<$Res> {
   _$DayEntryCopyWithImpl(this._value, this._then);
 
   final DayEntry _value;
-
   // ignore: unused_field
   final $Res Function(DayEntry) _then;
 
@@ -229,16 +223,12 @@ abstract class _DayEntry implements DayEntry {
 
   @override
   int get id;
-
   @override
   int get dayOfWeek;
-
   @override
   String get title;
-
   @override
   DateTime get start;
-
   @override
   DateTime get end;
 

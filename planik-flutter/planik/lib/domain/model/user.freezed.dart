@@ -39,13 +39,9 @@ const $User = _$UserTearOff();
 /// @nodoc
 mixin _$User {
   int get id => throw _privateConstructorUsedError;
-
   String get uid => throw _privateConstructorUsedError;
-
   String get nickname => throw _privateConstructorUsedError;
-
   DateTime get createdAt => throw _privateConstructorUsedError;
-
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -64,7 +60,6 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
   _$UserCopyWithImpl(this._value, this._then);
 
   final User _value;
-
   // ignore: unused_field
   final $Res Function(User) _then;
 
@@ -206,19 +201,14 @@ abstract class _User implements User {
 
   @override
   int get id;
-
   @override
   String get uid;
-
   @override
   String get nickname;
-
   @override
   DateTime get createdAt;
-
   @override
   DateTime? get updatedAt;
-
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;
