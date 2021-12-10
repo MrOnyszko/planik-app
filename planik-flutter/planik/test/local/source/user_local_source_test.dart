@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:planik/domain/failure/general_failure.dart';
 import 'package:planik/domain/model/user.dart';
 import 'package:planik/domain/source/user_local_source.dart';
@@ -9,7 +9,8 @@ import 'package:planik/local/mapper/user_entity_to_model_mapper.dart';
 import 'package:planik/local/source/user_local_source_impl.dart';
 import 'package:uuid/uuid.dart';
 
-import 'mocks.mocks.dart';
+import '../../mocks.dart';
+import 'local_mocks.dart';
 
 void main() {
   group(
@@ -26,11 +27,17 @@ void main() {
         userMapper: UserEntityToModelMapper(),
       );
 
+      setUpAll(
+        () {
+          registerFallbackValue(_createUserEntity('', ''));
+        },
+      );
+
       test(
         'gets current user id with success',
         () async {
           const userId = 1;
-          when(userStoreMock.getId()).thenAnswer((_) async => userId);
+          when(userStoreMock.getId).thenAnswer((_) async => userId);
 
           final result = await userLocalSource.currentUserId().run();
 
@@ -45,7 +52,7 @@ void main() {
         'do not get current user id with success',
         () async {
           const userId = null;
-          when(userStoreMock.getId()).thenAnswer((_) async => userId);
+          when(userStoreMock.getId).thenAnswer((_) async => userId);
 
           final result = await userLocalSource.currentUserId().run();
 
@@ -59,7 +66,7 @@ void main() {
       test(
         'gets has plan id with success',
         () async {
-          when(userStoreMock.getHasPlan()).thenAnswer((_) async => true);
+          when(userStoreMock.getHasPlan).thenAnswer((_) async => true);
 
           final result = await userLocalSource.hasPlan().run();
 
@@ -73,7 +80,7 @@ void main() {
       test(
         'do not get has plan with success',
         () async {
-          when(userStoreMock.getHasPlan()).thenAnswer((_) async => false);
+          when(userStoreMock.getHasPlan).thenAnswer((_) async => false);
 
           final result = await userLocalSource.hasPlan().run();
 
@@ -87,7 +94,7 @@ void main() {
       test(
         'sets has plan with success',
         () async {
-          when(userStoreMock.putHasPlan(hasPlan: true)).thenAnswer((_) async {});
+          when(() => userStoreMock.putHasPlan(hasPlan: true)).thenAnswer((_) async {});
 
           final result = await userLocalSource.setHasPlan(hasPlan: true).run();
 
@@ -117,8 +124,8 @@ void main() {
             nickname,
           ).copyWith(createdAt: now);
 
-          when(userStoreMock.getUid()).thenAnswer((_) async => userUid);
-          when(userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
+          when(userStoreMock.getUid).thenAnswer((_) async => userUid);
+          when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
 
           final result = await userLocalSource.getCurrentUser().run();
 
@@ -148,12 +155,12 @@ void main() {
             nickname,
           ).copyWith(createdAt: now);
 
-          when(userStoreMock.putId(id: userId)).thenAnswer((_) async {});
-          when(userStoreMock.putUid(uid: userUid)).thenAnswer((_) async {});
-          when(userStoreMock.getUid()).thenAnswer((_) async => userUid);
-          when(datesMock.now()).thenAnswer((_) => now);
-          when(userDaoMock.insertOne(any)).thenAnswer((_) async => userId);
-          when(userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
+          when(() => userStoreMock.putId(id: userId)).thenAnswer((_) async {});
+          when(() => userStoreMock.putUid(uid: userUid)).thenAnswer((_) async {});
+          when(userStoreMock.getUid).thenAnswer((_) async => userUid);
+          when(datesMock.now).thenAnswer((_) => now);
+          when(() => userDaoMock.insertOne(any())).thenAnswer((_) async => userId);
+          when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
 
           final result = await userLocalSource.create(nickname: nickname, uid: userUid).run();
 
@@ -162,8 +169,8 @@ void main() {
           expect(value, Option.fromNullable(user));
           expect(result.isRight(), true);
 
-          verify(userStoreMock.putId(id: userId)).called(1);
-          verify(userStoreMock.putUid(uid: userUid)).called(1);
+          verify(() => userStoreMock.putId(id: userId)).called(1);
+          verify(() => userStoreMock.putUid(uid: userUid)).called(1);
         },
       );
     },
