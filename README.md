@@ -7,7 +7,7 @@ This is my personal playground where I can play with different platforms and tec
 I wrote the same application in:
 
 - [Android](planik-android/README.md) (InProgress)
-- Flutter (InProgress)
+- [Flutter](planik-flutter/planik/README.md) (InProgress)
 - iOS (Todo)
 - .Net 5 (Todo)
 - Springboot (Todo)
