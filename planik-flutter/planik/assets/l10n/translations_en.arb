@@ -1,3 +1,7 @@
 {
-  "appTitle": "Planik"
+  "appTitle": "Planik",
+  "userNameScreenHeader": "Welcome to Planik!",
+  "userNameScreenInputLabel": "Nickname",
+  "userNameScreenInputHint": "Your nickname e.g. John",
+  "userNameScreenPrimaryAction": "Confirm"
 }

@@ -42,7 +42,7 @@ abstract class Palette {
   late Color primaryLighterColor;
   late Color primaryTextBodyColor;
   late Color primaryTextDisplayColor;
-  late Color scaffoldBackgroundColor;
+  late Color backgroundColor;
   late Color textBodyColor;
   late Color textDisplayColor;
   late Color textOnPrimaryColor;
@@ -60,14 +60,12 @@ class LightPalette extends Palette {
   final Color answerGoodColor = _AppColors.greenColor;
   @override
   final Color answerHardColor = _AppColors.grayColor;
-
   @override
   final Color answerPositiveColor = _AppColors.greenColor;
   @override
   final Color answerNegativeColor = _AppColors.redColor;
   @override
   final Color answerNeutralColor = _AppColors.grayColor;
-
   @override
   final Color appBarBackgroundColor = Colors.grey.shade50;
   @override
@@ -93,7 +91,7 @@ class LightPalette extends Palette {
   @override
   final Color primaryTextDisplayColor = _AppColors.darkGrayColor;
   @override
-  final Color scaffoldBackgroundColor = const Color(0xffffffff);
+  final Color backgroundColor = const Color(0xffffffff);
   @override
   final Color textBodyColor = _AppColors.darkGrayColor;
   @override
@@ -146,7 +144,7 @@ class DarkPalette extends Palette {
   @override
   final Color primaryTextDisplayColor = _AppColors.lightGrayColor;
   @override
-  final Color scaffoldBackgroundColor = _AppColors.almostBlackColor;
+  final Color backgroundColor = _AppColors.almostBlackColor;
   @override
   final Color textBodyColor = _AppColors.dirtyWhiteColor;
   @override
@@ -170,10 +168,15 @@ class AppTheme {
 
   ThemeData theme(Palette palette) {
     final theme = ThemeData(
-      textSelectionTheme: TextSelectionThemeData(
-        cursorColor: palette.accentColor,
-        selectionColor: palette.accentColor,
-        selectionHandleColor: palette.accentColor,
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: generateMaterialColor(palette.primaryColor),
+        primaryColorDark: palette.primaryDarkColor,
+        accentColor: palette.accentColor,
+        cardColor: palette.cardColor,
+        backgroundColor: palette.backgroundColor,
+        brightness: palette.brightness,
+      ).copyWith(
+        secondaryVariant: palette.accentColor,
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       primaryTextTheme: _textThemeHandset.apply(
@@ -181,47 +184,30 @@ class AppTheme {
         displayColor: palette.primaryTextDisplayColor,
       ),
       textTheme: _textThemeHandset.apply(
-        bodyColor: palette.textBodyColor,
-        displayColor: palette.textDisplayColor,
+        bodyColor: palette.primaryTextBodyColor,
+        displayColor: palette.primaryTextDisplayColor,
       ),
-      canvasColor: palette.scaffoldBackgroundColor,
-      backgroundColor: palette.scaffoldBackgroundColor,
-      scaffoldBackgroundColor: palette.scaffoldBackgroundColor,
-      bottomSheetTheme: const BottomSheetThemeData(
-        backgroundColor: Colors.transparent,
+      canvasColor: palette.backgroundColor,
+      backgroundColor: palette.backgroundColor,
+      scaffoldBackgroundColor: palette.backgroundColor,
+      appBarTheme: const AppBarTheme(
+        centerTitle: false,
       ),
-      colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: generateMaterialColor(palette.primaryColor),
-        accentColor: palette.accentColor,
-        brightness: palette.brightness,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedIconTheme: IconThemeData(color: palette.accentColor),
+        unselectedIconTheme: IconThemeData(color: palette.primaryColor),
+        selectedItemColor: palette.accentColor,
+        unselectedItemColor: palette.primaryColor,
+        selectedLabelStyle: TextStyle(color: palette.accentColor),
+        unselectedLabelStyle: TextStyle(color: palette.primaryColor),
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
       ),
     );
     return theme.copyWith(
-      appBarTheme: AppBarTheme(
-        centerTitle: true,
-        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-          statusBarBrightness: palette.brightness,
-          statusBarIconBrightness: palette.brightness,
-          systemNavigationBarIconBrightness: palette.brightness,
-        ),
-        elevation: 0,
-        color: palette.appBarBackgroundColor,
-        iconTheme: IconThemeData(
-          color: palette.iconColor,
-        ),
-        actionsIconTheme: IconThemeData(
-          color: palette.iconColor,
-        ),
-        textTheme: _textThemeHandset,
-      ),
-      cardColor: palette.cardColor,
-      colorScheme: theme.colorScheme.copyWith(
-        error: palette.errorColor,
-        background: palette.scaffoldBackgroundColor,
-        surface: palette.scaffoldBackgroundColor,
-      ),
-      iconTheme: IconThemeData(
-        color: palette.iconColor,
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(primary: palette.accentColor),
       ),
     );
   }
