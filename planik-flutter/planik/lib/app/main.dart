@@ -1,8 +1,11 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planik/presentation/common/theme.dart';
 import 'package:planik/presentation/injector_container.dart';
 import 'package:planik/presentation/l10n/translations.dart';
+import 'package:planik/presentation/navigation_hub/bloc/navigation_hub_bloc.dart';
+import 'package:planik/presentation/navigation_hub/navigation_hub.dart';
 import 'package:planik/presentation/router/app_route_factory.dart';
 import 'package:planik/presentation/screens/splash/splash_screen.dart';
 
@@ -33,44 +36,36 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AdaptiveTheme(
-      light: appTheme.theme(LightPalette()),
-      dark: appTheme.theme(DarkPalette()),
-      initial: AdaptiveThemeMode.light,
-      builder: (theme, darkTheme) {
-        return MaterialApp(
-          onGenerateTitle: (context) => Translations.of(context).appTitle,
-          localizationsDelegates: Translations.localizationsDelegates,
-          supportedLocales: Translations.supportedLocales,
-          theme: theme,
-          darkTheme: darkTheme,
-          navigatorKey: navigatorKey,
-          onGenerateRoute: appRouteFactory.route,
-          home: const SplashScreen(),
-          builder: (context, child) => Scaffold(
-            body: NavigationHub(
-              navigatorKey: navigatorKey,
-              child: child,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              injector.get<NavigationHubBloc>()..add(const NavigationHubEvent.started()),
+        ),
+      ],
+      child: AdaptiveTheme(
+        light: appTheme.theme(LightPalette()),
+        dark: appTheme.theme(DarkPalette()),
+        initial: AdaptiveThemeMode.light,
+        builder: (theme, darkTheme) {
+          return MaterialApp(
+            onGenerateTitle: (context) => Translations.of(context).appTitle,
+            localizationsDelegates: Translations.localizationsDelegates,
+            supportedLocales: Translations.supportedLocales,
+            theme: theme,
+            darkTheme: darkTheme,
+            navigatorKey: navigatorKey,
+            onGenerateRoute: appRouteFactory.route,
+            home: const SplashScreen(),
+            builder: (context, child) => Scaffold(
+              body: NavigationHub(
+                navigatorKey: navigatorKey,
+                child: child,
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
-  }
-}
-
-class NavigationHub extends StatelessWidget {
-  const NavigationHub({
-    required this.navigatorKey,
-    required this.child,
-    Key? key,
-  }) : super(key: key);
-
-  final GlobalKey<NavigatorState> navigatorKey;
-  final Widget? child;
-
-  @override
-  Widget build(BuildContext context) {
-    return child!;
   }
 }

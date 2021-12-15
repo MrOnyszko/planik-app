@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planik/presentation/screens/user_name/user_name_screen.dart';
+import 'package:planik/presentation/common/extensions.dart';
 
 class SplashScreen extends StatelessWidget {
   static const String routeName = '/';
@@ -11,17 +11,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                UserNameScreen.routeName,
-              );
-            },
-            child: const Text('abc'),
-          ),
-        ),
+        child: Text(context.strings.appTitle),
       ),
     );
   }
