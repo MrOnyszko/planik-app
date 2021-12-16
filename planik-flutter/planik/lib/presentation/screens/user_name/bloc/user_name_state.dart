@@ -4,7 +4,7 @@ part of 'user_name_bloc.dart';
 class UserNameState with _$UserNameState {
   const factory UserNameState({
     required String name,
-    required bool userHasBeenCreated,
+    required bool openCreatePlanIncentiveScreen,
     required StateType type,
     required UserNameArgument argument,
   }) = _UserNameState;
@@ -14,7 +14,7 @@ class UserNameState with _$UserNameState {
   }) {
     return UserNameState(
       name: '',
-      userHasBeenCreated: false,
+      openCreatePlanIncentiveScreen: false,
       type: StateType.loaded,
       argument: argument,
     );

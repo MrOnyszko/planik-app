@@ -11,7 +11,7 @@ class UserStore {
 
   final PreferenceAssistant _secureStorage;
 
-  Future<String?> getUid() {
+  String? getUid() {
     return _secureStorage.read(key: _keyUid);
   }
 
@@ -19,7 +19,7 @@ class UserStore {
     await _secureStorage.write(key: _keyUid, value: uid);
   }
 
-  Future<int?> getId() {
+  int? getId() {
     return _secureStorage.read(key: _keyId);
   }
 
@@ -27,8 +27,8 @@ class UserStore {
     await _secureStorage.write(key: _keyId, value: id);
   }
 
-  Future<bool> getHasPlan() {
-    return _secureStorage.read(key: _keyHasPlan);
+  bool getHasPlan() {
+    return _secureStorage.read(key: _keyHasPlan) == true;
   }
 
   Future<void> putHasPlan({required bool hasPlan}) async {

@@ -34,7 +34,10 @@ class NavigationHubBloc extends Bloc<NavigationHubEvent, NavigationHubState> {
                   .hasPlan()
                   .map((hasPlan) => state.copyWith(hasUser: hasUser, hasPlan: hasPlan)),
             )
-            .match((l) => emit(NavigationHubState.initial()), (newState) => emit(newState))
+            .match(
+              (_) => emit(state.copyWith(hasError: true)),
+              emit,
+            )
             .run();
       },
     );

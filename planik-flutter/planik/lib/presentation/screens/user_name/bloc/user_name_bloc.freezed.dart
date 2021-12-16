@@ -39,14 +39,12 @@ mixin _$UserNameEvent {
     required TResult Function() confirmed,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String name)? userNameChanged,
     TResult Function()? confirmed,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String name)? userNameChanged,
@@ -54,21 +52,18 @@ mixin _$UserNameEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_UserNameChanged value) userNameChanged,
     required TResult Function(_UserNameConfirmed value) confirmed,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_UserNameChanged value)? userNameChanged,
     TResult Function(_UserNameConfirmed value)? confirmed,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_UserNameChanged value)? userNameChanged,
@@ -80,32 +75,35 @@ mixin _$UserNameEvent {
 
 /// @nodoc
 abstract class $UserNameEventCopyWith<$Res> {
-  factory $UserNameEventCopyWith(UserNameEvent value, $Res Function(UserNameEvent) then) =
+  factory $UserNameEventCopyWith(
+          UserNameEvent value, $Res Function(UserNameEvent) then) =
       _$UserNameEventCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$UserNameEventCopyWithImpl<$Res> implements $UserNameEventCopyWith<$Res> {
+class _$UserNameEventCopyWithImpl<$Res>
+    implements $UserNameEventCopyWith<$Res> {
   _$UserNameEventCopyWithImpl(this._value, this._then);
 
   final UserNameEvent _value;
-
   // ignore: unused_field
   final $Res Function(UserNameEvent) _then;
 }
 
 /// @nodoc
 abstract class _$UserNameChangedCopyWith<$Res> {
-  factory _$UserNameChangedCopyWith(_UserNameChanged value, $Res Function(_UserNameChanged) then) =
+  factory _$UserNameChangedCopyWith(
+          _UserNameChanged value, $Res Function(_UserNameChanged) then) =
       __$UserNameChangedCopyWithImpl<$Res>;
-
   $Res call({String name});
 }
 
 /// @nodoc
-class __$UserNameChangedCopyWithImpl<$Res> extends _$UserNameEventCopyWithImpl<$Res>
+class __$UserNameChangedCopyWithImpl<$Res>
+    extends _$UserNameEventCopyWithImpl<$Res>
     implements _$UserNameChangedCopyWith<$Res> {
-  __$UserNameChangedCopyWithImpl(_UserNameChanged _value, $Res Function(_UserNameChanged) _then)
+  __$UserNameChangedCopyWithImpl(
+      _UserNameChanged _value, $Res Function(_UserNameChanged) _then)
       : super(_value, (v) => _then(v as _UserNameChanged));
 
   @override
@@ -220,9 +218,9 @@ abstract class _UserNameChanged implements UserNameEvent {
   const factory _UserNameChanged({required String name}) = _$_UserNameChanged;
 
   String get name;
-
   @JsonKey(ignore: true)
-  _$UserNameChangedCopyWith<_UserNameChanged> get copyWith => throw _privateConstructorUsedError;
+  _$UserNameChangedCopyWith<_UserNameChanged> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -233,7 +231,8 @@ abstract class _$UserNameConfirmedCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$UserNameConfirmedCopyWithImpl<$Res> extends _$UserNameEventCopyWithImpl<$Res>
+class __$UserNameConfirmedCopyWithImpl<$Res>
+    extends _$UserNameEventCopyWithImpl<$Res>
     implements _$UserNameConfirmedCopyWith<$Res> {
   __$UserNameConfirmedCopyWithImpl(
       _UserNameConfirmed _value, $Res Function(_UserNameConfirmed) _then)
@@ -335,12 +334,12 @@ class _$UserNameStateTearOff {
 
   _UserNameState call(
       {required String name,
-      required bool userHasBeenCreated,
+      required bool openCreatePlanIncentiveScreen,
       required StateType type,
       required UserNameArgument argument}) {
     return _UserNameState(
       name: name,
-      userHasBeenCreated: userHasBeenCreated,
+      openCreatePlanIncentiveScreen: openCreatePlanIncentiveScreen,
       type: type,
       argument: argument,
     );
@@ -353,38 +352,40 @@ const $UserNameState = _$UserNameStateTearOff();
 /// @nodoc
 mixin _$UserNameState {
   String get name => throw _privateConstructorUsedError;
-
-  bool get userHasBeenCreated => throw _privateConstructorUsedError;
-
+  bool get openCreatePlanIncentiveScreen => throw _privateConstructorUsedError;
   StateType get type => throw _privateConstructorUsedError;
-
   UserNameArgument get argument => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $UserNameStateCopyWith<UserNameState> get copyWith => throw _privateConstructorUsedError;
+  $UserNameStateCopyWith<UserNameState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $UserNameStateCopyWith<$Res> {
-  factory $UserNameStateCopyWith(UserNameState value, $Res Function(UserNameState) then) =
+  factory $UserNameStateCopyWith(
+          UserNameState value, $Res Function(UserNameState) then) =
       _$UserNameStateCopyWithImpl<$Res>;
-
-  $Res call({String name, bool userHasBeenCreated, StateType type, UserNameArgument argument});
+  $Res call(
+      {String name,
+      bool openCreatePlanIncentiveScreen,
+      StateType type,
+      UserNameArgument argument});
 }
 
 /// @nodoc
-class _$UserNameStateCopyWithImpl<$Res> implements $UserNameStateCopyWith<$Res> {
+class _$UserNameStateCopyWithImpl<$Res>
+    implements $UserNameStateCopyWith<$Res> {
   _$UserNameStateCopyWithImpl(this._value, this._then);
 
   final UserNameState _value;
-
   // ignore: unused_field
   final $Res Function(UserNameState) _then;
 
   @override
   $Res call({
     Object? name = freezed,
-    Object? userHasBeenCreated = freezed,
+    Object? openCreatePlanIncentiveScreen = freezed,
     Object? type = freezed,
     Object? argument = freezed,
   }) {
@@ -393,9 +394,9 @@ class _$UserNameStateCopyWithImpl<$Res> implements $UserNameStateCopyWith<$Res> 
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      userHasBeenCreated: userHasBeenCreated == freezed
-          ? _value.userHasBeenCreated
-          : userHasBeenCreated // ignore: cast_nullable_to_non_nullable
+      openCreatePlanIncentiveScreen: openCreatePlanIncentiveScreen == freezed
+          ? _value.openCreatePlanIncentiveScreen
+          : openCreatePlanIncentiveScreen // ignore: cast_nullable_to_non_nullable
               as bool,
       type: type == freezed
           ? _value.type
@@ -410,18 +411,25 @@ class _$UserNameStateCopyWithImpl<$Res> implements $UserNameStateCopyWith<$Res> 
 }
 
 /// @nodoc
-abstract class _$UserNameStateCopyWith<$Res> implements $UserNameStateCopyWith<$Res> {
-  factory _$UserNameStateCopyWith(_UserNameState value, $Res Function(_UserNameState) then) =
+abstract class _$UserNameStateCopyWith<$Res>
+    implements $UserNameStateCopyWith<$Res> {
+  factory _$UserNameStateCopyWith(
+          _UserNameState value, $Res Function(_UserNameState) then) =
       __$UserNameStateCopyWithImpl<$Res>;
-
   @override
-  $Res call({String name, bool userHasBeenCreated, StateType type, UserNameArgument argument});
+  $Res call(
+      {String name,
+      bool openCreatePlanIncentiveScreen,
+      StateType type,
+      UserNameArgument argument});
 }
 
 /// @nodoc
-class __$UserNameStateCopyWithImpl<$Res> extends _$UserNameStateCopyWithImpl<$Res>
+class __$UserNameStateCopyWithImpl<$Res>
+    extends _$UserNameStateCopyWithImpl<$Res>
     implements _$UserNameStateCopyWith<$Res> {
-  __$UserNameStateCopyWithImpl(_UserNameState _value, $Res Function(_UserNameState) _then)
+  __$UserNameStateCopyWithImpl(
+      _UserNameState _value, $Res Function(_UserNameState) _then)
       : super(_value, (v) => _then(v as _UserNameState));
 
   @override
@@ -430,7 +438,7 @@ class __$UserNameStateCopyWithImpl<$Res> extends _$UserNameStateCopyWithImpl<$Re
   @override
   $Res call({
     Object? name = freezed,
-    Object? userHasBeenCreated = freezed,
+    Object? openCreatePlanIncentiveScreen = freezed,
     Object? type = freezed,
     Object? argument = freezed,
   }) {
@@ -439,9 +447,9 @@ class __$UserNameStateCopyWithImpl<$Res> extends _$UserNameStateCopyWithImpl<$Re
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      userHasBeenCreated: userHasBeenCreated == freezed
-          ? _value.userHasBeenCreated
-          : userHasBeenCreated // ignore: cast_nullable_to_non_nullable
+      openCreatePlanIncentiveScreen: openCreatePlanIncentiveScreen == freezed
+          ? _value.openCreatePlanIncentiveScreen
+          : openCreatePlanIncentiveScreen // ignore: cast_nullable_to_non_nullable
               as bool,
       type: type == freezed
           ? _value.type
@@ -460,14 +468,14 @@ class __$UserNameStateCopyWithImpl<$Res> extends _$UserNameStateCopyWithImpl<$Re
 class _$_UserNameState implements _UserNameState {
   const _$_UserNameState(
       {required this.name,
-      required this.userHasBeenCreated,
+      required this.openCreatePlanIncentiveScreen,
       required this.type,
       required this.argument});
 
   @override
   final String name;
   @override
-  final bool userHasBeenCreated;
+  final bool openCreatePlanIncentiveScreen;
   @override
   final StateType type;
   @override
@@ -475,7 +483,7 @@ class _$_UserNameState implements _UserNameState {
 
   @override
   String toString() {
-    return 'UserNameState(name: $name, userHasBeenCreated: $userHasBeenCreated, type: $type, argument: $argument)';
+    return 'UserNameState(name: $name, openCreatePlanIncentiveScreen: $openCreatePlanIncentiveScreen, type: $type, argument: $argument)';
   }
 
   @override
@@ -484,14 +492,18 @@ class _$_UserNameState implements _UserNameState {
         (other.runtimeType == runtimeType &&
             other is _UserNameState &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.userHasBeenCreated, userHasBeenCreated) ||
-                other.userHasBeenCreated == userHasBeenCreated) &&
+            (identical(other.openCreatePlanIncentiveScreen,
+                    openCreatePlanIncentiveScreen) ||
+                other.openCreatePlanIncentiveScreen ==
+                    openCreatePlanIncentiveScreen) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.argument, argument) || other.argument == argument));
+            (identical(other.argument, argument) ||
+                other.argument == argument));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, userHasBeenCreated, type, argument);
+  int get hashCode => Object.hash(
+      runtimeType, name, openCreatePlanIncentiveScreen, type, argument);
 
   @JsonKey(ignore: true)
   @override
@@ -502,23 +514,20 @@ class _$_UserNameState implements _UserNameState {
 abstract class _UserNameState implements UserNameState {
   const factory _UserNameState(
       {required String name,
-      required bool userHasBeenCreated,
+      required bool openCreatePlanIncentiveScreen,
       required StateType type,
       required UserNameArgument argument}) = _$_UserNameState;
 
   @override
   String get name;
-
   @override
-  bool get userHasBeenCreated;
-
+  bool get openCreatePlanIncentiveScreen;
   @override
   StateType get type;
-
   @override
   UserNameArgument get argument;
-
   @override
   @JsonKey(ignore: true)
-  _$UserNameStateCopyWith<_UserNameState> get copyWith => throw _privateConstructorUsedError;
+  _$UserNameStateCopyWith<_UserNameState> get copyWith =>
+      throw _privateConstructorUsedError;
 }

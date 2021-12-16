@@ -32,13 +32,14 @@ class UserNameBloc extends Bloc<UserNameEvent, UserNameState> {
       confirmed: (_) async {
         if (state.name.isNotEmpty) {
           emit(state.copyWith(type: StateType.loading));
-          await _userService
-              .createUser(nickname: state.name)
-              .match(
-                (error) => emit(state.copyWith(type: StateType.error)),
-                (_) => emit(state.copyWith(type: StateType.loaded, userHasBeenCreated: true)),
-              )
-              .run();
+          await _userService.createUser(nickname: state.name).match(
+            (error) => emit(state.copyWith(type: StateType.error)),
+            (_) async {
+              emit(state.copyWith(type: StateType.loaded, openCreatePlanIncentiveScreen: true));
+              await Future.delayed(const Duration(milliseconds: 300));
+              emit(state.copyWith(type: StateType.loaded, openCreatePlanIncentiveScreen: false));
+            },
+          ).run();
         }
       },
     );

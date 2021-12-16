@@ -23,16 +23,16 @@ class PreferenceAssistant {
     }
     if (T == String) {
       // ignore: avoid_as
-      return _sharedPreferences.getString(key) as T;
+      return _sharedPreferences.getString(key) as T?;
     } else if (T == bool) {
       // ignore: avoid_as
-      return _sharedPreferences.getBool(key) as T;
+      return _sharedPreferences.getBool(key) as T?;
     } else if (T == int) {
       // ignore: avoid_as
-      return _sharedPreferences.getInt(key) as T;
+      return _sharedPreferences.getInt(key) as T?;
     }
     return null;
   }
 
-  Future<bool> deleteAll() async => await _sharedPreferences.clear();
+  Future<bool> deleteAll() async => _sharedPreferences.clear();
 }

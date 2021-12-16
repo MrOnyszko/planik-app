@@ -17,26 +17,27 @@ extension LocalInjector on GetIt {
       .._registerDao()
       .._registerSources()
       ..registerSingleton(database)
-      ..registerFactory<SharedPreferences>(() => sharedPreferences)..registerFactory<
-        PreferenceAssistant>(
-          () => PreferenceAssistant(sharedPreferences: get()),
-    )..registerFactory<UserStore>(
-          () =>
-          UserStore(
-            secureStorage: get(),
-          ),
-    );
+      ..registerFactory<SharedPreferences>(() => sharedPreferences)
+      ..registerFactory<PreferenceAssistant>(
+        () => PreferenceAssistant(
+          sharedPreferences: get(),
+        ),
+      )
+      ..registerFactory<UserStore>(
+        () => UserStore(
+          secureStorage: get(),
+        ),
+      );
   }
 
   void _registerSources() {
     registerFactory<UserLocalSource>(
-          () =>
-          UserLocalSourceImpl(
-            dates: get(),
-            userDao: get(),
-            userStore: get(),
-            userMapper: get(),
-          ),
+      () => UserLocalSourceImpl(
+        dates: get(),
+        userDao: get(),
+        userStore: get(),
+        userMapper: get(),
+      ),
     );
   }
 
@@ -46,7 +47,8 @@ extension LocalInjector on GetIt {
 
   void _registerDao() {
     this
-      ..registerFactory(() => get<AppDatabase>().userDao)..registerFactory(() =>
-    get<AppDatabase>().planDao)..registerFactory(() => get<AppDatabase>().planDayEntryDao);
+      ..registerFactory(() => get<AppDatabase>().userDao)
+      ..registerFactory(() => get<AppDatabase>().planDao)
+      ..registerFactory(() => get<AppDatabase>().planDayEntryDao);
   }
 }

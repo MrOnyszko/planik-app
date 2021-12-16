@@ -28,7 +28,7 @@ class UserLocalSourceImpl implements UserLocalSource {
   TaskEither<GeneralFailure, int> currentUserId() {
     return tryCatchE<GeneralFailure, int>(
       () async {
-        final id = await _userStore.getId();
+        final id = _userStore.getId();
         if (id != null) {
           return right(id);
         } else {
@@ -42,7 +42,7 @@ class UserLocalSourceImpl implements UserLocalSource {
   @override
   TaskEither<GeneralFailure, bool> hasPlan() {
     return TaskEither<GeneralFailure, bool>.tryCatch(
-      _userStore.getHasPlan,
+      () async => _userStore.getHasPlan(),
       (error, stackTrace) => GeneralFailure.fatal,
     );
   }
@@ -50,7 +50,7 @@ class UserLocalSourceImpl implements UserLocalSource {
   @override
   TaskEither<GeneralFailure, bool> hasUser() {
     return TaskEither<GeneralFailure, bool>.tryCatch(
-      _userStore.getHasPlan,
+      () async => _userStore.getUid() != null,
       (error, stackTrace) => GeneralFailure.fatal,
     );
   }
@@ -91,7 +91,7 @@ class UserLocalSourceImpl implements UserLocalSource {
   TaskEither<GeneralFailure, User> getCurrentUser() {
     return tryCatchE<GeneralFailure, User>(
       () async {
-        final uid = await _userStore.getUid();
+        final uid = _userStore.getUid();
         if (uid == null) {
           return left(GeneralFailure.notFound);
         }

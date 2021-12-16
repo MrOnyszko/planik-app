@@ -37,7 +37,7 @@ void main() {
         'gets current user id with success',
         () async {
           const userId = 1;
-          when(userStoreMock.getId).thenAnswer((_) async => userId);
+          when(userStoreMock.getId).thenAnswer((_) => userId);
 
           final result = await userLocalSource.currentUserId().run();
 
@@ -52,7 +52,7 @@ void main() {
         'do not get current user id with success',
         () async {
           const userId = null;
-          when(userStoreMock.getId).thenAnswer((_) async => userId);
+          when(userStoreMock.getId).thenAnswer((_) => userId);
 
           final result = await userLocalSource.currentUserId().run();
 
@@ -66,7 +66,7 @@ void main() {
       test(
         'gets has plan id with success',
         () async {
-          when(userStoreMock.getHasPlan).thenAnswer((_) async => true);
+          when(userStoreMock.getHasPlan).thenAnswer((_) => true);
 
           final result = await userLocalSource.hasPlan().run();
 
@@ -80,7 +80,7 @@ void main() {
       test(
         'do not get has plan with success',
         () async {
-          when(userStoreMock.getHasPlan).thenAnswer((_) async => false);
+          when(userStoreMock.getHasPlan).thenAnswer((_) => false);
 
           final result = await userLocalSource.hasPlan().run();
 
@@ -124,7 +124,7 @@ void main() {
             nickname,
           ).copyWith(createdAt: now);
 
-          when(userStoreMock.getUid).thenAnswer((_) async => userUid);
+          when(userStoreMock.getUid).thenAnswer((_) => userUid);
           when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
 
           final result = await userLocalSource.getCurrentUser().run();
@@ -157,7 +157,7 @@ void main() {
 
           when(() => userStoreMock.putId(id: userId)).thenAnswer((_) async {});
           when(() => userStoreMock.putUid(uid: userUid)).thenAnswer((_) async {});
-          when(userStoreMock.getUid).thenAnswer((_) async => userUid);
+          when(userStoreMock.getUid).thenAnswer((_) => userUid);
           when(datesMock.now).thenAnswer((_) => now);
           when(() => userDaoMock.insertOne(any())).thenAnswer((_) async => userId);
           when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);

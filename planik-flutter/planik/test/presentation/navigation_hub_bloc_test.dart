@@ -11,7 +11,7 @@ import 'presentation_mocks.dart';
 /// when hasUser is true and hasPlan is true then openPlanScreen is true
 /// when hasUser is true and hasPlan is false then openCreatePlanIncentiveScreen is true
 /// when hasUser is false then openUserNameScreen is true
-/// when failure is raised then emit initial state
+/// when failure is raised then hasError is true
 void main() {
   final MockUserService mockUserService = MockUserService();
   late NavigationHubBloc navigationHubBloc;
@@ -44,9 +44,10 @@ void main() {
       expect(bloc.state.openPlanScreen, true);
       expect(bloc.state.hasUser, true);
       expect(bloc.state.hasPlan, true);
+      expect(bloc.state.hasError, false);
     },
     expect: () => [
-      const NavigationHubState(hasUser: true, hasPlan: true),
+      const NavigationHubState(hasUser: true, hasPlan: true, hasError: false),
     ],
   );
 
@@ -64,9 +65,10 @@ void main() {
       expect(bloc.state.openCreatePlanIncentiveScreen, true);
       expect(bloc.state.hasUser, true);
       expect(bloc.state.hasPlan, false);
+      expect(bloc.state.hasError, false);
     },
     expect: () => [
-      const NavigationHubState(hasUser: true, hasPlan: false),
+      const NavigationHubState(hasUser: true, hasPlan: false, hasError: false),
     ],
   );
 
@@ -84,14 +86,15 @@ void main() {
       expect(bloc.state.openUserNameScreen, true);
       expect(bloc.state.hasUser, false);
       expect(bloc.state.hasPlan, false);
+      expect(bloc.state.hasError, false);
     },
     expect: () => [
-      const NavigationHubState(hasUser: false, hasPlan: false),
+      const NavigationHubState(hasUser: false, hasPlan: false, hasError: false),
     ],
   );
 
   blocTest<NavigationHubBloc, NavigationHubState>(
-    "when failure is raised then emit current state",
+    "when failure is raised then hasError is true",
     build: () => navigationHubBloc,
     setUp: () {
       when(mockUserService.hasUser).thenAnswer((_) => TaskEither.left(GeneralFailure.fatal));
@@ -103,9 +106,10 @@ void main() {
     verify: (bloc) {
       expect(bloc.state.hasUser, false);
       expect(bloc.state.hasPlan, false);
+      expect(bloc.state.hasError, true);
     },
     expect: () => [
-      const NavigationHubState(hasUser: false, hasPlan: false),
+      const NavigationHubState(hasUser: false, hasPlan: false, hasError: true),
     ],
   );
 }

@@ -74,7 +74,12 @@ void main() {
       UserNameState.initial(argument: argument).copyWith(
         name: 'abcd',
         type: StateType.loaded,
-        userHasBeenCreated: true,
+        openCreatePlanIncentiveScreen: true,
+      ),
+      UserNameState.initial(argument: argument).copyWith(
+        name: 'abcd',
+        type: StateType.loaded,
+        openCreatePlanIncentiveScreen: false,
       ),
     ],
   );
@@ -101,7 +106,7 @@ void main() {
       UserNameState.initial(argument: argument).copyWith(
         name: 'abcd',
         type: StateType.error,
-        userHasBeenCreated: false,
+        openCreatePlanIncentiveScreen: false,
       ),
     ],
   );

@@ -5,12 +5,14 @@ class NavigationHubState with _$NavigationHubState {
   const factory NavigationHubState({
     required bool hasUser,
     required bool hasPlan,
+    required bool hasError,
   }) = _NavigationHubState;
 
   factory NavigationHubState.initial() {
     return const NavigationHubState(
       hasUser: false,
       hasPlan: false,
+      hasError: false,
     );
   }
 }

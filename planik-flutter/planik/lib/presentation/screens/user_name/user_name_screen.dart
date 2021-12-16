@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planik/presentation/common/dimen.dart';
 import 'package:planik/presentation/common/extensions.dart';
 import 'package:planik/presentation/common/state_type.dart';
+import 'package:planik/presentation/screens/splash/splash_screen.dart';
 import 'package:planik/presentation/screens/user_name/bloc/user_name_bloc.dart';
 import 'package:planik/presentation/widgets/empty_page_widget.dart';
 import 'package:planik/presentation/widgets/error_page_widget.dart';
@@ -20,7 +21,16 @@ class UserNameScreen extends StatelessWidget {
         title: Text(context.strings.appTitle),
       ),
       body: SafeArea(
-        child: BlocBuilder<UserNameBloc, UserNameState>(
+        child: BlocConsumer<UserNameBloc, UserNameState>(
+          listener: (context, state) {
+            if (state.openCreatePlanIncentiveScreen) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                SplashScreen.routeName,
+                (route) => false,
+              );
+            }
+          },
           builder: (context, state) {
             return state.type.map(
               loading: () => const LoadingPage(),

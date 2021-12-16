@@ -181,10 +181,12 @@ abstract class _NavigationHubStarted implements NavigationHubEvent {
 class _$NavigationHubStateTearOff {
   const _$NavigationHubStateTearOff();
 
-  _NavigationHubState call({required bool hasUser, required bool hasPlan}) {
+  _NavigationHubState call(
+      {required bool hasUser, required bool hasPlan, required bool hasError}) {
     return _NavigationHubState(
       hasUser: hasUser,
       hasPlan: hasPlan,
+      hasError: hasError,
     );
   }
 }
@@ -196,6 +198,7 @@ const $NavigationHubState = _$NavigationHubStateTearOff();
 mixin _$NavigationHubState {
   bool get hasUser => throw _privateConstructorUsedError;
   bool get hasPlan => throw _privateConstructorUsedError;
+  bool get hasError => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NavigationHubStateCopyWith<NavigationHubState> get copyWith =>
@@ -207,7 +210,7 @@ abstract class $NavigationHubStateCopyWith<$Res> {
   factory $NavigationHubStateCopyWith(
           NavigationHubState value, $Res Function(NavigationHubState) then) =
       _$NavigationHubStateCopyWithImpl<$Res>;
-  $Res call({bool hasUser, bool hasPlan});
+  $Res call({bool hasUser, bool hasPlan, bool hasError});
 }
 
 /// @nodoc
@@ -223,6 +226,7 @@ class _$NavigationHubStateCopyWithImpl<$Res>
   $Res call({
     Object? hasUser = freezed,
     Object? hasPlan = freezed,
+    Object? hasError = freezed,
   }) {
     return _then(_value.copyWith(
       hasUser: hasUser == freezed
@@ -232,6 +236,10 @@ class _$NavigationHubStateCopyWithImpl<$Res>
       hasPlan: hasPlan == freezed
           ? _value.hasPlan
           : hasPlan // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasError: hasError == freezed
+          ? _value.hasError
+          : hasError // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -244,7 +252,7 @@ abstract class _$NavigationHubStateCopyWith<$Res>
           _NavigationHubState value, $Res Function(_NavigationHubState) then) =
       __$NavigationHubStateCopyWithImpl<$Res>;
   @override
-  $Res call({bool hasUser, bool hasPlan});
+  $Res call({bool hasUser, bool hasPlan, bool hasError});
 }
 
 /// @nodoc
@@ -262,6 +270,7 @@ class __$NavigationHubStateCopyWithImpl<$Res>
   $Res call({
     Object? hasUser = freezed,
     Object? hasPlan = freezed,
+    Object? hasError = freezed,
   }) {
     return _then(_NavigationHubState(
       hasUser: hasUser == freezed
@@ -272,6 +281,10 @@ class __$NavigationHubStateCopyWithImpl<$Res>
           ? _value.hasPlan
           : hasPlan // ignore: cast_nullable_to_non_nullable
               as bool,
+      hasError: hasError == freezed
+          ? _value.hasError
+          : hasError // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -279,16 +292,19 @@ class __$NavigationHubStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_NavigationHubState implements _NavigationHubState {
-  const _$_NavigationHubState({required this.hasUser, required this.hasPlan});
+  const _$_NavigationHubState(
+      {required this.hasUser, required this.hasPlan, required this.hasError});
 
   @override
   final bool hasUser;
   @override
   final bool hasPlan;
+  @override
+  final bool hasError;
 
   @override
   String toString() {
-    return 'NavigationHubState(hasUser: $hasUser, hasPlan: $hasPlan)';
+    return 'NavigationHubState(hasUser: $hasUser, hasPlan: $hasPlan, hasError: $hasError)';
   }
 
   @override
@@ -297,11 +313,13 @@ class _$_NavigationHubState implements _NavigationHubState {
         (other.runtimeType == runtimeType &&
             other is _NavigationHubState &&
             (identical(other.hasUser, hasUser) || other.hasUser == hasUser) &&
-            (identical(other.hasPlan, hasPlan) || other.hasPlan == hasPlan));
+            (identical(other.hasPlan, hasPlan) || other.hasPlan == hasPlan) &&
+            (identical(other.hasError, hasError) ||
+                other.hasError == hasError));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hasUser, hasPlan);
+  int get hashCode => Object.hash(runtimeType, hasUser, hasPlan, hasError);
 
   @JsonKey(ignore: true)
   @override
@@ -311,12 +329,16 @@ class _$_NavigationHubState implements _NavigationHubState {
 
 abstract class _NavigationHubState implements NavigationHubState {
   const factory _NavigationHubState(
-      {required bool hasUser, required bool hasPlan}) = _$_NavigationHubState;
+      {required bool hasUser,
+      required bool hasPlan,
+      required bool hasError}) = _$_NavigationHubState;
 
   @override
   bool get hasUser;
   @override
   bool get hasPlan;
+  @override
+  bool get hasError;
   @override
   @JsonKey(ignore: true)
   _$NavigationHubStateCopyWith<_NavigationHubState> get copyWith =>
