@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planik/presentation/common/dimen.dart';
 import 'package:planik/presentation/common/extensions.dart';
 import 'package:planik/presentation/common/state_type.dart';
-import 'package:planik/presentation/screens/splash/splash_screen.dart';
+import 'package:planik/presentation/screens/create_plan_incentive/create_plan_incentive_screen.dart';
 import 'package:planik/presentation/screens/user_name/bloc/user_name_bloc.dart';
 import 'package:planik/presentation/widgets/empty_page_widget.dart';
 import 'package:planik/presentation/widgets/error_page_widget.dart';
@@ -26,7 +26,7 @@ class UserNameScreen extends StatelessWidget {
             if (state.openCreatePlanIncentiveScreen) {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                SplashScreen.routeName,
+                CreatePlanIncentiveScreen.routeName,
                 (route) => false,
               );
             }

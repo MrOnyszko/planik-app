@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planik/presentation/navigation_hub/bloc/navigation_hub_bloc.dart';
+import 'package:planik/presentation/screens/create_plan_incentive/create_plan_incentive_screen.dart';
 import 'package:planik/presentation/screens/splash/splash_screen.dart';
 import 'package:planik/presentation/screens/user_name/user_name_screen.dart';
 
@@ -25,7 +26,7 @@ class NavigationHub extends StatelessWidget {
           );
         } else if (state.openCreatePlanIncentiveScreen) {
           navigatorKey.currentState?.pushNamedAndRemoveUntil(
-            SplashScreen.routeName,
+            CreatePlanIncentiveScreen.routeName,
             (route) => false,
           );
         } else if (state.openUserNameScreen) {

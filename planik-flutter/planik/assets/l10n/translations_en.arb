@@ -3,5 +3,7 @@
   "userNameScreenHeader": "Welcome to Planik!",
   "userNameScreenInputLabel": "Nickname",
   "userNameScreenInputHint": "Your nickname e.g. John",
-  "userNameScreenPrimaryAction": "Confirm"
+  "userNameScreenPrimaryAction": "Confirm",
+  "createPlanIncentiveScreenHeader": "Let's create\na new Plan!",
+  "createPlanIncentiveScreenPrimaryAction": "Go"
 }

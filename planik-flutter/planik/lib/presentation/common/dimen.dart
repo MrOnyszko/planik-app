@@ -6,6 +6,7 @@ class Insets {
   static const double xLarge = 24;
   static const double xxLarge = 32;
   static const double xxxLarge = 48;
+  static const double huge = 64;
 }
 
 class FontSizes {
