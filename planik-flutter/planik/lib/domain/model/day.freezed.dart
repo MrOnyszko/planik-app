@@ -47,8 +47,8 @@ mixin _$Day {
 
 /// @nodoc
 abstract class $DayCopyWith<$Res> {
-  factory $DayCopyWith(Day value, $Res Function(Day) then) = _$DayCopyWithImpl<$Res>;
-
+  factory $DayCopyWith(Day value, $Res Function(Day) then) =
+      _$DayCopyWithImpl<$Res>;
   $Res call({int ordinal, String name, DateTime date, List<DayEntry> entries});
 }
 
@@ -90,14 +90,15 @@ class _$DayCopyWithImpl<$Res> implements $DayCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$DayCopyWith<$Res> implements $DayCopyWith<$Res> {
-  factory _$DayCopyWith(_Day value, $Res Function(_Day) then) = __$DayCopyWithImpl<$Res>;
-
+  factory _$DayCopyWith(_Day value, $Res Function(_Day) then) =
+      __$DayCopyWithImpl<$Res>;
   @override
   $Res call({int ordinal, String name, DateTime date, List<DayEntry> entries});
 }
 
 /// @nodoc
-class __$DayCopyWithImpl<$Res> extends _$DayCopyWithImpl<$Res> implements _$DayCopyWith<$Res> {
+class __$DayCopyWithImpl<$Res> extends _$DayCopyWithImpl<$Res>
+    implements _$DayCopyWith<$Res> {
   __$DayCopyWithImpl(_Day _value, $Res Function(_Day) _then)
       : super(_value, (v) => _then(v as _Day));
 
@@ -136,7 +137,10 @@ class __$DayCopyWithImpl<$Res> extends _$DayCopyWithImpl<$Res> implements _$DayC
 
 class _$_Day implements _Day {
   const _$_Day(
-      {required this.ordinal, required this.name, required this.date, required this.entries});
+      {required this.ordinal,
+      required this.name,
+      required this.date,
+      required this.entries});
 
   @override
   final int ordinal;
@@ -164,12 +168,13 @@ class _$_Day implements _Day {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, ordinal, name, date, const DeepCollectionEquality().hash(entries));
+  int get hashCode => Object.hash(runtimeType, ordinal, name, date,
+      const DeepCollectionEquality().hash(entries));
 
   @JsonKey(ignore: true)
   @override
-  _$DayCopyWith<_Day> get copyWith => __$DayCopyWithImpl<_Day>(this, _$identity);
+  _$DayCopyWith<_Day> get copyWith =>
+      __$DayCopyWithImpl<_Day>(this, _$identity);
 }
 
 abstract class _Day implements Day {

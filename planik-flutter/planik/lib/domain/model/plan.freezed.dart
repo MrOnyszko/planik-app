@@ -50,9 +50,14 @@ mixin _$Plan {
 
 /// @nodoc
 abstract class $PlanCopyWith<$Res> {
-  factory $PlanCopyWith(Plan value, $Res Function(Plan) then) = _$PlanCopyWithImpl<$Res>;
-
-  $Res call({int id, String name, bool current, DateTime createdAt, DateTime updatedAt});
+  factory $PlanCopyWith(Plan value, $Res Function(Plan) then) =
+      _$PlanCopyWithImpl<$Res>;
+  $Res call(
+      {int id,
+      String name,
+      bool current,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -98,14 +103,20 @@ class _$PlanCopyWithImpl<$Res> implements $PlanCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$PlanCopyWith<$Res> implements $PlanCopyWith<$Res> {
-  factory _$PlanCopyWith(_Plan value, $Res Function(_Plan) then) = __$PlanCopyWithImpl<$Res>;
-
+  factory _$PlanCopyWith(_Plan value, $Res Function(_Plan) then) =
+      __$PlanCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, bool current, DateTime createdAt, DateTime updatedAt});
+  $Res call(
+      {int id,
+      String name,
+      bool current,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
-class __$PlanCopyWithImpl<$Res> extends _$PlanCopyWithImpl<$Res> implements _$PlanCopyWith<$Res> {
+class __$PlanCopyWithImpl<$Res> extends _$PlanCopyWithImpl<$Res>
+    implements _$PlanCopyWith<$Res> {
   __$PlanCopyWithImpl(_Plan _value, $Res Function(_Plan) _then)
       : super(_value, (v) => _then(v as _Plan));
 
@@ -179,16 +190,20 @@ class _$_Plan implements _Plan {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.current, current) || other.current == current) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, current, createdAt, updatedAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, current, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
-  _$PlanCopyWith<_Plan> get copyWith => __$PlanCopyWithImpl<_Plan>(this, _$identity);
+  _$PlanCopyWith<_Plan> get copyWith =>
+      __$PlanCopyWithImpl<_Plan>(this, _$identity);
 }
 
 abstract class _Plan implements Plan {

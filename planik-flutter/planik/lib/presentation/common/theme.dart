@@ -14,6 +14,7 @@ class _AppColors {
   static const Color redColor = Color(0xffda7b7b);
   static const Color grayColor = Color(0xffd9d9d9);
   static const Color mainColor = Color(0xFF303F9F);
+  static const Color mainDarkColor = Color(0xFF1A237E);
   static const Color mainLighterColor = Color(0xFF7986CB);
   static const Color dirtyWhiteColor = Color(0xfff0f0f0);
   static const Color lightGrayColor = Color(0xffa2a2a2);
@@ -81,7 +82,7 @@ class LightPalette extends Palette {
   @override
   final Color primaryColor = _AppColors.mainColor;
   @override
-  final Color primaryDarkColor = _AppColors.mainColor; // todo: update
+  final Color primaryDarkColor = _AppColors.mainDarkColor;
   @override
   final Color primaryLightColor = _AppColors.mainLighterColor;
   @override
@@ -206,6 +207,12 @@ class AppTheme {
       ),
     );
     return theme.copyWith(
+      tabBarTheme: TabBarTheme(
+        labelColor: palette.primaryTextBodyColor,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(color: theme.colorScheme.primary),
+        ),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(primary: palette.accentColor),
       ),

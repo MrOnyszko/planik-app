@@ -10,12 +10,14 @@ part of 'app_database.dart';
 class $FloorAppDatabase {
   /// Creates a database builder for a persistent database.
   /// Once a database is built, you should keep a reference to it and re-use it.
-  static _$AppDatabaseBuilder databaseBuilder(String name) => _$AppDatabaseBuilder(name);
+  static _$AppDatabaseBuilder databaseBuilder(String name) =>
+      _$AppDatabaseBuilder(name);
 
   /// Creates a database builder for an in memory database.
   /// Information stored in an in memory database disappears when the process is killed.
   /// Once a database is built, you should keep a reference to it and re-use it.
-  static _$AppDatabaseBuilder inMemoryDatabaseBuilder() => _$AppDatabaseBuilder(null);
+  static _$AppDatabaseBuilder inMemoryDatabaseBuilder() =>
+      _$AppDatabaseBuilder(null);
 }
 
 class _$AppDatabaseBuilder {
@@ -41,7 +43,9 @@ class _$AppDatabaseBuilder {
 
   /// Creates the database and initializes it.
   Future<AppDatabase> build() async {
-    final path = name != null ? await sqfliteDatabaseFactory.getDatabasePath(name!) : ':memory:';
+    final path = name != null
+        ? await sqfliteDatabaseFactory.getDatabasePath(name!)
+        : ':memory:';
     final database = _$AppDatabase();
     database.database = await database.open(
       path,
@@ -75,7 +79,8 @@ class _$AppDatabase extends AppDatabase {
         await callback?.onOpen?.call(database);
       },
       onUpgrade: (database, startVersion, endVersion) async {
-        await MigrationAdapter.runMigrations(database, startVersion, endVersion, migrations);
+        await MigrationAdapter.runMigrations(
+            database, startVersion, endVersion, migrations);
 
         await callback?.onUpgrade?.call(database, startVersion, endVersion);
       },
@@ -86,7 +91,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `plans` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `user_id` INTEGER NOT NULL, `name` TEXT NOT NULL, `current` INTEGER NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT, FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `plan_day_entries` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `plan_id` INTEGER NOT NULL, `day_of_week` INTEGER NOT NULL, `name` TEXT NOT NULL, `start` TEXT NOT NULL, `end` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT, FOREIGN KEY (`plan_id`) REFERENCES `plans` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE)');
-        await database.execute('CREATE INDEX `index_plans_user_id` ON `plans` (`user_id`)');
+        await database.execute(
+            'CREATE INDEX `index_plans_user_id` ON `plans` (`user_id`)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -106,7 +112,8 @@ class _$AppDatabase extends AppDatabase {
 
   @override
   PlanDayEntryDao get planDayEntryDao {
-    return _planDayEntryDaoInstance ??= _$PlanDayEntryDao(database, changeListener);
+    return _planDayEntryDaoInstance ??=
+        _$PlanDayEntryDao(database, changeListener);
   }
 }
 
@@ -195,17 +202,20 @@ class _$UserDao extends UserDao {
 
   @override
   Future<void> deleteOneById(int id) async {
-    await _queryAdapter.queryNoReturn('DELETE FROM users WHERE id = ?1', arguments: [id]);
+    await _queryAdapter
+        .queryNoReturn('DELETE FROM users WHERE id = ?1', arguments: [id]);
   }
 
   @override
   Future<int> insertOne(UserEntity entity) {
-    return _userEntityInsertionAdapter.insertAndReturnId(entity, OnConflictStrategy.replace);
+    return _userEntityInsertionAdapter.insertAndReturnId(
+        entity, OnConflictStrategy.replace);
   }
 
   @override
   Future<int> updateOne(UserEntity entity) {
-    return _userEntityUpdateAdapter.updateAndReturnChangedRows(entity, OnConflictStrategy.replace);
+    return _userEntityUpdateAdapter.updateAndReturnChangedRows(
+        entity, OnConflictStrategy.replace);
   }
 
   @override
@@ -218,8 +228,10 @@ class _$UserDao extends UserDao {
     if (database is sqflite.Transaction) {
       await super.insertOrUpdateOne(entity);
     } else {
-      await (database as sqflite.Database).transaction<void>((transaction) async {
-        final transactionDatabase = _$AppDatabase(changeListener)..database = transaction;
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
         await transactionDatabase.userDao.insertOrUpdateOne(entity);
       });
     }
@@ -330,22 +342,26 @@ class _$PlanDao extends PlanDao {
 
   @override
   Future<void> deleteOneById(int id) async {
-    await _queryAdapter.queryNoReturn('DELETE FROM plans WHERE id = ?1', arguments: [id]);
+    await _queryAdapter
+        .queryNoReturn('DELETE FROM plans WHERE id = ?1', arguments: [id]);
   }
 
   @override
   Future<int> insertOne(PlanEntity entity) {
-    return _planEntityInsertionAdapter.insertAndReturnId(entity, OnConflictStrategy.ignore);
+    return _planEntityInsertionAdapter.insertAndReturnId(
+        entity, OnConflictStrategy.ignore);
   }
 
   @override
   Future<List<int>> insertMany(List<PlanEntity> entities) {
-    return _planEntityInsertionAdapter.insertListAndReturnIds(entities, OnConflictStrategy.ignore);
+    return _planEntityInsertionAdapter.insertListAndReturnIds(
+        entities, OnConflictStrategy.ignore);
   }
 
   @override
   Future<int> updateOne(PlanEntity entity) {
-    return _planEntityUpdateAdapter.updateAndReturnChangedRows(entity, OnConflictStrategy.ignore);
+    return _planEntityUpdateAdapter.updateAndReturnChangedRows(
+        entity, OnConflictStrategy.ignore);
   }
 
   @override
@@ -364,8 +380,10 @@ class _$PlanDao extends PlanDao {
     if (database is sqflite.Transaction) {
       await super.insertOrUpdateOne(entity);
     } else {
-      await (database as sqflite.Database).transaction<void>((transaction) async {
-        final transactionDatabase = _$AppDatabase(changeListener)..database = transaction;
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
         await transactionDatabase.planDao.insertOrUpdateOne(entity);
       });
     }
@@ -376,8 +394,10 @@ class _$PlanDao extends PlanDao {
     if (database is sqflite.Transaction) {
       await super.insertOrUpdateMany(entities);
     } else {
-      await (database as sqflite.Database).transaction<void>((transaction) async {
-        final transactionDatabase = _$AppDatabase(changeListener)..database = transaction;
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
         await transactionDatabase.planDao.insertOrUpdateMany(entities);
       });
     }
@@ -435,7 +455,8 @@ class _$PlanDayEntryDao extends PlanDayEntryDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<PlanDayEntryEntity> _planDayEntryEntityInsertionAdapter;
+  final InsertionAdapter<PlanDayEntryEntity>
+      _planDayEntryEntityInsertionAdapter;
 
   final UpdateAdapter<PlanDayEntryEntity> _planDayEntryEntityUpdateAdapter;
 
@@ -459,21 +480,14 @@ class _$PlanDayEntryDao extends PlanDayEntryDao {
   Future<List<PlanDayEntryEntity>> findManyBy(int planId, int dayOfWeek) async {
     return _queryAdapter.queryList(
         'SELECT * FROM plan_day_entries DE WHERE DE.plan_id = ?1 AND DE.day_of_week = ?2',
-        mapper: (Map<String, Object?> row) => PlanDayEntryEntity(
-            id: row['id'] as int?,
-            planId: row['plan_id'] as int,
-            dayOfWeek: row['day_of_week'] as int,
-            name: row['name'] as String,
-            start: row['start'] as String,
-            end: row['end'] as String,
-            createdAt: row['created_at'] as String,
-            updatedAt: row['updated_at'] as String?),
+        mapper: (Map<String, Object?> row) => PlanDayEntryEntity(id: row['id'] as int?, planId: row['plan_id'] as int, dayOfWeek: row['day_of_week'] as int, name: row['name'] as String, start: row['start'] as String, end: row['end'] as String, createdAt: row['created_at'] as String, updatedAt: row['updated_at'] as String?),
         arguments: [planId, dayOfWeek]);
   }
 
   @override
   Future<List<PlanDayEntryEntity>> findManyByPlanId(int planId) async {
-    return _queryAdapter.queryList('SELECT * FROM plan_day_entries DE WHERE DE.plan_id = ?1',
+    return _queryAdapter.queryList(
+        'SELECT * FROM plan_day_entries DE WHERE DE.plan_id = ?1',
         mapper: (Map<String, Object?> row) => PlanDayEntryEntity(
             id: row['id'] as int?,
             planId: row['plan_id'] as int,
@@ -518,13 +532,15 @@ class _$PlanDayEntryDao extends PlanDayEntryDao {
 
   @override
   Future<void> deleteOneById(int id) async {
-    await _queryAdapter
-        .queryNoReturn('DELETE FROM plan_day_entries WHERE id = ?1', arguments: [id]);
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM plan_day_entries WHERE id = ?1',
+        arguments: [id]);
   }
 
   @override
   Future<int> insertOne(PlanDayEntryEntity entity) {
-    return _planDayEntryEntityInsertionAdapter.insertAndReturnId(entity, OnConflictStrategy.ignore);
+    return _planDayEntryEntityInsertionAdapter.insertAndReturnId(
+        entity, OnConflictStrategy.ignore);
   }
 
   @override
@@ -555,8 +571,10 @@ class _$PlanDayEntryDao extends PlanDayEntryDao {
     if (database is sqflite.Transaction) {
       await super.insertOrUpdateOne(entity);
     } else {
-      await (database as sqflite.Database).transaction<void>((transaction) async {
-        final transactionDatabase = _$AppDatabase(changeListener)..database = transaction;
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
         await transactionDatabase.planDayEntryDao.insertOrUpdateOne(entity);
       });
     }
@@ -567,8 +585,10 @@ class _$PlanDayEntryDao extends PlanDayEntryDao {
     if (database is sqflite.Transaction) {
       await super.insertOrUpdateMany(entities);
     } else {
-      await (database as sqflite.Database).transaction<void>((transaction) async {
-        final transactionDatabase = _$AppDatabase(changeListener)..database = transaction;
+      await (database as sqflite.Database)
+          .transaction<void>((transaction) async {
+        final transactionDatabase = _$AppDatabase(changeListener)
+          ..database = transaction;
         await transactionDatabase.planDayEntryDao.insertOrUpdateMany(entities);
       });
     }

@@ -49,6 +49,7 @@ class Application extends StatelessWidget {
         initial: AdaptiveThemeMode.light,
         builder: (theme, darkTheme) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             onGenerateTitle: (context) => Translations.of(context).appTitle,
             localizationsDelegates: Translations.localizationsDelegates,
             supportedLocales: Translations.supportedLocales,

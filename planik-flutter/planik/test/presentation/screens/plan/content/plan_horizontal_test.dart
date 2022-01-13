@@ -12,7 +12,7 @@ void main() {
     (tester) async {
       await tester.pumpWidget(
         Testable(
-          child: PlanHorizontal(title: 'Planik', days: days),
+          child: PlanHorizontal(title: const Text('Planik'), days: days),
         ),
       );
 

@@ -48,15 +48,21 @@ mixin _$DayEntry {
   int get pauseMinutes => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $DayEntryCopyWith<DayEntry> get copyWith => throw _privateConstructorUsedError;
+  $DayEntryCopyWith<DayEntry> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DayEntryCopyWith<$Res> {
   factory $DayEntryCopyWith(DayEntry value, $Res Function(DayEntry) then) =
       _$DayEntryCopyWithImpl<$Res>;
-
-  $Res call({int id, int dayOfWeek, String title, DateTime start, DateTime end, int pauseMinutes});
+  $Res call(
+      {int id,
+      int dayOfWeek,
+      String title,
+      DateTime start,
+      DateTime end,
+      int pauseMinutes});
 }
 
 /// @nodoc
@@ -109,9 +115,14 @@ class _$DayEntryCopyWithImpl<$Res> implements $DayEntryCopyWith<$Res> {
 abstract class _$DayEntryCopyWith<$Res> implements $DayEntryCopyWith<$Res> {
   factory _$DayEntryCopyWith(_DayEntry value, $Res Function(_DayEntry) then) =
       __$DayEntryCopyWithImpl<$Res>;
-
   @override
-  $Res call({int id, int dayOfWeek, String title, DateTime start, DateTime end, int pauseMinutes});
+  $Res call(
+      {int id,
+      int dayOfWeek,
+      String title,
+      DateTime start,
+      DateTime end,
+      int pauseMinutes});
 }
 
 /// @nodoc
@@ -196,15 +207,18 @@ class _$_DayEntry implements _DayEntry {
         (other.runtimeType == runtimeType &&
             other is _DayEntry &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.dayOfWeek, dayOfWeek) || other.dayOfWeek == dayOfWeek) &&
+            (identical(other.dayOfWeek, dayOfWeek) ||
+                other.dayOfWeek == dayOfWeek) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.end, end) || other.end == end) &&
-            (identical(other.pauseMinutes, pauseMinutes) || other.pauseMinutes == pauseMinutes));
+            (identical(other.pauseMinutes, pauseMinutes) ||
+                other.pauseMinutes == pauseMinutes));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, dayOfWeek, title, start, end, pauseMinutes);
+  int get hashCode =>
+      Object.hash(runtimeType, id, dayOfWeek, title, start, end, pauseMinutes);
 
   @JsonKey(ignore: true)
   @override
@@ -231,11 +245,10 @@ abstract class _DayEntry implements DayEntry {
   DateTime get start;
   @override
   DateTime get end;
-
   @override
   int get pauseMinutes;
-
   @override
   @JsonKey(ignore: true)
-  _$DayEntryCopyWith<_DayEntry> get copyWith => throw _privateConstructorUsedError;
+  _$DayEntryCopyWith<_DayEntry> get copyWith =>
+      throw _privateConstructorUsedError;
 }

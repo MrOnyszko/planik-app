@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:planik/domain/model/day.dart';
 import 'package:planik/presentation/common/dimen.dart';
+import 'package:planik/presentation/common/extensions.dart';
 import 'package:planik/presentation/screens/plan/content/day_entries_list.dart';
 
 typedef OnTabChangeCallback = void Function(int index);
@@ -12,14 +14,18 @@ class PlanHorizontal extends StatefulWidget {
     this.appBarActions = const [],
     this.onTabChange,
     this.onItemTap,
+    this.automaticallyImplyLeading = true,
+    this.toolbarHeight = kToolbarHeight,
     Key? key,
   }) : super(key: key);
 
-  final String title;
+  final Widget title;
   final List<Day> days;
   final List<Widget> appBarActions;
   final OnTabChangeCallback? onTabChange;
   final OnItemTap? onItemTap;
+  final bool automaticallyImplyLeading;
+  final double toolbarHeight;
 
   @override
   _PlanHorizontalState createState() => _PlanHorizontalState();
@@ -47,23 +53,34 @@ class _PlanHorizontalState extends State<PlanHorizontal> with SingleTickerProvid
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverAppBar(
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: context.theme.colorScheme.primary,
+              ),
               pinned: true,
               centerTitle: false,
               elevation: 0,
-              automaticallyImplyLeading: false,
+              automaticallyImplyLeading: widget.automaticallyImplyLeading,
               actions: widget.appBarActions,
-              flexibleSpace: FlexibleSpaceBar(
-                titlePadding: const EdgeInsets.only(
-                  left: Insets.large,
-                  bottom: Insets.large,
-                ),
-                title: Text(widget.title),
+              toolbarHeight: widget.toolbarHeight,
+              title: SizedBox(
+                height: widget.toolbarHeight,
+                child: widget.title,
               ),
               forceElevated: innerBoxIsScrolled,
-              bottom: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                tabs: widget.days.map((day) => Tab(key: Key(day.name), text: day.name)).toList(),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(50),
+                child: Material(
+                  color: context.theme.colorScheme.surface,
+                  child: TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    tabs: widget.days
+                        .map(
+                          (day) => Tab(key: Key(day.name), text: day.name),
+                        )
+                        .toList(),
+                  ),
+                ),
               ),
             ),
           ),

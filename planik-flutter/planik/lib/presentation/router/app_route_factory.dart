@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:planik/presentation/screens/create_plan/create_plan_route.dart';
+import 'package:planik/presentation/screens/create_plan/create_plan_screen.dart';
 import 'package:planik/presentation/screens/create_plan_incentive/create_plan_incentive_route.dart';
 import 'package:planik/presentation/screens/create_plan_incentive/create_plan_incentive_screen.dart';
 import 'package:planik/presentation/screens/splash/splash_screen.dart';
@@ -13,6 +15,8 @@ class AppRouteFactory {
         return userNameRoute(settings);
       case CreatePlanIncentiveScreen.routeName:
         return createPlanIncentiveRoute(settings);
+      case CreatePlanScreen.routeName:
+        return createPlanRoute(settings);
       case SplashScreen.routeName:
       default:
         return MaterialPageRoute(

@@ -5,5 +5,8 @@
   "userNameScreenInputHint": "Your nickname e.g. John",
   "userNameScreenPrimaryAction": "Confirm",
   "createPlanIncentiveScreenHeader": "Let's create\na new Plan!",
-  "createPlanIncentiveScreenPrimaryAction": "Go"
+  "createPlanIncentiveScreenPrimaryAction": "Go",
+  "createPlanScreenSubtitle": "Create Plan",
+  "createPlanScreenNameInputLabel": "Plan name",
+  "createPlanScreenNameInputHint": "Since July 2021"
 }

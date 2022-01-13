@@ -50,9 +50,14 @@ mixin _$User {
 
 /// @nodoc
 abstract class $UserCopyWith<$Res> {
-  factory $UserCopyWith(User value, $Res Function(User) then) = _$UserCopyWithImpl<$Res>;
-
-  $Res call({int id, String uid, String nickname, DateTime createdAt, DateTime? updatedAt});
+  factory $UserCopyWith(User value, $Res Function(User) then) =
+      _$UserCopyWithImpl<$Res>;
+  $Res call(
+      {int id,
+      String uid,
+      String nickname,
+      DateTime createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -98,14 +103,20 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
 
 /// @nodoc
 abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
-  factory _$UserCopyWith(_User value, $Res Function(_User) then) = __$UserCopyWithImpl<$Res>;
-
+  factory _$UserCopyWith(_User value, $Res Function(_User) then) =
+      __$UserCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String uid, String nickname, DateTime createdAt, DateTime? updatedAt});
+  $Res call(
+      {int id,
+      String uid,
+      String nickname,
+      DateTime createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
-class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
+class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
+    implements _$UserCopyWith<$Res> {
   __$UserCopyWithImpl(_User _value, $Res Function(_User) _then)
       : super(_value, (v) => _then(v as _User));
 
@@ -178,17 +189,22 @@ class _$_User implements _User {
             other is _User &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.uid, uid) || other.uid == uid) &&
-            (identical(other.nickname, nickname) || other.nickname == nickname) &&
-            (identical(other.createdAt, createdAt) || other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, uid, nickname, createdAt, updatedAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, uid, nickname, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
-  _$UserCopyWith<_User> get copyWith => __$UserCopyWithImpl<_User>(this, _$identity);
+  _$UserCopyWith<_User> get copyWith =>
+      __$UserCopyWithImpl<_User>(this, _$identity);
 }
 
 abstract class _User implements User {

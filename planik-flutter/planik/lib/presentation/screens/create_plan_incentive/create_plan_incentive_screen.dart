@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:planik/presentation/common/dimen.dart';
 import 'package:planik/presentation/common/extensions.dart';
+import 'package:planik/presentation/screens/create_plan/create_plan_argument.dart';
+import 'package:planik/presentation/screens/create_plan/create_plan_screen.dart';
 
 class CreatePlanIncentiveScreen extends StatelessWidget {
   static const String routeName = '/create-plan-incentive';
 
-  const CreatePlanIncentiveScreen({Key? key}) : super(key: key);
+  const CreatePlanIncentiveScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,14 @@ class CreatePlanIncentiveScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Insets.xLarge),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  CreatePlanScreen.routeName,
+                  (route) => false,
+                  arguments: const CreatePlanArgument(),
+                );
+              },
               child: Text(context.strings.createPlanIncentiveScreenPrimaryAction),
             ),
           )
