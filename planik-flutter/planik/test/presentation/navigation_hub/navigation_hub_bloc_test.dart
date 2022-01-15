@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:planik/domain/failure/general_failure.dart';
 import 'package:planik/presentation/navigation_hub/bloc/navigation_hub_bloc.dart';
 
-import 'presentation_mocks.dart';
+import '../presentation_mocks.dart';
 
 ///
 /// when hasUser is true and hasPlan is true then openPlanScreen is true
@@ -13,11 +13,12 @@ import 'presentation_mocks.dart';
 /// when hasUser is false then openUserNameScreen is true
 /// when failure is raised then hasError is true
 void main() {
-  final MockUserService mockUserService = MockUserService();
+  late MockUserService mockUserService;
   late NavigationHubBloc navigationHubBloc;
 
   setUp(
     () {
+      mockUserService = MockUserService();
       navigationHubBloc = NavigationHubBloc(
         userService: mockUserService,
       );
@@ -25,8 +26,8 @@ void main() {
   );
 
   tearDown(
-    () async {
-      await navigationHubBloc.close();
+    () {
+      reset(mockUserService);
     },
   );
 

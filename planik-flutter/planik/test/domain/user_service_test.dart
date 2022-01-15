@@ -10,12 +10,24 @@ import 'domain_mocks.dart';
 
 void main() {
   group(
-    "UserLocalSource",
+    "UserService",
     () {
-      final MockUserLocalSource mockUserLocalSource = MockUserLocalSource();
+      late MockUserLocalSource mockUserLocalSource;
+      late UserService userService;
 
-      final UserService userService = UserService(
-        userLocalSource: mockUserLocalSource,
+      setUp(
+        () {
+          mockUserLocalSource = MockUserLocalSource();
+          userService = UserService(
+            userLocalSource: mockUserLocalSource,
+          );
+        },
+      );
+
+      tearDown(
+        () {
+          reset(mockUserLocalSource);
+        },
       );
 
       test(

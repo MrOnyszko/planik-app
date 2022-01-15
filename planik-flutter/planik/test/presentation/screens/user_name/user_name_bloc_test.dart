@@ -8,31 +8,31 @@ import 'package:planik/presentation/common/state_type.dart';
 import 'package:planik/presentation/screens/user_name/bloc/user_name_bloc.dart';
 import 'package:planik/presentation/screens/user_name/user_name_argument.dart';
 
-import 'presentation_mocks.dart';
+import '../../presentation_mocks.dart';
 
 void main() {
   final UserNameArgument argument = UserNameArgument();
-  final MockUserService mockUserService = MockUserService();
+  late MockUserService mockUserService;
   late UserNameBloc userNameBloc;
 
-  setUp(() {
-    userNameBloc = UserNameBloc(
-      userService: mockUserService,
-      argument: argument,
-    );
-  });
+  setUp(
+    () {
+      mockUserService = MockUserService();
+      userNameBloc = UserNameBloc(
+        userService: mockUserService,
+        argument: argument,
+      );
+    },
+  );
 
   tearDown(
     () {
-      userNameBloc.close();
+      reset(mockUserService);
     },
   );
 
   blocTest<UserNameBloc, UserNameState>(
-    """
-      emits UserNameState with name 
-        when UserNameEvent.userNameChanged() is added
-    """,
+    'emits UserNameState with name when UserNameEvent.userNameChanged() is added',
     build: () => userNameBloc,
     act: (bloc) {
       bloc
@@ -53,10 +53,7 @@ void main() {
   );
 
   blocTest<UserNameBloc, UserNameState>(
-    '''
-      emits UserNameState with userHasBeenCreated set true
-        when UserNameEvent.confirmed() is added
-    ''',
+    'emits UserNameState with userHasBeenCreated set true when UserNameEvent.confirmed() is added',
     build: () => userNameBloc,
     setUp: () {
       when(() => mockUserService.createUser(nickname: any(named: 'nickname')))
@@ -85,10 +82,7 @@ void main() {
   );
 
   blocTest<UserNameBloc, UserNameState>(
-    '''
-      emits UserNameState with StateType.error
-        when UserNameEvent.confirmed() is added but user creation error occurred
-    ''',
+    'emits UserNameState with StateType.error when UserNameEvent.confirmed() is added but user creation error occurred',
     build: () => userNameBloc,
     setUp: () {
       when(() => mockUserService.createUser(nickname: any(named: 'nickname')))
@@ -112,10 +106,7 @@ void main() {
   );
 
   blocTest<UserNameBloc, UserNameState>(
-    '''
-      emits UserNameState
-        when UserNameEvent.confirmed() is added but name is empty
-    ''',
+    'emits UserNameState when UserNameEvent.confirmed() is added but name is empty',
     build: () => userNameBloc,
     setUp: () {
       when(() => mockUserService.createUser(nickname: any(named: 'nickname')))

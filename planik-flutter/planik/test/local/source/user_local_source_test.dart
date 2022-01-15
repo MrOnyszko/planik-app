@@ -10,26 +10,39 @@ import 'package:planik/local/source/user_local_source_impl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../mocks.dart';
-import 'local_mocks.dart';
+import '../local_mocks.dart';
 
 void main() {
   group(
     "UserLocalSource",
     () {
-      final MockDates datesMock = MockDates();
-      final MockUserDao userDaoMock = MockUserDao();
-      final MockUserStore userStoreMock = MockUserStore();
-
-      final UserLocalSource userLocalSource = UserLocalSourceImpl(
-        dates: datesMock,
-        userDao: userDaoMock,
-        userStore: userStoreMock,
-        userMapper: UserEntityToModelMapper(),
-      );
+      late MockDates datesMock;
+      late MockUserDao userDaoMock;
+      late MockUserStore userStoreMock;
+      late UserLocalSource userLocalSource;
 
       setUpAll(
         () {
+          datesMock = MockDates();
+          userDaoMock = MockUserDao();
+          userStoreMock = MockUserStore();
+
+          userLocalSource = UserLocalSourceImpl(
+            dates: datesMock,
+            userDao: userDaoMock,
+            userStore: userStoreMock,
+            userMapper: UserEntityToModelMapper(),
+          );
+
           registerFallbackValue(_createUserEntity('', ''));
+        },
+      );
+
+      tearDown(
+        () {
+          reset(datesMock);
+          reset(userDaoMock);
+          reset(userStoreMock);
         },
       );
 
