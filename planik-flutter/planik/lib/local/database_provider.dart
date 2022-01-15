@@ -6,6 +6,6 @@ class DatabaseProvider {
       return $FloorAppDatabase.inMemoryDatabaseBuilder().build();
     }
 
-    return $FloorAppDatabase.databaseBuilder('vocabularily.db').build();
+    return $FloorAppDatabase.databaseBuilder('planik.db').build();
   }
 }
