@@ -9,6 +9,6 @@ class Plan with _$Plan {
     required String name,
     required bool current,
     required DateTime createdAt,
-    required DateTime updatedAt,
+    required DateTime? updatedAt,
   }) = _Plan;
 }

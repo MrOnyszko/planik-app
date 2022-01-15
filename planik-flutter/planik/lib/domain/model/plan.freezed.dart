@@ -22,7 +22,7 @@ class _$PlanTearOff {
       required String name,
       required bool current,
       required DateTime createdAt,
-      required DateTime updatedAt}) {
+      required DateTime? updatedAt}) {
     return _Plan(
       id: id,
       name: name,
@@ -42,7 +42,7 @@ mixin _$Plan {
   String get name => throw _privateConstructorUsedError;
   bool get current => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PlanCopyWith<Plan> get copyWith => throw _privateConstructorUsedError;
@@ -57,7 +57,7 @@ abstract class $PlanCopyWith<$Res> {
       String name,
       bool current,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -96,7 +96,7 @@ class _$PlanCopyWithImpl<$Res> implements $PlanCopyWith<$Res> {
       updatedAt: updatedAt == freezed
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -111,7 +111,7 @@ abstract class _$PlanCopyWith<$Res> implements $PlanCopyWith<$Res> {
       String name,
       bool current,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -151,7 +151,7 @@ class __$PlanCopyWithImpl<$Res> extends _$PlanCopyWithImpl<$Res>
       updatedAt: updatedAt == freezed
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -175,7 +175,7 @@ class _$_Plan implements _Plan {
   @override
   final DateTime createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   @override
   String toString() {
@@ -212,7 +212,7 @@ abstract class _Plan implements Plan {
       required String name,
       required bool current,
       required DateTime createdAt,
-      required DateTime updatedAt}) = _$_Plan;
+      required DateTime? updatedAt}) = _$_Plan;
 
   @override
   int get id;
@@ -223,7 +223,7 @@ abstract class _Plan implements Plan {
   @override
   DateTime get createdAt;
   @override
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$PlanCopyWith<_Plan> get copyWith => throw _privateConstructorUsedError;
