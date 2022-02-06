@@ -1,8 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceAssistant {
-  PreferenceAssistant({required SharedPreferences sharedPreferences})
-      : _sharedPreferences = sharedPreferences;
+  const PreferenceAssistant({
+    required SharedPreferences sharedPreferences,
+  }) : _sharedPreferences = sharedPreferences;
 
   final SharedPreferences _sharedPreferences;
 
@@ -18,9 +19,6 @@ class PreferenceAssistant {
   }
 
   T? read<T>({required String key}) {
-    if (!_sharedPreferences.containsKey(key)) {
-      return null;
-    }
     if (T == String) {
       // ignore: avoid_as
       return _sharedPreferences.getString(key) as T?;

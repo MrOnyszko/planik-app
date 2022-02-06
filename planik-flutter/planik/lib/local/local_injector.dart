@@ -27,10 +27,8 @@ extension LocalInjector on GetIt {
           sharedPreferences: get(),
         ),
       )
-      ..registerFactory<UserStore>(
-        () => UserStore(
-          secureStorage: get(),
-        ),
+      ..registerSingleton<UserStore>(
+        UserStore(preferenceAssistant: get()),
       );
   }
 
