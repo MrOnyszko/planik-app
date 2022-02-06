@@ -27,18 +27,21 @@ class NavigationHubBloc extends Bloc<NavigationHubEvent, NavigationHubState> {
   ) async {
     await event.map(
       started: (_) async {
-        await _userService
+        final newState = await _userService
             .hasUser()
-            .flatMap(
-              (hasUser) => _userService
-                  .hasPlan()
-                  .map((hasPlan) => state.copyWith(hasUser: hasUser, hasPlan: hasPlan)),
-            )
             .match(
-              (_) => emit(state.copyWith(hasError: true)),
-              emit,
+              (_) => state.copyWith(hasError: true),
+              (hasUser) => state.copyWith(hasUser: hasUser),
+            )
+            .flatMap(
+              (upstream) => _userService.hasPlan().match(
+                    (_) => upstream,
+                    (hasPlan) => upstream.copyWith(hasPlan: hasPlan),
+                  ),
             )
             .run();
+
+        emit(newState);
       },
     );
   }

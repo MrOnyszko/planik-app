@@ -16,15 +16,18 @@ void main() {
     'PlanService',
     () {
       late MockPlanLocalSource planLocalSourceMock;
+      late MockUserLocalSource userLocalSourceMock;
       late MockUserStore userStoreMock;
       late PlanService planService;
 
       setUp(
         () {
           planLocalSourceMock = MockPlanLocalSource();
+          userLocalSourceMock = MockUserLocalSource();
           userStoreMock = MockUserStore();
           planService = PlanService(
             planLocalSource: planLocalSourceMock,
+            userLocalSource: userLocalSourceMock,
             userStore: userStoreMock,
           );
         },
@@ -34,6 +37,28 @@ void main() {
         () {
           reset(planLocalSourceMock);
           reset(userStoreMock);
+        },
+      );
+
+      test(
+        'gets plan with success',
+        () async {
+          const userId = 1;
+          final plan = _createFullPlan();
+
+          when(
+            () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
+          ).thenAnswer((_) => TaskEither<GeneralFailure, FullPlan>.right(plan));
+
+          when(() => userStoreMock.getId()).thenReturn(userId);
+
+          final result = await planService.getPlan(id: 1).run();
+
+          verify(
+            () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
+          ).called(1);
+
+          expect(result, Right<GeneralFailure, FullPlan>(plan));
         },
       );
 
@@ -57,6 +82,12 @@ void main() {
 
           when(() => userStoreMock.getId()).thenReturn(userId);
 
+          when(
+            () => userLocalSourceMock.setHasPlan(
+              hasPlan: any(named: 'hasPlan', that: equals(true)),
+            ),
+          ).thenAnswer((invocation) => TaskEither<GeneralFailure, Unit>.right(unit));
+
           final result = await planService.addPlan(name: 'Plan').run();
 
           verify(
@@ -69,6 +100,12 @@ void main() {
 
           verify(
             () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
+          ).called(1);
+
+          verify(
+            () => userLocalSourceMock.setHasPlan(
+              hasPlan: any(named: 'hasPlan', that: equals(true)),
+            ),
           ).called(1);
 
           expect(result, Right<GeneralFailure, FullPlan>(plan));

@@ -24,6 +24,7 @@ Future<void> init() async {
     ..registerFactoryParam<CreatePlanBloc, CreatePlanArgument, void>(
       (argument, _) => CreatePlanBloc(
         argument: argument,
+        planService: injector.get()
       ),
     );
 }

@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:planik/domain/failure/general_failure.dart';
 import 'package:planik/domain/model/day.dart';
+import 'package:planik/domain/model/full_plan.dart';
+import 'package:planik/domain/service/plan_service.dart';
 import 'package:planik/presentation/common/state_type.dart';
 import 'package:planik/presentation/screens/create_plan/create_plan_argument.dart';
 
@@ -16,9 +20,13 @@ part 'create_plan_state.dart';
 class CreatePlanBloc extends Bloc<CreatePlanEvent, CreatePlanState> {
   CreatePlanBloc({
     required CreatePlanArgument argument,
-  }) : super(CreatePlanState.initial(argument: argument)) {
+    required PlanService planService,
+  })  : _planService = planService,
+        super(CreatePlanState.initial(argument: argument)) {
     on<CreatePlanEvent>(handler, transformer: sequential());
   }
+
+  final PlanService _planService;
 
   Future<void> handler(
     CreatePlanEvent event,
@@ -26,8 +34,26 @@ class CreatePlanBloc extends Bloc<CreatePlanEvent, CreatePlanState> {
   ) async {
     await event.map(
       started: (_) async {
-        emit(state.copyWith(type: StateType.loaded));
+        emit(state.copyWith(type: StateType.loading));
+        emit(await _loadOrCreate());
       },
     );
+  }
+
+  Future<CreatePlanState> _loadOrCreate() {
+    TaskEither<GeneralFailure, FullPlan> loadOrCreate;
+
+    if (state.argument.id != null) {
+      loadOrCreate = _planService.getPlan(id: state.argument.id);
+    } else {
+      loadOrCreate = _planService.addPlan();
+    }
+
+    return loadOrCreate
+        .match(
+          (l) => state.copyWith(type: StateType.error),
+          (fullPlan) => state.copyWith(type: StateType.loaded, days: fullPlan.days),
+        )
+        .run();
   }
 }

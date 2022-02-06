@@ -12,6 +12,7 @@ extension DomainInjector on GetIt {
       ..registerFactory(
         () => PlanService(
           planLocalSource: get(),
+          userLocalSource: get(),
           userStore: get(),
         ),
       );

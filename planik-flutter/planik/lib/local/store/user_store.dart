@@ -32,6 +32,6 @@ class UserStore {
   }
 
   Future<void> putHasPlan({required bool hasPlan}) async {
-    await _secureStorage.write(key: _keyId, value: hasPlan);
+    await _secureStorage.write(key: _keyHasPlan, value: hasPlan);
   }
 }
