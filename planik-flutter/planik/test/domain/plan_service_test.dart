@@ -8,7 +8,6 @@ import 'package:planik/domain/model/full_plan.dart';
 import 'package:planik/domain/model/plan.dart';
 import 'package:planik/domain/service/plan_service.dart';
 
-import '../local/local_mocks.dart';
 import 'domain_mocks.dart';
 
 void main() {
@@ -17,18 +16,15 @@ void main() {
     () {
       late MockPlanLocalSource planLocalSourceMock;
       late MockUserLocalSource userLocalSourceMock;
-      late MockUserStore userStoreMock;
       late PlanService planService;
 
       setUp(
         () {
           planLocalSourceMock = MockPlanLocalSource();
           userLocalSourceMock = MockUserLocalSource();
-          userStoreMock = MockUserStore();
           planService = PlanService(
             planLocalSource: planLocalSourceMock,
             userLocalSource: userLocalSourceMock,
-            userStore: userStoreMock,
           );
         },
       );
@@ -36,7 +32,29 @@ void main() {
       tearDown(
         () {
           reset(planLocalSourceMock);
-          reset(userStoreMock);
+          reset(userLocalSourceMock);
+        },
+      );
+
+      test(
+        'gets current plan with success',
+        () async {
+          final fullPlan = _createFullPlan();
+
+          when(
+            () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(fullPlan.plan.id))),
+          ).thenAnswer((_) => TaskEither<GeneralFailure, FullPlan>.right(fullPlan));
+
+          when(() => userLocalSourceMock.currentPlanId())
+              .thenAnswer((invocation) => TaskEither<GeneralFailure, int>.right(fullPlan.plan.id));
+
+          final result = await planService.getCurrentPlan().run();
+
+          verify(
+            () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(fullPlan.plan.id))),
+          ).called(1);
+
+          expect(result, Right<GeneralFailure, FullPlan>(fullPlan));
         },
       );
 
@@ -50,7 +68,8 @@ void main() {
             () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
           ).thenAnswer((_) => TaskEither<GeneralFailure, FullPlan>.right(plan));
 
-          when(() => userStoreMock.getId()).thenReturn(userId);
+          when(() => userLocalSourceMock.currentUserId())
+              .thenAnswer((invocation) => TaskEither<GeneralFailure, int>.right(userId));
 
           final result = await planService.getPlan(id: 1).run();
 
@@ -66,7 +85,7 @@ void main() {
         'adds plan with success',
         () async {
           const userId = 1;
-          final plan = _createFullPlan();
+          final fullPlan = _createFullPlan();
 
           when(
             () => planLocalSourceMock.createPlan(
@@ -78,9 +97,16 @@ void main() {
 
           when(
             () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
-          ).thenAnswer((_) => TaskEither<GeneralFailure, FullPlan>.right(plan));
+          ).thenAnswer((_) => TaskEither<GeneralFailure, FullPlan>.right(fullPlan));
 
-          when(() => userStoreMock.getId()).thenReturn(userId);
+          when(() => userLocalSourceMock.currentUserId())
+              .thenAnswer((invocation) => TaskEither<GeneralFailure, int>.right(userId));
+
+          when(
+            () => userLocalSourceMock.setCurrentPlanId(
+              id: any(named: 'id', that: equals(fullPlan.plan.id)),
+            ),
+          ).thenAnswer((invocation) => TaskEither<GeneralFailure, int>.right(fullPlan.plan.id));
 
           when(
             () => userLocalSourceMock.setHasPlan(
@@ -99,6 +125,12 @@ void main() {
           ).called(1);
 
           verify(
+            () => userLocalSourceMock.setCurrentPlanId(
+              id: any(named: 'id', that: equals(fullPlan.plan.id)),
+            ),
+          ).called(1);
+
+          verify(
             () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
           ).called(1);
 
@@ -108,7 +140,7 @@ void main() {
             ),
           ).called(1);
 
-          expect(result, Right<GeneralFailure, FullPlan>(plan));
+          expect(result, Right<GeneralFailure, FullPlan>(fullPlan));
         },
       );
     },

@@ -31,7 +31,7 @@ dependencies:
   # https://pub.dev/packages/bloc_concurrency
   bloc_concurrency: 0.2.0
   # https://pub.dev/packages/freezed_annotation
-  freezed_annotation: 1.1.0
+  freezed_annotation: 0.15.0
   # https://pub.dev/packages/get_it
   get_it: 7.2.0
   # https://pub.dev/packages/adaptive_theme
@@ -52,18 +52,15 @@ dev_dependencies:
   # https://pub.dev/packages/floor_generator
   floor_generator: 1.2.0
   # https://pub.dev/packages/analyzer
-  analyzer: 3.2.0
+  analyzer: 2.5.0
   # https://pub.dev/packages/bloc_test
   bloc_test: 9.0.2
   # https://pub.dev/packages/build_runner
   build_runner: 2.1.7
   # https://pub.dev/packages/freezed
-  freezed: 1.1.1
+  freezed: 0.15.0+1
   # https://pub.dev/packages/mocktail
   mocktail: 0.2.0
 
 flutter:
   uses-material-design: true
-
-dependency_overrides:
-  analyzer: 3.2.0

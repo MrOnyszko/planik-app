@@ -40,6 +40,32 @@ class UserLocalSourceImpl implements UserLocalSource {
   }
 
   @override
+  TaskEither<GeneralFailure, int> currentPlanId() {
+    return tryCatchE<GeneralFailure, int>(
+      () async {
+        final id = _userStore.getCurrentPlanId();
+        if (id != null) {
+          return right(id);
+        } else {
+          return left(GeneralFailure.notFound);
+        }
+      },
+      (error, stackTrace) => GeneralFailure.fatal,
+    );
+  }
+
+  @override
+  TaskEither<GeneralFailure, int> setCurrentPlanId({required int id}) {
+    return tryCatchE<GeneralFailure, int>(
+      () async {
+        await _userStore.putCurrentPlanId(id: id);
+        return right(id);
+      },
+      (error, stackTrace) => GeneralFailure.fatal,
+    );
+  }
+
+  @override
   TaskEither<GeneralFailure, bool> hasPlan() {
     return TaskEither<GeneralFailure, bool>.tryCatch(
       () async => _userStore.getHasPlan(),

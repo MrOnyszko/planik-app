@@ -7,6 +7,7 @@ class UserStore {
 
   static const String _keyUid = 'uid';
   static const String _keyId = 'id';
+  static const String _keyCurrentPlanId = 'current_plan_id';
   static const String _keyHasPlan = 'has_plan';
 
   final PreferenceAssistant _preferenceAssistant;
@@ -33,5 +34,13 @@ class UserStore {
 
   Future<void> putHasPlan({required bool hasPlan}) async {
     await _preferenceAssistant.write(key: _keyHasPlan, value: hasPlan);
+  }
+
+  int? getCurrentPlanId() {
+    return _preferenceAssistant.read<int>(key: _keyCurrentPlanId);
+  }
+
+  Future<void> putCurrentPlanId({required int id}) async {
+    await _preferenceAssistant.write(key: _keyCurrentPlanId, value: id);
   }
 }

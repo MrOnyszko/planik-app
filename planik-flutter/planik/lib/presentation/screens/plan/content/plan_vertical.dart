@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:planik/domain/model/day.dart';
 import 'package:planik/presentation/common/dimen.dart';
+import 'package:planik/presentation/common/extensions.dart';
 import 'package:planik/presentation/screens/plan/content/day_entries_list.dart';
 import 'package:planik/presentation/screens/plan/content/day_entries_sticky_header_list.dart';
 
@@ -23,6 +25,9 @@ class PlanVertical extends StatelessWidget {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: context.theme.colorScheme.primary,
+          ),
           pinned: true,
           centerTitle: false,
           elevation: 0,

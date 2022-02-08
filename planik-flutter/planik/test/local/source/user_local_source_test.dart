@@ -10,6 +10,7 @@ import 'package:planik/local/source/user_local_source_impl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../mocks.dart';
+import '../dao/day_entry_dao_test.dart';
 import '../local_mocks.dart';
 
 void main() {
@@ -21,7 +22,7 @@ void main() {
       late MockUserStore userStoreMock;
       late UserLocalSource userLocalSource;
 
-      setUpAll(
+      setUp(
         () {
           datesMock = MockDates();
           userDaoMock = MockUserDao();
@@ -72,6 +73,32 @@ void main() {
           final failure = result.getLeft().getOrElse(() => GeneralFailure.fatal);
 
           expect(failure, GeneralFailure.notFound);
+          expect(result.isLeft(), true);
+        },
+      );
+
+      test(
+        'gets current plan id with success',
+        () async {
+          const planId = 1;
+          when(userStoreMock.getCurrentPlanId).thenAnswer((_) => planId);
+
+          final result = await userLocalSource.currentPlanId().run();
+
+          expect(result, const Right<GeneralFailure, int>(planId));
+          expect(result.isRight(), true);
+        },
+      );
+
+      test(
+        'do not get current user id with success',
+        () async {
+          const planId = null;
+          when(userStoreMock.getCurrentPlanId).thenAnswer((_) => planId);
+
+          final result = await userLocalSource.currentPlanId().run();
+
+          expect(result, const Left<GeneralFailure, int>(GeneralFailure.notFound));
           expect(result.isLeft(), true);
         },
       );

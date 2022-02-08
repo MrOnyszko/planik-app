@@ -9,22 +9,17 @@ class PlanService {
   const PlanService({
     required PlanLocalSource planLocalSource,
     required UserLocalSource userLocalSource,
-    required UserStore userStore,
   })  : _planLocalSource = planLocalSource,
-        _userLocalSource = userLocalSource,
-        _userStore = userStore;
+        _userLocalSource = userLocalSource;
 
   final PlanLocalSource _planLocalSource;
   final UserLocalSource _userLocalSource;
-  final UserStore _userStore;
 
-  TaskEither<GeneralFailure, FullPlan> getPlan({
-    required id,
-  }) {
-    final userId = _userStore.getId();
-    if (userId == null) {
-      return TaskEither<GeneralFailure, FullPlan>.left(GeneralFailure.notFound);
-    }
+  TaskEither<GeneralFailure, FullPlan> getCurrentPlan() {
+    return _userLocalSource.currentPlanId().flatMap((it) => _planLocalSource.getPlan(id: it));
+  }
+
+  TaskEither<GeneralFailure, FullPlan> getPlan({required id}) {
     return _planLocalSource.getPlan(id: id);
   }
 
@@ -32,16 +27,17 @@ class PlanService {
     String name = "",
     bool current = true,
   }) {
-    final userId = _userStore.getId();
-    if (userId == null) {
-      return TaskEither<GeneralFailure, FullPlan>.left(GeneralFailure.notFound);
-    }
-
-    return _planLocalSource
-        .createPlan(userId: userId, name: name, current: current)
-        .flatMap((id) => _planLocalSource.getPlan(id: id))
-        .flatMap(
-          (fullPlan) => _userLocalSource.setHasPlan(hasPlan: true).map((_) => fullPlan),
+    return _userLocalSource.currentUserId().flatMap(
+          (currentUserId) => _planLocalSource
+              .createPlan(userId: currentUserId, name: name, current: current)
+              .flatMap((id) => _planLocalSource.getPlan(id: id))
+              .flatMap(
+                (fullPlan) => _userLocalSource.setHasPlan(hasPlan: true).map((_) => fullPlan),
+              )
+              .flatMap(
+                (fullPlan) =>
+                    _userLocalSource.setCurrentPlanId(id: fullPlan.plan.id).map((_) => fullPlan),
+              ),
         );
   }
 }

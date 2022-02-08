@@ -5,6 +5,10 @@ import 'package:planik/domain/model/user.dart';
 abstract class UserLocalSource {
   TaskEither<GeneralFailure, int> currentUserId();
 
+  TaskEither<GeneralFailure, int> currentPlanId();
+
+  TaskEither<GeneralFailure, int> setCurrentPlanId({required int id});
+
   TaskEither<GeneralFailure, bool> hasUser();
 
   TaskEither<GeneralFailure, bool> hasPlan();

@@ -13,7 +13,6 @@ extension DomainInjector on GetIt {
         () => PlanService(
           planLocalSource: get(),
           userLocalSource: get(),
-          userStore: get(),
         ),
       );
   }
