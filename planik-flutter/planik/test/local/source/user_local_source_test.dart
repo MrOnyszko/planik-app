@@ -10,7 +10,6 @@ import 'package:planik/local/source/user_local_source_impl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../mocks.dart';
-import '../dao/day_entry_dao_test.dart';
 import '../local_mocks.dart';
 
 void main() {

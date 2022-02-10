@@ -3,7 +3,6 @@ import 'package:planik/domain/failure/general_failure.dart';
 import 'package:planik/domain/model/full_plan.dart';
 import 'package:planik/domain/source/plan_local_source.dart';
 import 'package:planik/domain/source/user_local_source.dart';
-import 'package:planik/local/store/user_store.dart';
 
 class PlanService {
   const PlanService({

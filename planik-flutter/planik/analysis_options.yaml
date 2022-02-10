@@ -118,3 +118,5 @@ analyzer:
     - "**/messages_*.dart"
     - "**/*.template.dart"
     - "generated_plugin_registrant.dart"
+    - "lib/presentation/l10n/translations.dart"
+    - "lib/presentation/l10n/translations_en.dart"

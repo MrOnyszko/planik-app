@@ -55,7 +55,7 @@ extension LocalInjector on GetIt {
 
   void _registerMappers() {
     this
-      ..registerFactory(() => UserEntityToModelMapper())
+      ..registerFactory(UserEntityToModelMapper.new)
       ..registerFactory(() => const PlanEntityToModelMapper())
       ..registerFactory(() => const PlayDayEntryEntityToModelMapper());
   }
