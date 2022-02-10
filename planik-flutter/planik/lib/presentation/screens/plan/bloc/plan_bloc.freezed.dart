@@ -20,6 +20,14 @@ class _$PlanEventTearOff {
   _PlanStarted started() {
     return const _PlanStarted();
   }
+
+  _PlanTodayRequested todayRequested() {
+    return const _PlanTodayRequested();
+  }
+
+  _PlanToggleViewTypeRequested toggleViewTypeRequested() {
+    return const _PlanToggleViewTypeRequested();
+  }
 }
 
 /// @nodoc
@@ -30,32 +38,47 @@ mixin _$PlanEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function() todayRequested,
+    required TResult Function() toggleViewTypeRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? todayRequested,
+    TResult Function()? toggleViewTypeRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? todayRequested,
+    TResult Function()? toggleViewTypeRequested,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PlanStarted value) started,
+    required TResult Function(_PlanTodayRequested value) todayRequested,
+    required TResult Function(_PlanToggleViewTypeRequested value)
+        toggleViewTypeRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_PlanStarted value)? started,
+    TResult Function(_PlanTodayRequested value)? todayRequested,
+    TResult Function(_PlanToggleViewTypeRequested value)?
+        toggleViewTypeRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PlanStarted value)? started,
+    TResult Function(_PlanTodayRequested value)? todayRequested,
+    TResult Function(_PlanToggleViewTypeRequested value)?
+        toggleViewTypeRequested,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -117,6 +140,8 @@ class _$_PlanStarted implements _PlanStarted {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function() todayRequested,
+    required TResult Function() toggleViewTypeRequested,
   }) {
     return started();
   }
@@ -125,6 +150,8 @@ class _$_PlanStarted implements _PlanStarted {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? todayRequested,
+    TResult Function()? toggleViewTypeRequested,
   }) {
     return started?.call();
   }
@@ -133,6 +160,8 @@ class _$_PlanStarted implements _PlanStarted {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function()? todayRequested,
+    TResult Function()? toggleViewTypeRequested,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -145,6 +174,9 @@ class _$_PlanStarted implements _PlanStarted {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PlanStarted value) started,
+    required TResult Function(_PlanTodayRequested value) todayRequested,
+    required TResult Function(_PlanToggleViewTypeRequested value)
+        toggleViewTypeRequested,
   }) {
     return started(this);
   }
@@ -153,6 +185,9 @@ class _$_PlanStarted implements _PlanStarted {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_PlanStarted value)? started,
+    TResult Function(_PlanTodayRequested value)? todayRequested,
+    TResult Function(_PlanToggleViewTypeRequested value)?
+        toggleViewTypeRequested,
   }) {
     return started?.call(this);
   }
@@ -161,6 +196,9 @@ class _$_PlanStarted implements _PlanStarted {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PlanStarted value)? started,
+    TResult Function(_PlanTodayRequested value)? todayRequested,
+    TResult Function(_PlanToggleViewTypeRequested value)?
+        toggleViewTypeRequested,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -175,17 +213,251 @@ abstract class _PlanStarted implements PlanEvent {
 }
 
 /// @nodoc
+abstract class _$PlanTodayRequestedCopyWith<$Res> {
+  factory _$PlanTodayRequestedCopyWith(
+          _PlanTodayRequested value, $Res Function(_PlanTodayRequested) then) =
+      __$PlanTodayRequestedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$PlanTodayRequestedCopyWithImpl<$Res>
+    extends _$PlanEventCopyWithImpl<$Res>
+    implements _$PlanTodayRequestedCopyWith<$Res> {
+  __$PlanTodayRequestedCopyWithImpl(
+      _PlanTodayRequested _value, $Res Function(_PlanTodayRequested) _then)
+      : super(_value, (v) => _then(v as _PlanTodayRequested));
+
+  @override
+  _PlanTodayRequested get _value => super._value as _PlanTodayRequested;
+}
+
+/// @nodoc
+
+class _$_PlanTodayRequested implements _PlanTodayRequested {
+  const _$_PlanTodayRequested();
+
+  @override
+  String toString() {
+    return 'PlanEvent.todayRequested()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _PlanTodayRequested);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() todayRequested,
+    required TResult Function() toggleViewTypeRequested,
+  }) {
+    return todayRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? todayRequested,
+    TResult Function()? toggleViewTypeRequested,
+  }) {
+    return todayRequested?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? todayRequested,
+    TResult Function()? toggleViewTypeRequested,
+    required TResult orElse(),
+  }) {
+    if (todayRequested != null) {
+      return todayRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PlanStarted value) started,
+    required TResult Function(_PlanTodayRequested value) todayRequested,
+    required TResult Function(_PlanToggleViewTypeRequested value)
+        toggleViewTypeRequested,
+  }) {
+    return todayRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_PlanStarted value)? started,
+    TResult Function(_PlanTodayRequested value)? todayRequested,
+    TResult Function(_PlanToggleViewTypeRequested value)?
+        toggleViewTypeRequested,
+  }) {
+    return todayRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PlanStarted value)? started,
+    TResult Function(_PlanTodayRequested value)? todayRequested,
+    TResult Function(_PlanToggleViewTypeRequested value)?
+        toggleViewTypeRequested,
+    required TResult orElse(),
+  }) {
+    if (todayRequested != null) {
+      return todayRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PlanTodayRequested implements PlanEvent {
+  const factory _PlanTodayRequested() = _$_PlanTodayRequested;
+}
+
+/// @nodoc
+abstract class _$PlanToggleViewTypeRequestedCopyWith<$Res> {
+  factory _$PlanToggleViewTypeRequestedCopyWith(
+          _PlanToggleViewTypeRequested value,
+          $Res Function(_PlanToggleViewTypeRequested) then) =
+      __$PlanToggleViewTypeRequestedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$PlanToggleViewTypeRequestedCopyWithImpl<$Res>
+    extends _$PlanEventCopyWithImpl<$Res>
+    implements _$PlanToggleViewTypeRequestedCopyWith<$Res> {
+  __$PlanToggleViewTypeRequestedCopyWithImpl(
+      _PlanToggleViewTypeRequested _value,
+      $Res Function(_PlanToggleViewTypeRequested) _then)
+      : super(_value, (v) => _then(v as _PlanToggleViewTypeRequested));
+
+  @override
+  _PlanToggleViewTypeRequested get _value =>
+      super._value as _PlanToggleViewTypeRequested;
+}
+
+/// @nodoc
+
+class _$_PlanToggleViewTypeRequested implements _PlanToggleViewTypeRequested {
+  const _$_PlanToggleViewTypeRequested();
+
+  @override
+  String toString() {
+    return 'PlanEvent.toggleViewTypeRequested()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _PlanToggleViewTypeRequested);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() todayRequested,
+    required TResult Function() toggleViewTypeRequested,
+  }) {
+    return toggleViewTypeRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? todayRequested,
+    TResult Function()? toggleViewTypeRequested,
+  }) {
+    return toggleViewTypeRequested?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? todayRequested,
+    TResult Function()? toggleViewTypeRequested,
+    required TResult orElse(),
+  }) {
+    if (toggleViewTypeRequested != null) {
+      return toggleViewTypeRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PlanStarted value) started,
+    required TResult Function(_PlanTodayRequested value) todayRequested,
+    required TResult Function(_PlanToggleViewTypeRequested value)
+        toggleViewTypeRequested,
+  }) {
+    return toggleViewTypeRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_PlanStarted value)? started,
+    TResult Function(_PlanTodayRequested value)? todayRequested,
+    TResult Function(_PlanToggleViewTypeRequested value)?
+        toggleViewTypeRequested,
+  }) {
+    return toggleViewTypeRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PlanStarted value)? started,
+    TResult Function(_PlanTodayRequested value)? todayRequested,
+    TResult Function(_PlanToggleViewTypeRequested value)?
+        toggleViewTypeRequested,
+    required TResult orElse(),
+  }) {
+    if (toggleViewTypeRequested != null) {
+      return toggleViewTypeRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PlanToggleViewTypeRequested implements PlanEvent {
+  const factory _PlanToggleViewTypeRequested() = _$_PlanToggleViewTypeRequested;
+}
+
+/// @nodoc
 class _$PlanStateTearOff {
   const _$PlanStateTearOff();
 
   _PlanState call(
       {required StateType type,
       required PlanArgument argument,
+      required int? indexOfToday,
       bool isVertical = true,
       List<Day> days = const <Day>[]}) {
     return _PlanState(
       type: type,
       argument: argument,
+      indexOfToday: indexOfToday,
       isVertical: isVertical,
       days: days,
     );
@@ -199,6 +471,7 @@ const $PlanState = _$PlanStateTearOff();
 mixin _$PlanState {
   StateType get type => throw _privateConstructorUsedError;
   PlanArgument get argument => throw _privateConstructorUsedError;
+  int? get indexOfToday => throw _privateConstructorUsedError;
   bool get isVertical => throw _privateConstructorUsedError;
   List<Day> get days => throw _privateConstructorUsedError;
 
@@ -212,7 +485,11 @@ abstract class $PlanStateCopyWith<$Res> {
   factory $PlanStateCopyWith(PlanState value, $Res Function(PlanState) then) =
       _$PlanStateCopyWithImpl<$Res>;
   $Res call(
-      {StateType type, PlanArgument argument, bool isVertical, List<Day> days});
+      {StateType type,
+      PlanArgument argument,
+      int? indexOfToday,
+      bool isVertical,
+      List<Day> days});
 }
 
 /// @nodoc
@@ -227,6 +504,7 @@ class _$PlanStateCopyWithImpl<$Res> implements $PlanStateCopyWith<$Res> {
   $Res call({
     Object? type = freezed,
     Object? argument = freezed,
+    Object? indexOfToday = freezed,
     Object? isVertical = freezed,
     Object? days = freezed,
   }) {
@@ -239,6 +517,10 @@ class _$PlanStateCopyWithImpl<$Res> implements $PlanStateCopyWith<$Res> {
           ? _value.argument
           : argument // ignore: cast_nullable_to_non_nullable
               as PlanArgument,
+      indexOfToday: indexOfToday == freezed
+          ? _value.indexOfToday
+          : indexOfToday // ignore: cast_nullable_to_non_nullable
+              as int?,
       isVertical: isVertical == freezed
           ? _value.isVertical
           : isVertical // ignore: cast_nullable_to_non_nullable
@@ -258,7 +540,11 @@ abstract class _$PlanStateCopyWith<$Res> implements $PlanStateCopyWith<$Res> {
       __$PlanStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {StateType type, PlanArgument argument, bool isVertical, List<Day> days});
+      {StateType type,
+      PlanArgument argument,
+      int? indexOfToday,
+      bool isVertical,
+      List<Day> days});
 }
 
 /// @nodoc
@@ -274,6 +560,7 @@ class __$PlanStateCopyWithImpl<$Res> extends _$PlanStateCopyWithImpl<$Res>
   $Res call({
     Object? type = freezed,
     Object? argument = freezed,
+    Object? indexOfToday = freezed,
     Object? isVertical = freezed,
     Object? days = freezed,
   }) {
@@ -286,6 +573,10 @@ class __$PlanStateCopyWithImpl<$Res> extends _$PlanStateCopyWithImpl<$Res>
           ? _value.argument
           : argument // ignore: cast_nullable_to_non_nullable
               as PlanArgument,
+      indexOfToday: indexOfToday == freezed
+          ? _value.indexOfToday
+          : indexOfToday // ignore: cast_nullable_to_non_nullable
+              as int?,
       isVertical: isVertical == freezed
           ? _value.isVertical
           : isVertical // ignore: cast_nullable_to_non_nullable
@@ -304,6 +595,7 @@ class _$_PlanState implements _PlanState {
   const _$_PlanState(
       {required this.type,
       required this.argument,
+      required this.indexOfToday,
       this.isVertical = true,
       this.days = const <Day>[]});
 
@@ -311,6 +603,8 @@ class _$_PlanState implements _PlanState {
   final StateType type;
   @override
   final PlanArgument argument;
+  @override
+  final int? indexOfToday;
   @JsonKey(defaultValue: true)
   @override
   final bool isVertical;
@@ -320,7 +614,7 @@ class _$_PlanState implements _PlanState {
 
   @override
   String toString() {
-    return 'PlanState(type: $type, argument: $argument, isVertical: $isVertical, days: $days)';
+    return 'PlanState(type: $type, argument: $argument, indexOfToday: $indexOfToday, isVertical: $isVertical, days: $days)';
   }
 
   @override
@@ -331,14 +625,16 @@ class _$_PlanState implements _PlanState {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.argument, argument) ||
                 other.argument == argument) &&
+            (identical(other.indexOfToday, indexOfToday) ||
+                other.indexOfToday == indexOfToday) &&
             (identical(other.isVertical, isVertical) ||
                 other.isVertical == isVertical) &&
             const DeepCollectionEquality().equals(other.days, days));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, type, argument, isVertical,
-      const DeepCollectionEquality().hash(days));
+  int get hashCode => Object.hash(runtimeType, type, argument, indexOfToday,
+      isVertical, const DeepCollectionEquality().hash(days));
 
   @JsonKey(ignore: true)
   @override
@@ -350,6 +646,7 @@ abstract class _PlanState implements PlanState {
   const factory _PlanState(
       {required StateType type,
       required PlanArgument argument,
+      required int? indexOfToday,
       bool isVertical,
       List<Day> days}) = _$_PlanState;
 
@@ -357,6 +654,8 @@ abstract class _PlanState implements PlanState {
   StateType get type;
   @override
   PlanArgument get argument;
+  @override
+  int? get indexOfToday;
   @override
   bool get isVertical;
   @override

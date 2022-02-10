@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:planik/domain/model/day.dart';
 import 'package:planik/presentation/common/dimen.dart';
 import 'package:planik/presentation/common/extensions.dart';
@@ -12,6 +11,7 @@ class PlanVertical extends StatelessWidget {
     required this.days,
     required this.appBarActions,
     this.onItemTap,
+    this.scrollController,
     Key? key,
   }) : super(key: key);
 
@@ -19,15 +19,14 @@ class PlanVertical extends StatelessWidget {
   final List<Day> days;
   final List<Widget> appBarActions;
   final OnItemTap? onItemTap;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: scrollController,
       slivers: <Widget>[
         SliverAppBar(
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: context.theme.colorScheme.primary,
-          ),
           pinned: true,
           centerTitle: false,
           elevation: 0,
@@ -37,7 +36,7 @@ class PlanVertical extends StatelessWidget {
               left: Insets.xLarge,
               bottom: Insets.large,
             ),
-            title: Text(title),
+            title: Text(title, style: context.theme.appBarTheme.titleTextStyle),
           ),
         ),
         ...days

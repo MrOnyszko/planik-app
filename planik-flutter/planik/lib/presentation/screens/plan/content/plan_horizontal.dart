@@ -15,7 +15,8 @@ class PlanHorizontal extends StatefulWidget {
     this.onTabChange,
     this.onItemTap,
     this.automaticallyImplyLeading = true,
-    this.toolbarHeight = kToolbarHeight,
+    this.toolbarHeight,
+    this.tabChangeNotifier,
     Key? key,
   }) : super(key: key);
 
@@ -25,7 +26,8 @@ class PlanHorizontal extends StatefulWidget {
   final OnTabChangeCallback? onTabChange;
   final OnItemTap? onItemTap;
   final bool automaticallyImplyLeading;
-  final double toolbarHeight;
+  final double? toolbarHeight;
+  final ValueNotifier<int>? tabChangeNotifier;
 
   @override
   _PlanHorizontalState createState() => _PlanHorizontalState();
@@ -39,10 +41,31 @@ class _PlanHorizontalState extends State<PlanHorizontal> with SingleTickerProvid
     super.initState();
     _tabController = TabController(vsync: this, length: widget.days.length);
     if (widget.onTabChange != null) {
-      _tabController.addListener(() {
-        widget.onTabChange!(_tabController.index);
-      });
+      _tabController.addListener(
+        () {
+          widget.onTabChange!(_tabController.index);
+        },
+      );
     }
+
+    final tabChangeNotifier = widget.tabChangeNotifier;
+    if (tabChangeNotifier != null) {
+      tabChangeNotifier.addListener(
+        () {
+          _tabController.animateTo(
+            tabChangeNotifier.value,
+            duration: kThemeAnimationDuration,
+            curve: Curves.fastOutSlowIn,
+          );
+        },
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -53,19 +76,17 @@ class _PlanHorizontalState extends State<PlanHorizontal> with SingleTickerProvid
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverAppBar(
-              systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: context.theme.colorScheme.primary,
-              ),
               pinned: true,
               centerTitle: false,
               elevation: 0,
               automaticallyImplyLeading: widget.automaticallyImplyLeading,
               actions: widget.appBarActions,
-              toolbarHeight: widget.toolbarHeight,
+              toolbarHeight: widget.toolbarHeight ?? kToolbarHeight,
               title: SizedBox(
                 height: widget.toolbarHeight,
                 child: widget.title,
               ),
+              titleSpacing: Insets.xLarge,
               forceElevated: innerBoxIsScrolled,
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(50),

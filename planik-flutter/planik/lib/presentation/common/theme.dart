@@ -177,7 +177,7 @@ class AppTheme {
         backgroundColor: palette.backgroundColor,
         brightness: palette.brightness,
       ).copyWith(
-        secondaryVariant: palette.accentColor,
+        secondaryContainer: palette.accentColor,
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       primaryTextTheme: _textThemeHandset.apply(
@@ -191,9 +191,6 @@ class AppTheme {
       canvasColor: palette.backgroundColor,
       backgroundColor: palette.backgroundColor,
       scaffoldBackgroundColor: palette.backgroundColor,
-      appBarTheme: const AppBarTheme(
-        centerTitle: false,
-      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedIconTheme: IconThemeData(color: palette.accentColor),
         unselectedIconTheme: IconThemeData(color: palette.primaryColor),
@@ -207,6 +204,13 @@ class AppTheme {
       ),
     );
     return theme.copyWith(
+      appBarTheme: theme.appBarTheme.copyWith(
+        centerTitle: false,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: theme.colorScheme.primary,
+        ),
+        titleTextStyle: theme.textTheme.titleLarge!.copyWith(color: theme.colorScheme.onPrimary),
+      ),
       tabBarTheme: TabBarTheme(
         labelColor: palette.primaryTextBodyColor,
         indicator: UnderlineTabIndicator(

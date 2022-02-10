@@ -30,6 +30,7 @@ Future<void> init() async {
       (argument, _) => PlanBloc(
         argument: argument,
         planService: injector.get(),
+        dates: injector.get(),
       ),
     );
 }

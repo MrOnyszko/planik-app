@@ -9,29 +9,80 @@ import 'package:planik/presentation/widgets/empty_page_widget.dart';
 import 'package:planik/presentation/widgets/error_page_widget.dart';
 import 'package:planik/presentation/widgets/loading_page_widget.dart';
 
-class PlanScreen extends StatelessWidget {
+class PlanScreen extends StatefulWidget {
   static const String routeName = '/plan';
 
-  const PlanScreen({Key? key}) : super(key: key);
+  const PlanScreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<PlanScreen> createState() => _PlanScreenState();
+}
+
+class _PlanScreenState extends State<PlanScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final ValueNotifier<int> _tabChangeNotifier = ValueNotifier(0);
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<PlanBloc, PlanState>(
+      body: BlocConsumer<PlanBloc, PlanState>(
+        listener: (context, state) {
+          if (state.indexOfToday != null) {
+            if (state.isVertical) {
+              _scrollController.animateTo(
+                state.indexOfToday! * 100,
+                duration: kThemeAnimationDuration,
+                curve: Curves.fastOutSlowIn,
+              );
+            } else {
+              _tabChangeNotifier.value = state.indexOfToday!;
+            }
+          }
+        },
         builder: (context, state) {
           return state.type.map(
             loading: () => const LoadingPage(),
             loaded: () {
+              final appBarActions = [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.list),
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.read<PlanBloc>().add(const PlanEvent.todayRequested());
+                  },
+                  icon: const Icon(Icons.today),
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.read<PlanBloc>().add(const PlanEvent.toggleViewTypeRequested());
+                  },
+                  icon: Icon(state.isVertical ? Icons.toggle_off : Icons.toggle_on),
+                ),
+              ];
+
               if (state.isVertical) {
                 return PlanVertical(
+                  scrollController: _scrollController,
                   title: context.strings.appTitle,
                   days: state.days,
-                  appBarActions: const [],
+                  appBarActions: appBarActions,
                 );
               } else {
                 return PlanHorizontal(
                   title: Text(context.strings.appTitle),
                   days: state.days,
+                  appBarActions: appBarActions,
+                  tabChangeNotifier: _tabChangeNotifier,
                 );
               }
             },
