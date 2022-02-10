@@ -1,0 +1,1 @@
+rm -rf ./test/real_coverage_test.dart

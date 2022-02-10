@@ -400,3 +400,4 @@ coverage/
 l10n
 
 /.fvm/flutter_sdk/
+/test/real_coverage_test.dart
