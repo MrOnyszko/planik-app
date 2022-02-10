@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:planik/domain/failure/general_failure.dart';
-import 'package:planik/presentation/navigation_hub/bloc/navigation_hub_bloc.dart';
+import 'package:planik/presentation/components/navigation_hub/bloc/navigation_hub_bloc.dart';
 
 import '../presentation_mocks.dart';
 

@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:planik/domain/domain_injector.dart';
 import 'package:planik/foundation/foundation.dart';
-import 'package:planik/presentation/navigation_hub/bloc/navigation_hub_bloc.dart';
+import 'package:planik/presentation/components/navigation_hub/bloc/navigation_hub_bloc.dart';
 import 'package:planik/presentation/screens/create_plan/bloc/create_plan_bloc.dart';
 import 'package:planik/presentation/screens/create_plan/create_plan_argument.dart';
 import 'package:planik/presentation/screens/plan/bloc/plan_bloc.dart';

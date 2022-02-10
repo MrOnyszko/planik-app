@@ -2,10 +2,10 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planik/presentation/common/theme.dart';
+import 'package:planik/presentation/components/navigation_hub/bloc/navigation_hub_bloc.dart';
+import 'package:planik/presentation/components/navigation_hub/navigation_hub.dart';
 import 'package:planik/presentation/injector_container.dart';
 import 'package:planik/presentation/l10n/translations.dart';
-import 'package:planik/presentation/navigation_hub/bloc/navigation_hub_bloc.dart';
-import 'package:planik/presentation/navigation_hub/navigation_hub.dart';
 import 'package:planik/presentation/router/app_route_factory.dart';
 import 'package:planik/presentation/screens/splash/splash_screen.dart';
 
