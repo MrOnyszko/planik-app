@@ -12,6 +12,7 @@ class PlanVertical extends StatelessWidget {
     required this.appBarActions,
     this.onItemTap,
     this.scrollController,
+    this.applyTitlePadding = true,
     Key? key,
   }) : super(key: key);
 
@@ -20,6 +21,7 @@ class PlanVertical extends StatelessWidget {
   final List<Widget> appBarActions;
   final OnItemTap? onItemTap;
   final ScrollController? scrollController;
+  final bool applyTitlePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +34,12 @@ class PlanVertical extends StatelessWidget {
           elevation: 0,
           actions: appBarActions,
           flexibleSpace: FlexibleSpaceBar(
-            titlePadding: const EdgeInsets.only(
-              left: Insets.xLarge,
-              bottom: Insets.large,
-            ),
+            titlePadding: applyTitlePadding
+                ? const EdgeInsets.only(
+                    left: Insets.xLarge,
+                    bottom: Insets.large,
+                  )
+                : null,
             title: Text(title, style: context.theme.appBarTheme.titleTextStyle),
           ),
         ),

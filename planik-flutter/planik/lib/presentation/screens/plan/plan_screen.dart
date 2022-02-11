@@ -5,6 +5,7 @@ import 'package:planik/presentation/common/state_type.dart';
 import 'package:planik/presentation/screens/plan/bloc/plan_bloc.dart';
 import 'package:planik/presentation/screens/plan/content/plan_horizontal.dart';
 import 'package:planik/presentation/screens/plan/content/plan_vertical.dart';
+import 'package:planik/presentation/screens/plans/plans_screen.dart';
 import 'package:planik/presentation/widgets/empty_page_widget.dart';
 import 'package:planik/presentation/widgets/error_page_widget.dart';
 import 'package:planik/presentation/widgets/loading_page_widget.dart';
@@ -52,10 +53,13 @@ class _PlanScreenState extends State<PlanScreen> {
             loading: () => const LoadingPage(),
             loaded: () {
               final appBarActions = [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.list),
-                ),
+                if (state.argument.id == null)
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, PlansScreen.routeName);
+                    },
+                    icon: const Icon(Icons.list),
+                  ),
                 IconButton(
                   onPressed: () {
                     context.read<PlanBloc>().add(const PlanEvent.todayRequested());
@@ -76,6 +80,7 @@ class _PlanScreenState extends State<PlanScreen> {
                   title: context.strings.appTitle,
                   days: state.days,
                   appBarActions: appBarActions,
+                  applyTitlePadding: state.argument.id == null,
                 );
               } else {
                 return PlanHorizontal(

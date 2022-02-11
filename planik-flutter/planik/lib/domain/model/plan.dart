@@ -1,9 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:planik/domain/model/pageable.dart';
 
 part 'plan.freezed.dart';
 
 @freezed
-class Plan with _$Plan {
+class Plan extends Pageable with _$Plan {
   const factory Plan({
     required int id,
     required String name,

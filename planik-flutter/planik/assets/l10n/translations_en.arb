@@ -1,5 +1,14 @@
 {
   "appTitle": "Planik",
+  "commonCreatedAtLabel": "Created at: {date}",
+  "@commonCreatedAtLabel": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
   "userNameScreenHeader": "Welcome to Planik!",
   "userNameScreenInputLabel": "Nickname",
   "userNameScreenInputHint": "Your nickname e.g. John",
@@ -8,5 +17,6 @@
   "createPlanIncentiveScreenPrimaryAction": "Go",
   "createPlanScreenSubtitle": "Create Plan",
   "createPlanScreenNameInputLabel": "Plan name",
-  "createPlanScreenNameInputHint": "Since July 2021"
+  "createPlanScreenNameInputHint": "Since July 2021",
+  "plansScreenTitle": "Plans"
 }

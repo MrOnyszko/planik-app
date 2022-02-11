@@ -7,6 +7,7 @@ import 'package:planik/domain/failure/general_failure.dart';
 import 'package:planik/domain/model/day.dart';
 import 'package:planik/domain/model/day_entry.dart';
 import 'package:planik/domain/model/full_plan.dart';
+import 'package:planik/domain/model/plan.dart';
 import 'package:planik/domain/source/plan_local_source.dart';
 import 'package:planik/foundation/foundation.dart';
 import 'package:planik/local/dao/plan_dao.dart';
@@ -34,6 +35,18 @@ class PlanLocalSourceImpl implements PlanLocalSource {
   final PlanDayEntryDao _planDayEntryDao;
   final PlanEntityToModelMapper _planEntityToModelMapper;
   final PlayDayEntryEntityToModelMapper _playDayEntryEntityToModelMapper;
+
+  @override
+  TaskEither<GeneralFailure, List<Plan>> getPlans({required int pageSize, required int page}) {
+    return tryCatchE<GeneralFailure, List<Plan>>(
+      () async {
+        final entities = await _planDao.findManyBy(page, pageSize);
+        final plans = entities.map(_planEntityToModelMapper.map).toList();
+        return right(plans);
+      },
+      (error, stackTrace) => GeneralFailure.fatal,
+    );
+  }
 
   @override
   TaskEither<GeneralFailure, FullPlan> getPlan({required int id}) {

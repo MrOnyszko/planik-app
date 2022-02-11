@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:planik/domain/failure/general_failure.dart';
 import 'package:planik/domain/model/full_plan.dart';
+import 'package:planik/domain/model/plan.dart';
 import 'package:planik/domain/source/plan_local_source.dart';
 import 'package:planik/domain/source/user_local_source.dart';
 
@@ -38,5 +39,12 @@ class PlanService {
                     _userLocalSource.setCurrentPlanId(id: fullPlan.plan.id).map((_) => fullPlan),
               ),
         );
+  }
+
+  Future<List<Plan>> getPlans({required int pageSize, required int page}) {
+    return _planLocalSource
+        .getPlans(pageSize: pageSize, page: page)
+        .match((l) => <Plan>[], (r) => r)
+        .run();
   }
 }

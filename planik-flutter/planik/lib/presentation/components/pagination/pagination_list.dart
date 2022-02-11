@@ -14,6 +14,8 @@ const double bottomLoaderSize = 24;
 const double bottomLoaderItemHeight = 48;
 const double loadMoreThresholdFactor = 0.40;
 
+const bottomLoaderKey = ValueKey('bottom_loader_key');
+
 class Pagination<T extends Pageable> extends StatefulWidget {
   const Pagination.listView({
     required this.loading,
@@ -132,6 +134,8 @@ class _PaginationState<T extends Pageable> extends State<Pagination<T>> {
 }
 
 class _BottomLoader extends StatelessWidget {
+  const _BottomLoader({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -166,6 +170,7 @@ class _PaginationScrollView<T extends Pageable> extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+
   final SliverAppBar? sliverAppBar;
   final IndexedPageWidgetBuilder<T> indexedPageWidgetBuilder;
   final ScrollController scrollController;
@@ -190,7 +195,7 @@ class _PaginationScrollView<T extends Pageable> extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 if (index >= state.items.length && state.isLoadingMore) {
-                  return _BottomLoader();
+                  return const _BottomLoader(key: bottomLoaderKey);
                 } else {
                   return indexedPageWidgetBuilder(context, index, state.items[index]);
                 }
@@ -237,7 +242,7 @@ class _PaginationListView<T extends Pageable> extends StatelessWidget {
         itemCount: state.isLoadingMore ? state.items.length + 1 : state.items.length,
         itemBuilder: (context, index) {
           if (index >= state.items.length && state.isLoadingMore) {
-            return _BottomLoader();
+            return const _BottomLoader(key: bottomLoaderKey);
           } else {
             return indexedPageWidgetBuilder(context, index, state.items[index]);
           }
@@ -251,7 +256,7 @@ class _PaginationListView<T extends Pageable> extends StatelessWidget {
         itemCount: state.isLoadingMore ? state.items.length + 1 : state.items.length,
         itemBuilder: (context, index) {
           if (index >= state.items.length && state.isLoadingMore) {
-            return _BottomLoader();
+            return const _BottomLoader(key: bottomLoaderKey);
           } else {
             return indexedPageWidgetBuilder(context, index, state.items[index]);
           }
