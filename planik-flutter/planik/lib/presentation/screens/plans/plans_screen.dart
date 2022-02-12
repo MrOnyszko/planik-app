@@ -4,6 +4,8 @@ import 'package:planik/domain/model/plan.dart';
 import 'package:planik/presentation/common/dimen.dart';
 import 'package:planik/presentation/common/extensions.dart';
 import 'package:planik/presentation/components/pagination/pagination.dart';
+import 'package:planik/presentation/screens/create_plan/create_plan_argument.dart';
+import 'package:planik/presentation/screens/create_plan/create_plan_screen.dart';
 import 'package:planik/presentation/screens/plan/plan_argument.dart';
 import 'package:planik/presentation/screens/plan/plan_screen.dart';
 import 'package:planik/presentation/screens/plans/bloc/plans_bloc.dart';
@@ -16,7 +18,8 @@ class PlansScreen extends StatelessWidget {
 
   const PlansScreen({
     Key? key,
-  }) : super( // coverage:ignore-line
+  }) : super(
+          // coverage:ignore-line
           key: key,
         );
 
@@ -46,6 +49,16 @@ class PlansScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: Insets.small),
                     ],
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        CreatePlanScreen.routeName,
+                        arguments: CreatePlanArgument(id: plan.id),
+                      );
+                    },
                   ),
                   selected: plan.current,
                   onTap: () {

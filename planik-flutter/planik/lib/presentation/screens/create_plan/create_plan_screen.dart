@@ -27,6 +27,7 @@ class CreatePlanScreen extends StatelessWidget {
               return PlanHorizontal(
                 toolbarHeight: _toolbarHeight,
                 title: const CreatePlanNameForm(),
+                automaticallyImplyLeading: false,
                 days: state.days,
               );
             },
