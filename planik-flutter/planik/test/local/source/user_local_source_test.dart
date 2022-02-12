@@ -46,170 +46,336 @@ void main() {
         },
       );
 
-      test(
-        'gets current user id with success',
-        () async {
-          const userId = 1;
-          when(userStoreMock.getId).thenAnswer((_) => userId);
+      group(
+        'call currentUserId',
+        () {
+          test(
+            'gets current user id with success',
+            () async {
+              const userId = 1;
+              when(userStoreMock.getId).thenAnswer((_) => userId);
 
-          final result = await userLocalSource.currentUserId().run();
+              final result = await userLocalSource.currentUserId().run();
 
-          final id = result.getRight().getOrElse(() => -1);
+              expect(result, const Right(userId));
+            },
+          );
 
-          expect(id, userId);
-          expect(result.isRight(), true);
+          test(
+            'gets current user id with GeneralFailure.notFound',
+            () async {
+              const userId = null;
+              when(userStoreMock.getId).thenAnswer((_) => userId);
+
+              final result = await userLocalSource.currentUserId().run();
+
+              expect(result, const Left(GeneralFailure.notFound));
+            },
+          );
+
+          test(
+            'gets current user id with GeneralFailure.fatal',
+            () async {
+              when(userStoreMock.getId).thenThrow(Exception(''));
+
+              final result = await userLocalSource.currentUserId().run();
+
+              expect(result, const Left(GeneralFailure.fatal));
+            },
+          );
         },
       );
 
-      test(
-        'do not get current user id with success',
-        () async {
-          const userId = null;
-          when(userStoreMock.getId).thenAnswer((_) => userId);
+      group(
+        'call currentPlanId',
+        () {
+          test(
+            'gets current plan id with success',
+            () async {
+              const planId = 1;
+              when(userStoreMock.getCurrentPlanId).thenAnswer((_) => planId);
 
-          final result = await userLocalSource.currentUserId().run();
+              final result = await userLocalSource.currentPlanId().run();
 
-          final failure = result.getLeft().getOrElse(() => GeneralFailure.fatal);
+              expect(result, const Right<GeneralFailure, int>(planId));
+            },
+          );
 
-          expect(failure, GeneralFailure.notFound);
-          expect(result.isLeft(), true);
+          test(
+            'gets current plan id with GeneralFailure.notFound',
+            () async {
+              const planId = null;
+              when(userStoreMock.getCurrentPlanId).thenAnswer((_) => planId);
+
+              final result = await userLocalSource.currentPlanId().run();
+
+              expect(result, const Left<GeneralFailure, int>(GeneralFailure.notFound));
+            },
+          );
+
+          test(
+            'gets current plan id with GeneralFailure.fatal',
+            () async {
+              when(userStoreMock.getCurrentPlanId).thenThrow(Exception(''));
+
+              final result = await userLocalSource.currentPlanId().run();
+
+              expect(result, const Left<GeneralFailure, int>(GeneralFailure.fatal));
+            },
+          );
         },
       );
 
-      test(
-        'gets current plan id with success',
-        () async {
-          const planId = 1;
-          when(userStoreMock.getCurrentPlanId).thenAnswer((_) => planId);
+      group(
+        'call setCurrentPlanId',
+        () {
+          test(
+            'sets current plan id with success',
+            () async {
+              when(() => userStoreMock.putCurrentPlanId(id: 1)).thenAnswer((_) async {});
 
-          final result = await userLocalSource.currentPlanId().run();
+              final result = await userLocalSource.setCurrentPlanId(id: 1).run();
 
-          expect(result, const Right<GeneralFailure, int>(planId));
-          expect(result.isRight(), true);
+              expect(result, const Right(1));
+            },
+          );
+
+          test(
+            'sets current plan id GeneralFailure.fatal',
+            () async {
+              when(() => userStoreMock.putCurrentPlanId(id: 1)).thenThrow(Exception('error'));
+
+              final result = await userLocalSource.setCurrentPlanId(id: 1).run();
+
+              expect(result, const Left(GeneralFailure.fatal));
+            },
+          );
         },
       );
 
-      test(
-        'do not get current user id with success',
-        () async {
-          const planId = null;
-          when(userStoreMock.getCurrentPlanId).thenAnswer((_) => planId);
+      group(
+        'call hasPlan',
+        () {
+          test(
+            'gets has plan id with success',
+            () async {
+              when(userStoreMock.getHasPlan).thenAnswer((_) => true);
 
-          final result = await userLocalSource.currentPlanId().run();
+              final result = await userLocalSource.hasPlan().run();
 
-          expect(result, const Left<GeneralFailure, int>(GeneralFailure.notFound));
-          expect(result.isLeft(), true);
+              expect(result, const Right(true));
+            },
+          );
+
+          test(
+            'gets has plan with value false',
+            () async {
+              when(userStoreMock.getHasPlan).thenAnswer((_) => false);
+
+              final result = await userLocalSource.hasPlan().run();
+
+              expect(result, const Right(false));
+            },
+          );
+
+          test(
+            'gets has plan with GeneralFailure.fatal',
+            () async {
+              when(userStoreMock.getHasPlan).thenThrow(Exception('error'));
+
+              final result = await userLocalSource.hasPlan().run();
+
+              expect(result, const Left(GeneralFailure.fatal));
+            },
+          );
         },
       );
 
-      test(
-        'gets has plan id with success',
-        () async {
-          when(userStoreMock.getHasPlan).thenAnswer((_) => true);
+      group(
+        'call hasUser',
+        () {
+          test(
+            'gets has user id with success',
+            () async {
+              when(userStoreMock.getUid).thenAnswer((_) => '');
 
-          final result = await userLocalSource.hasPlan().run();
+              final result = await userLocalSource.hasUser().run();
 
-          final hasPlan = result.getRight().getOrElse(() => false);
+              expect(result, const Right(true));
+            },
+          );
 
-          expect(hasPlan, true);
-          expect(result.isRight(), true);
+          test(
+            'gets has user with value false',
+            () async {
+              when(userStoreMock.getUid).thenAnswer((_) => null);
+
+              final result = await userLocalSource.hasUser().run();
+
+              expect(result, const Right(false));
+            },
+          );
+
+          test(
+            'gets has user with GeneralFailure.fatal',
+            () async {
+              when(userStoreMock.getUid).thenThrow(Exception('error'));
+
+              final result = await userLocalSource.hasUser().run();
+
+              expect(result, const Left(GeneralFailure.fatal));
+            },
+          );
         },
       );
 
-      test(
-        'do not get has plan with success',
-        () async {
-          when(userStoreMock.getHasPlan).thenAnswer((_) => false);
+      group(
+        'call setHasPlan',
+        () {
+          test(
+            'sets has plan with success',
+            () async {
+              when(() => userStoreMock.putHasPlan(hasPlan: true)).thenAnswer((_) async {});
 
-          final result = await userLocalSource.hasPlan().run();
+              final result = await userLocalSource.setHasPlan(hasPlan: true).run();
 
-          final hasPlan = result.getRight().getOrElse(() => false);
+              expect(result, const Right(unit));
+            },
+          );
 
-          expect(hasPlan, false);
-          expect(result.isRight(), true);
+          test(
+            'sets has plan with GeneralFailure.fatal',
+            () async {
+              when(() => userStoreMock.putHasPlan(hasPlan: true)).thenThrow(Exception('error'));
+
+              final result = await userLocalSource.setHasPlan(hasPlan: true).run();
+
+              expect(result, const Left(GeneralFailure.fatal));
+            },
+          );
         },
       );
 
-      test(
-        'sets has plan with success',
-        () async {
-          when(() => userStoreMock.putHasPlan(hasPlan: true)).thenAnswer((_) async {});
+      group(
+        'call getCurrentUser',
+        () {
+          test(
+            'gets current user with success',
+            () async {
+              const userId = 1;
+              final userUid = const Uuid().v4();
+              const nickname = 'User';
+              final now = DateTime(2020, 2, 2, 1, 1, 1, 1);
 
-          final result = await userLocalSource.setHasPlan(hasPlan: true).run();
+              final entity = _createUserEntity(
+                userUid,
+                nickname,
+              ).copyWith(createdAt: now.toIso8601String());
 
-          final value = result.getRight().getOrElse(() => unit);
+              final user = _createUser(
+                userId,
+                userUid,
+                nickname,
+              ).copyWith(createdAt: now);
 
-          expect(value, unit);
-          expect(result.isRight(), true);
+              when(userStoreMock.getUid).thenAnswer((_) => userUid);
+              when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
+
+              final result = await userLocalSource.getCurrentUser().run();
+
+              expect(result, Right(user));
+            },
+          );
+
+          test(
+            'gets current user with GeneralFailure.notFound because findOneByUid returns null',
+            () async {
+              final userUid = const Uuid().v4();
+
+              when(userStoreMock.getUid).thenAnswer((_) => userUid);
+              when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => null);
+
+              final result = await userLocalSource.getCurrentUser().run();
+
+              expect(result, const Left(GeneralFailure.notFound));
+            },
+          );
+
+          test(
+            'gets current user with GeneralFailure.notFound because getUid returns null',
+            () async {
+              when(userStoreMock.getUid).thenAnswer((_) => null);
+
+              final result = await userLocalSource.getCurrentUser().run();
+
+              expect(result, const Left(GeneralFailure.notFound));
+            },
+          );
+
+          test(
+            'gets current user with GeneralFailure.fatal',
+            () async {
+              when(userStoreMock.getUid).thenThrow(Exception('error'));
+
+              final result = await userLocalSource.getCurrentUser().run();
+
+              expect(result, const Left(GeneralFailure.fatal));
+            },
+          );
         },
       );
 
-      test(
-        'gets current user with success',
-        () async {
-          const userId = 1;
-          final userUid = const Uuid().v4();
-          const nickname = 'User';
-          final now = DateTime(2020, 2, 2, 1, 1, 1, 1);
+      group(
+        'call create',
+        () {
+          test(
+            'creates user with success',
+            () async {
+              const userId = 1;
+              final userUid = const Uuid().v4();
+              const nickname = 'User';
+              final now = DateTime(2020, 2, 2, 1, 1, 1, 1);
 
-          final entity = _createUserEntity(
-            userUid,
-            nickname,
-          ).copyWith(createdAt: now.toIso8601String());
+              final entity = _createUserEntity(
+                userUid,
+                nickname,
+              ).copyWith(createdAt: now.toIso8601String());
 
-          final user = _createUser(
-            userId,
-            userUid,
-            nickname,
-          ).copyWith(createdAt: now);
+              final user = _createUser(
+                userId,
+                userUid,
+                nickname,
+              ).copyWith(createdAt: now);
 
-          when(userStoreMock.getUid).thenAnswer((_) => userUid);
-          when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
+              when(() => userStoreMock.putId(id: userId)).thenAnswer((_) async {});
+              when(() => userStoreMock.putUid(uid: userUid)).thenAnswer((_) async {});
+              when(userStoreMock.getUid).thenAnswer((_) => userUid);
+              when(datesMock.now).thenAnswer((_) => now);
+              when(() => userDaoMock.insertOne(any())).thenAnswer((_) async => userId);
+              when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
 
-          final result = await userLocalSource.getCurrentUser().run();
+              final result = await userLocalSource.create(nickname: nickname, uid: userUid).run();
 
-          final value = result.getRight();
+              expect(result, Right(user));
 
-          expect(value, Option.fromNullable(user));
-          expect(result.isRight(), true);
-        },
-      );
+              verify(() => userStoreMock.putId(id: userId)).called(1);
+              verify(() => userStoreMock.putUid(uid: userUid)).called(1);
+            },
+          );
 
-      test(
-        'creates user with success',
-        () async {
-          const userId = 1;
-          final userUid = const Uuid().v4();
-          const nickname = 'User';
-          final now = DateTime(2020, 2, 2, 1, 1, 1, 1);
+          test(
+            'creates user with GeneralFailure.fatal because insertOne throws',
+            () async {
+              final userUid = const Uuid().v4();
+              const nickname = 'User';
 
-          final entity = _createUserEntity(
-            userUid,
-            nickname,
-          ).copyWith(createdAt: now.toIso8601String());
+              when(() => userDaoMock.insertOne(any())).thenThrow(Exception(''));
 
-          final user = _createUser(
-            userId,
-            userUid,
-            nickname,
-          ).copyWith(createdAt: now);
+              final result = await userLocalSource.create(nickname: nickname, uid: userUid).run();
 
-          when(() => userStoreMock.putId(id: userId)).thenAnswer((_) async {});
-          when(() => userStoreMock.putUid(uid: userUid)).thenAnswer((_) async {});
-          when(userStoreMock.getUid).thenAnswer((_) => userUid);
-          when(datesMock.now).thenAnswer((_) => now);
-          when(() => userDaoMock.insertOne(any())).thenAnswer((_) async => userId);
-          when(() => userDaoMock.findOneByUid(userUid)).thenAnswer((_) async => entity);
-
-          final result = await userLocalSource.create(nickname: nickname, uid: userUid).run();
-
-          final value = result.getRight();
-
-          expect(value, Option.fromNullable(user));
-          expect(result.isRight(), true);
-
-          verify(() => userStoreMock.putId(id: userId)).called(1);
-          verify(() => userStoreMock.putUid(uid: userUid)).called(1);
+              expect(result, const Left(GeneralFailure.fatal));
+            },
+          );
         },
       );
     },
