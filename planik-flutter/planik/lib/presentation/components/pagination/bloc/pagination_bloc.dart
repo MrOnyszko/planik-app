@@ -134,45 +134,36 @@ class PaginationBloc<T extends Pageable> extends Bloc<PaginationEvent, Paginatio
   }
 
   Future<void> _onNextPage(_PaginationLoadNextPage event, Emitter<PaginationState<T>> emit) async {
-    try {
-      if (!state.hasReachedMax) {
-        emit(state.copyWith(isLoadingMore: true));
-        final result = await _paginationManager.getPages(
-          filteringKey: state.filteringKey,
-          paginationKey: state.paginationKey,
-          config: state.config,
-          pageSize: event.pageSize,
-        );
-        if (result.items.isNotEmpty) {
-          emit(
-            state.copyWith(
-              items: List.from(state.items)..addAll(result.items),
-              paginationKey: result.paginationKey,
-              hasReachedMax: false,
-              isLoadingMore: false,
-              hasError: false,
-              pageSize: event.pageSize,
-            ),
-          );
-        } else {
-          emit(
-            state.copyWith(
-              hasReachedMax: true,
-              isLoadingMore: false,
-              isLoading: false,
-              hasError: false,
-              pageSize: event.pageSize,
-            ),
-          );
-        }
-      }
-    } on Exception catch (_) {
-      emit(
-        state.copyWith(
-          hasError: true,
-          isLoading: false,
-        ),
+    if (!state.hasReachedMax) {
+      emit(state.copyWith(isLoadingMore: true));
+      final result = await _paginationManager.getPages(
+        filteringKey: state.filteringKey,
+        paginationKey: state.paginationKey,
+        config: state.config,
+        pageSize: event.pageSize,
       );
+      if (result.items.isNotEmpty) {
+        emit(
+          state.copyWith(
+            items: List.from(state.items)..addAll(result.items),
+            paginationKey: result.paginationKey,
+            hasReachedMax: false,
+            isLoadingMore: false,
+            hasError: false,
+            pageSize: event.pageSize,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            hasReachedMax: true,
+            isLoadingMore: false,
+            isLoading: false,
+            hasError: false,
+            pageSize: event.pageSize,
+          ),
+        );
+      }
     }
   }
 }
