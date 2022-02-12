@@ -53,11 +53,7 @@ class PlansScreen extends StatelessWidget {
                   trailing: IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        CreatePlanScreen.routeName,
-                        arguments: CreatePlanArgument(id: plan.id),
-                      );
+                      _navigateToCreatePlanScreen(context, plan.id);
                     },
                   ),
                   selected: plan.current,
@@ -79,6 +75,24 @@ class PlansScreen extends StatelessWidget {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          _navigateToCreatePlanScreen(context);
+        },
+      ),
     );
+  }
+
+  Future<void> _navigateToCreatePlanScreen(BuildContext context, [int? id]) async {
+    final result = await Navigator.pushNamed(
+      context,
+      CreatePlanScreen.routeName,
+      arguments: CreatePlanArgument(id: id),
+    );
+
+    if (result != null) {
+      context.read<PaginationBloc<Plan>>().add(const PaginationEvent.refresh());
+    }
   }
 }

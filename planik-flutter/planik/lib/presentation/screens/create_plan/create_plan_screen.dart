@@ -18,23 +18,37 @@ class CreatePlanScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<CreatePlanBloc, CreatePlanState>(
-        builder: (context, state) {
-          return state.type.map(
-            loading: () => const LoadingPage(),
-            loaded: () {
-              return PlanHorizontal(
-                toolbarHeight: _toolbarHeight,
-                title: const CreatePlanNameForm(),
-                automaticallyImplyLeading: false,
-                days: state.days,
-              );
-            },
-            empty: () => const EmptyPage(),
-            error: () => const ErrorPage(),
-          );
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, true);
+        return true;
+      },
+      child: Scaffold(
+        body: BlocBuilder<CreatePlanBloc, CreatePlanState>(
+          builder: (context, state) {
+            return state.type.map(
+              loading: () => const LoadingPage(),
+              loaded: () {
+                return PlanHorizontal(
+                  toolbarHeight: _toolbarHeight,
+                  title: const CreatePlanNameForm(),
+                  automaticallyImplyLeading: false,
+                  days: state.days,
+                  appBarActions: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                      },
+                      icon: const Icon(Icons.done_all),
+                    ),
+                  ],
+                );
+              },
+              empty: () => const EmptyPage(),
+              error: () => const ErrorPage(),
+            );
+          },
+        ),
       ),
     );
   }

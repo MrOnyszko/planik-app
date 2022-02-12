@@ -409,6 +409,72 @@ void main() {
           expect(firstPlanText, findsOneWidget);
         },
       );
+
+      testWidgets(
+        'Given loaded state in PaginationBloc<Plan> it renders list view with elements '
+        'also it navigates to CreatePlanScreen on FloatingActionButton tap event',
+        (tester) async {
+          // arrange
+          final mockNavigatorObserver = MockNavigatorObserver();
+
+          final mockPlansBloc = MockPlansBloc();
+          final state = PlansState.initial(argument: const PlansArgument());
+          when(() => mockPlansBloc.state).thenReturn(state.copyWith(type: StateType.loaded));
+
+          final mockPlansPaginationBloc = MockPlansPaginationBloc();
+          final plansPaginationState = PaginationState<Plan>.initial().copyWith(
+            items: [
+              Plan(
+                id: 0,
+                name: 'Plan 1',
+                current: true,
+                createdAt: DateTime(2022),
+                updatedAt: DateTime(2022),
+              ),
+            ],
+          );
+          when(() => mockPlansPaginationBloc.state).thenReturn(plansPaginationState);
+
+          // find
+          final listView = find.byType(Pagination<Plan>);
+          final listTile = find.byType(ListTile);
+          final fab = find.byType(FloatingActionButton);
+          final firstPlanText = find.text('0 Plan 1');
+
+          // test
+          await tester.pumpWidget(
+            MultiBlocProvider(
+              providers: [
+                BlocProvider<PlansBloc>(create: (context) => mockPlansBloc),
+                BlocProvider<PaginationBloc<Plan>>(create: (context) => mockPlansPaginationBloc),
+              ],
+              child: Testable(
+                navigatorObservers: [mockNavigatorObserver],
+                onGenerateRoute: (settings) {
+                  if (settings.name == '/create-plan') {
+                    return MaterialPageRoute(builder: (context) => const Scaffold());
+                  }
+                  return null;
+                },
+                child: const PlansScreen(),
+              ),
+            ),
+          );
+          await tester.pump();
+
+          await tester.tap(fab);
+
+          verify(() => mockNavigatorObserver.didPush(any(), any()));
+
+          await tester.pump();
+
+          // expect
+          expect(listView, findsOneWidget);
+          expect(listTile, findsOneWidget);
+          expect(fab, findsOneWidget);
+          expect(firstPlanText, findsOneWidget);
+        },
+      );
     },
   );
 }
