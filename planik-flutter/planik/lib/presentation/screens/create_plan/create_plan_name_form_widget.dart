@@ -3,7 +3,14 @@ import 'package:planik/presentation/common/dimen.dart';
 import 'package:planik/presentation/common/extensions.dart';
 
 class CreatePlanNameForm extends StatefulWidget {
-  const CreatePlanNameForm({Key? key}) : super(key: key);
+  const CreatePlanNameForm({
+    required this.initialValue,
+    required this.onChanged,
+    Key? key,
+  }) : super(key: key);
+
+  final String initialValue;
+  final Function(String value) onChanged;
 
   @override
   _CreatePlanNameFormState createState() => _CreatePlanNameFormState();
@@ -20,6 +27,7 @@ class _CreatePlanNameFormState extends State<CreatePlanNameForm> {
         Text(context.strings.createPlanScreenSubtitle),
         const SizedBox(height: Insets.large),
         TextFormField(
+          initialValue: widget.initialValue,
           cursorColor: context.theme.colorScheme.onPrimary,
           style: TextStyle(color: context.theme.colorScheme.onPrimary),
           decoration: InputDecoration(
@@ -32,7 +40,7 @@ class _CreatePlanNameFormState extends State<CreatePlanNameForm> {
             hintText: context.strings.createPlanScreenNameInputHint,
           ),
           autocorrect: false,
-          onChanged: (value) {},
+          onChanged: widget.onChanged,
         ),
       ],
     );

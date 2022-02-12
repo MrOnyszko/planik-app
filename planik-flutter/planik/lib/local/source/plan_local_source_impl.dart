@@ -142,4 +142,34 @@ class PlanLocalSourceImpl implements PlanLocalSource {
       (error, stackTrace) => GeneralFailure.fatal,
     );
   }
+
+  @override
+  TaskEither<GeneralFailure, int> updatePlan({
+    required int id,
+    String? name,
+    bool? current,
+  }) {
+    return tryCatchE<GeneralFailure, int>(
+      () async {
+        final now = _dates.now();
+
+        final plan = await _planDao.findOneById(id);
+
+        if (plan == null) {
+          return left(GeneralFailure.notFound);
+        }
+
+        await _planDao.updateOne(
+          plan.copyWith(
+            name: name,
+            current: current,
+            updatedAt: now.toIso8601String(),
+          ),
+        );
+
+        return right(id);
+      },
+      (error, stackTrace) => GeneralFailure.fatal,
+    );
+  }
 }

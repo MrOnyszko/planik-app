@@ -37,6 +37,54 @@ void main() {
       );
 
       test(
+        'gets plans with success',
+        () async {
+          final fullPlan = _createFullPlan();
+
+          when(
+            () => planLocalSourceMock.getPlans(
+              pageSize: any(named: 'pageSize', that: equals(1)),
+              page: any(named: 'page', that: equals(1)),
+            ),
+          ).thenAnswer((_) => TaskEither<GeneralFailure, List<Plan>>.right([fullPlan.plan]));
+
+          final result = await planService.getPlans(pageSize: 1, page: 1);
+
+          verify(
+            () => planLocalSourceMock.getPlans(
+              pageSize: any(named: 'pageSize', that: equals(1)),
+              page: any(named: 'page', that: equals(1)),
+            ),
+          ).called(1);
+
+          expect(result, [fullPlan.plan]);
+        },
+      );
+
+      test(
+        'gets plans and returns empty list on failure',
+        () async {
+          when(
+            () => planLocalSourceMock.getPlans(
+              pageSize: any(named: 'pageSize', that: equals(1)),
+              page: any(named: 'page', that: equals(1)),
+            ),
+          ).thenAnswer((_) => TaskEither<GeneralFailure, List<Plan>>.left(GeneralFailure.fatal));
+
+          final result = await planService.getPlans(pageSize: 1, page: 1);
+
+          verify(
+            () => planLocalSourceMock.getPlans(
+              pageSize: any(named: 'pageSize', that: equals(1)),
+              page: any(named: 'page', that: equals(1)),
+            ),
+          ).called(1);
+
+          expect(result, []);
+        },
+      );
+
+      test(
         'gets current plan with success',
         () async {
           final fullPlan = _createFullPlan();
@@ -138,6 +186,102 @@ void main() {
             () => userLocalSourceMock.setHasPlan(
               hasPlan: any(named: 'hasPlan', that: equals(true)),
             ),
+          ).called(1);
+
+          expect(result, Right<GeneralFailure, FullPlan>(fullPlan));
+        },
+      );
+
+      test(
+        'updates plan changing current plan with, success',
+        () async {
+          const id = 1;
+          final fullPlan = _createFullPlan();
+
+          when(
+            () => planLocalSourceMock.updatePlan(
+              id: any(named: 'id', that: equals(id)),
+              name: any(named: 'name', that: equals('Plan')),
+              current: any(named: 'current', that: equals(true)),
+            ),
+          ).thenAnswer((_) => TaskEither<GeneralFailure, int>.right(1));
+
+          when(
+            () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
+          ).thenAnswer((_) => TaskEither<GeneralFailure, FullPlan>.right(fullPlan));
+
+          when(
+            () => userLocalSourceMock.setCurrentPlanId(
+              id: any(named: 'id', that: equals(fullPlan.plan.id)),
+            ),
+          ).thenAnswer((invocation) => TaskEither<GeneralFailure, int>.right(fullPlan.plan.id));
+
+          final result = await planService.updatePlan(id: id, name: 'Plan', current: true).run();
+
+          verify(
+            () => planLocalSourceMock.updatePlan(
+              id: any(named: 'id', that: equals(id)),
+              name: any(named: 'name', that: equals('Plan')),
+              current: any(named: 'current', that: equals(true)),
+            ),
+          ).called(1);
+
+          verify(
+            () => userLocalSourceMock.setCurrentPlanId(
+              id: any(named: 'id', that: equals(fullPlan.plan.id)),
+            ),
+          ).called(1);
+
+          verify(
+            () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
+          ).called(1);
+
+          expect(result, Right<GeneralFailure, FullPlan>(fullPlan));
+        },
+      );
+
+      test(
+        'updates plan not changing current plan, with success',
+        () async {
+          const id = 1;
+          final fullPlan = _createFullPlan();
+
+          when(
+            () => planLocalSourceMock.updatePlan(
+              id: any(named: 'id', that: equals(id)),
+              name: any(named: 'name', that: equals('Plan')),
+              current: any(named: 'current', that: equals(false)),
+            ),
+          ).thenAnswer((_) => TaskEither<GeneralFailure, int>.right(1));
+
+          when(
+            () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
+          ).thenAnswer((_) => TaskEither<GeneralFailure, FullPlan>.right(fullPlan));
+
+          when(
+            () => userLocalSourceMock.setCurrentPlanId(
+              id: any(named: 'id', that: equals(fullPlan.plan.id)),
+            ),
+          ).thenAnswer((invocation) => TaskEither<GeneralFailure, int>.right(fullPlan.plan.id));
+
+          final result = await planService.updatePlan(id: id, name: 'Plan', current: false).run();
+
+          verify(
+            () => planLocalSourceMock.updatePlan(
+              id: any(named: 'id', that: equals(id)),
+              name: any(named: 'name', that: equals('Plan')),
+              current: any(named: 'current', that: equals(false)),
+            ),
+          ).called(1);
+
+          verifyNever(
+            () => userLocalSourceMock.setCurrentPlanId(
+              id: any(named: 'id', that: equals(fullPlan.plan.id)),
+            ),
+          );
+
+          verify(
+            () => planLocalSourceMock.getPlan(id: any(named: 'id', that: equals(1))),
           ).called(1);
 
           expect(result, Right<GeneralFailure, FullPlan>(fullPlan));

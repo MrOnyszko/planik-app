@@ -1,9 +1,11 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:planik/domain/model/day.dart';
 import 'package:planik/domain/model/day_entry.dart';
+import 'package:planik/domain/model/plan.dart';
 import 'package:planik/presentation/common/state_type.dart';
 import 'package:planik/presentation/screens/create_plan/bloc/create_plan_bloc.dart';
 import 'package:planik/presentation/screens/create_plan/create_plan_argument.dart';
@@ -18,10 +20,23 @@ import '../../../testable.dart';
 class MockCreatePlanBloc extends MockBloc<CreatePlanEvent, CreatePlanState>
     implements CreatePlanBloc {}
 
+class MockNavigatorObserver extends Mock implements NavigatorObserver {}
+
+class FakeRoute extends Fake implements Route {}
+
+class FakeCreatePlanNameChanged extends Fake implements CreatePlanNameChanged {}
+
 void main() {
   group(
     'CreatePlanScreen',
     () {
+      setUpAll(
+        () {
+          registerFallbackValue(FakeRoute());
+          registerFallbackValue(FakeCreatePlanNameChanged());
+        },
+      );
+
       testWidgets(
         'Given loading state it renders loading page',
         (tester) async {
@@ -104,7 +119,7 @@ void main() {
       );
 
       testWidgets(
-        'Given loaded state it renders form',
+        'Given loaded state it renders form and acts with WillPopScope correctly',
         (tester) async {
           // arrange
           final tuesday = Day(
@@ -123,12 +138,23 @@ void main() {
             ],
           );
 
+          final plan = Plan(
+            id: 1,
+            name: 'Name',
+            current: true,
+            createdAt: DateTime.utc(2022, 7, 6),
+            updatedAt: DateTime.utc(2022, 7, 6),
+          );
+
+          final mockNavigatorObserver = MockNavigatorObserver();
+
           final mockCreatePlanBloc = MockCreatePlanBloc();
           final state = CreatePlanState.initial(argument: const CreatePlanArgument());
           when(() => mockCreatePlanBloc.state).thenReturn(
             state.copyWith(
               type: StateType.loaded,
               days: [tuesday],
+              plan: plan,
             ),
           );
 
@@ -141,11 +167,101 @@ void main() {
           await tester.pumpWidget(
             BlocProvider<CreatePlanBloc>(
               create: (context) => mockCreatePlanBloc,
-              child: const Testable(
-                child: CreatePlanScreen(),
+              child: Testable(
+                navigatorObservers: [mockNavigatorObserver],
+                onGenerateRoute: (settings) {
+                  return MaterialPageRoute(builder: (context) => const Scaffold());
+                },
+                child: const CreatePlanScreen(),
               ),
             ),
           );
+          await tester.pump();
+
+          final dynamic widgetsAppState = tester.state(find.byType(WidgetsApp));
+          await widgetsAppState.didPopRoute();
+
+          verify(() => mockNavigatorObserver.didPop(any(), any()));
+
+          await tester.pump();
+
+          // expect
+          expect(nameForm, findsOneWidget);
+          expect(dayEntryItem, findsOneWidget);
+          expect(dayTab, findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'Given loaded state it renders form and changes name correctly',
+        (tester) async {
+          // arrange
+          final tuesday = Day(
+            ordinal: 1,
+            name: 'Tuesday',
+            date: DateTime.utc(2020, 7, 6),
+            entries: [
+              DayEntry(
+                id: 1,
+                dayOfWeek: DateTime.tuesday,
+                title: 'Math',
+                start: DateTime.utc(2020, 7, 6, 8),
+                end: DateTime.utc(2020, 7, 6, 8, 45),
+                pauseMinutes: 15,
+              )
+            ],
+          );
+
+          final plan = Plan(
+            id: 1,
+            name: 'Name',
+            current: true,
+            createdAt: DateTime.utc(2022, 7, 6),
+            updatedAt: DateTime.utc(2022, 7, 6),
+          );
+
+          final mockNavigatorObserver = MockNavigatorObserver();
+
+          final mockCreatePlanBloc = MockCreatePlanBloc();
+          final state = CreatePlanState.initial(argument: const CreatePlanArgument());
+          when(() => mockCreatePlanBloc.state).thenReturn(
+            state.copyWith(
+              type: StateType.loaded,
+              days: [tuesday],
+              plan: plan,
+            ),
+          );
+
+          // find
+          final nameForm = find.byType(CreatePlanNameForm);
+          final formTextFormField = find.byType(TextFormField);
+          final allDoneIcon = find.byType(IconButton);
+          final dayEntryItem = find.text('Math');
+          final dayTab = find.text('Tuesday');
+
+          // test
+          await tester.pumpWidget(
+            BlocProvider<CreatePlanBloc>(
+              create: (context) => mockCreatePlanBloc,
+              child: Testable(
+                navigatorObservers: [mockNavigatorObserver],
+                onGenerateRoute: (settings) {
+                  return MaterialPageRoute(builder: (context) => const Scaffold());
+                },
+                child: const CreatePlanScreen(),
+              ),
+            ),
+          );
+          await tester.pump();
+
+          await tester.enterText(formTextFormField, 'XXX');
+
+          verify(() => mockCreatePlanBloc.add(any(that: isA<CreatePlanNameChanged>())));
+
+          await tester.tap(allDoneIcon);
+
+          verify(() => mockNavigatorObserver.didPop(any(), any()));
+
           await tester.pump();
 
           // expect

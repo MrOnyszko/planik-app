@@ -64,37 +64,46 @@ void main() {
       ),
       CreatePlanState.initial(argument: const CreatePlanArgument()).copyWith(
         type: StateType.loaded,
-        days: [
-          Day(
-            ordinal: 1,
-            name: 'Monday',
-            date: DateTime.utc(2022, 7, 6),
-            entries: [
-              DayEntry(
-                id: 1,
-                dayOfWeek: DateTime.monday,
-                title: 'Math',
-                start: DateTime.utc(2022, 7, 6, 8),
-                end: DateTime.utc(2022, 7, 6, 8, 45),
-                pauseMinutes: 15,
-              ),
-              DayEntry(
-                id: 2,
-                dayOfWeek: DateTime.monday,
-                title: 'History',
-                start: DateTime.utc(2022, 7, 6, 9),
-                end: DateTime.utc(2022, 7, 6, 9, 45),
-                pauseMinutes: 5,
-              ),
-            ],
-          ),
-        ],
+        days: [_createDay()],
+        plan: _createPlan(),
       )
     ],
   );
 
   blocTest<CreatePlanBloc, CreatePlanState>(
-    'On CreatePlanEvent.started() it reads plan when id not provided in argument',
+    'On CreatePlanEvent.started() it creates plan when id is not provided in argument it emits error',
+    build: () => _build(id: null),
+    setUp: () {
+      when(
+        () => mockPlanService.addPlan(
+          name: any(named: 'name', that: equals("")),
+          current: any(named: 'current', that: equals(true)),
+        ),
+      ).thenAnswer((_) => TaskEither<GeneralFailure, FullPlan>.left(GeneralFailure.fatal));
+    },
+    act: (bloc) {
+      bloc.add(const CreatePlanEvent.started());
+    },
+    verify: (bloc) {
+      verify(
+        () => mockPlanService.addPlan(
+          name: any(named: 'name', that: equals("")),
+          current: any(named: 'current', that: equals(true)),
+        ),
+      ).called(1);
+    },
+    expect: () => [
+      CreatePlanState.initial(argument: const CreatePlanArgument()).copyWith(
+        type: StateType.loading,
+      ),
+      CreatePlanState.initial(argument: const CreatePlanArgument()).copyWith(
+        type: StateType.error,
+      )
+    ],
+  );
+
+  blocTest<CreatePlanBloc, CreatePlanState>(
+    'On CreatePlanEvent.started() it reads plan when id is not provided in argument',
     build: () => _build(id: 1),
     setUp: () {
       when(
@@ -119,69 +128,138 @@ void main() {
       ),
       CreatePlanState.initial(argument: const CreatePlanArgument(id: 1)).copyWith(
         type: StateType.loaded,
-        days: [
-          Day(
-            ordinal: 1,
-            name: 'Monday',
-            date: DateTime.utc(2022, 7, 6),
-            entries: [
-              DayEntry(
-                id: 1,
-                dayOfWeek: DateTime.monday,
-                title: 'Math',
-                start: DateTime.utc(2022, 7, 6, 8),
-                end: DateTime.utc(2022, 7, 6, 8, 45),
-                pauseMinutes: 15,
-              ),
-              DayEntry(
-                id: 2,
-                dayOfWeek: DateTime.monday,
-                title: 'History',
-                start: DateTime.utc(2022, 7, 6, 9),
-                end: DateTime.utc(2022, 7, 6, 9, 45),
-                pauseMinutes: 5,
-              ),
-            ],
-          ),
-        ],
+        days: [_createDay()],
+        plan: _createPlan(),
+      )
+    ],
+  );
+
+  blocTest<CreatePlanBloc, CreatePlanState>(
+    'On CreatePlanEvent.planNameChanged(name: XXX) it updates plan name',
+    build: () => _build(id: 1),
+    setUp: () {
+      when(
+        () => mockPlanService.updatePlan(
+          id: any(named: 'id', that: equals(1)),
+          name: any(named: 'name', that: equals('XXX')),
+          current: any(named: 'current', that: equals(null)),
+        ),
+      ).thenAnswer((invocation) => TaskEither.right(_createFullPlan(name: 'XXX')));
+    },
+    seed: () => CreatePlanState.initial(argument: const CreatePlanArgument(id: 1)).copyWith(
+      type: StateType.loaded,
+      days: [_createDay()],
+      plan: _createPlan(),
+    ),
+    act: (bloc) {
+      bloc.add(const CreatePlanEvent.planNameChanged(name: 'XXX'));
+    },
+    verify: (bloc) {
+      verify(
+        () => mockPlanService.updatePlan(
+          id: any(named: 'id', that: equals(1)),
+          name: any(named: 'name', that: equals('XXX')),
+          current: any(named: 'current', that: equals(null)),
+        ),
+      ).called(1);
+    },
+    expect: () => [
+      CreatePlanState.initial(argument: const CreatePlanArgument(id: 1)).copyWith(
+        type: StateType.loaded,
+        days: [_createDay()],
+        plan: _createPlan(name: 'XXX'),
+      )
+    ],
+  );
+
+  blocTest<CreatePlanBloc, CreatePlanState>(
+    'On CreatePlanEvent.planNameChanged(name: XXX) it emits error',
+    build: () => _build(id: 1),
+    setUp: () {
+      when(
+        () => mockPlanService.updatePlan(
+          id: any(named: 'id', that: equals(1)),
+          name: any(named: 'name', that: equals('XXX')),
+          current: any(named: 'current', that: equals(null)),
+        ),
+      ).thenAnswer((invocation) => TaskEither.left(GeneralFailure.fatal));
+    },
+    seed: () => CreatePlanState.initial(argument: const CreatePlanArgument(id: 1)).copyWith(
+      type: StateType.loaded,
+      days: [_createDay()],
+      plan: _createPlan(),
+    ),
+    act: (bloc) {
+      bloc.add(const CreatePlanEvent.planNameChanged(name: 'XXX'));
+    },
+    verify: (bloc) {
+      verify(
+        () => mockPlanService.updatePlan(
+          id: any(named: 'id', that: equals(1)),
+          name: any(named: 'name', that: equals('XXX')),
+          current: any(named: 'current', that: equals(null)),
+        ),
+      ).called(1);
+    },
+    expect: () => [
+      CreatePlanState.initial(argument: const CreatePlanArgument(id: 1)).copyWith(
+        type: StateType.error,
+        days: [_createDay()],
+        plan: _createPlan(),
       )
     ],
   );
 }
 
-FullPlan _createFullPlan([int id = 1, String name = 'Plan']) {
-  return FullPlan(
-    plan: Plan(
-      id: id,
-      name: name,
-      current: true,
-      createdAt: DateTime.utc(2022, 7, 6),
-      updatedAt: DateTime.utc(2022, 7, 6),
-    ),
-    days: [
-      Day(
-        ordinal: 1,
-        name: 'Monday',
-        date: DateTime.utc(2022, 7, 6),
-        entries: [
-          DayEntry(
-            id: 1,
-            dayOfWeek: DateTime.monday,
-            title: 'Math',
-            start: DateTime.utc(2022, 7, 6, 8),
-            end: DateTime.utc(2022, 7, 6, 8, 45),
-            pauseMinutes: 15,
-          ),
-          DayEntry(
-            id: 2,
-            dayOfWeek: DateTime.monday,
-            title: 'History',
-            start: DateTime.utc(2022, 7, 6, 9),
-            end: DateTime.utc(2022, 7, 6, 9, 45),
-            pauseMinutes: 5,
-          ),
-        ],
+Plan _createPlan({
+  int id = 1,
+  String name = 'Plan',
+  bool current = true,
+}) {
+  return Plan(
+    id: id,
+    name: name,
+    current: current,
+    createdAt: DateTime.utc(2022, 7, 6),
+    updatedAt: DateTime.utc(2022, 7, 6),
+  );
+}
+
+Day _createDay() {
+  return Day(
+    ordinal: 1,
+    name: 'Monday',
+    date: DateTime.utc(2022, 7, 6),
+    entries: [
+      DayEntry(
+        id: 1,
+        dayOfWeek: DateTime.monday,
+        title: 'Math',
+        start: DateTime.utc(2022, 7, 6, 8),
+        end: DateTime.utc(2022, 7, 6, 8, 45),
+        pauseMinutes: 15,
       ),
+      DayEntry(
+        id: 2,
+        dayOfWeek: DateTime.monday,
+        title: 'History',
+        start: DateTime.utc(2022, 7, 6, 9),
+        end: DateTime.utc(2022, 7, 6, 9, 45),
+        pauseMinutes: 5,
+      ),
+    ],
+  );
+}
+
+FullPlan _createFullPlan({
+  int id = 1,
+  String name = 'Plan',
+  bool current = true,
+}) {
+  return FullPlan(
+    plan: _createPlan(id: id, name: name, current: current),
+    days: [
+      _createDay(),
     ],
   );
 }

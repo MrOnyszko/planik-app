@@ -6,6 +6,7 @@ class CreatePlanState with _$CreatePlanState {
     required StateType type,
     required CreatePlanArgument argument,
     @Default(<Day>[]) List<Day> days,
+    @Default(null) Plan? plan,
   }) = _CreatePlanState;
 
   factory CreatePlanState.initial({

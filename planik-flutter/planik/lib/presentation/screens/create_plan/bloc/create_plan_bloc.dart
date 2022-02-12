@@ -7,6 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:planik/domain/failure/general_failure.dart';
 import 'package:planik/domain/model/day.dart';
 import 'package:planik/domain/model/full_plan.dart';
+import 'package:planik/domain/model/plan.dart';
 import 'package:planik/domain/service/plan_service.dart';
 import 'package:planik/presentation/common/state_type.dart';
 import 'package:planik/presentation/screens/create_plan/create_plan_argument.dart';
@@ -37,6 +38,9 @@ class CreatePlanBloc extends Bloc<CreatePlanEvent, CreatePlanState> {
         emit(state.copyWith(type: StateType.loading));
         emit(await _loadOrCreate());
       },
+      planNameChanged: (value) async {
+        emit(await _updatePlan(name: value.name));
+      },
     );
   }
 
@@ -52,7 +56,24 @@ class CreatePlanBloc extends Bloc<CreatePlanEvent, CreatePlanState> {
     return loadOrCreate
         .match(
           (l) => state.copyWith(type: StateType.error),
-          (fullPlan) => state.copyWith(type: StateType.loaded, days: fullPlan.days),
+          (fullPlan) => state.copyWith(
+            type: StateType.loaded,
+            days: fullPlan.days,
+            plan: fullPlan.plan,
+          ),
+        )
+        .run();
+  }
+
+  Future<CreatePlanState> _updatePlan({required String name}) async {
+    return _planService
+        .updatePlan(id: state.plan!.id, name: name)
+        .match(
+          (l) => state.copyWith(type: StateType.error),
+          (fullPlan) => state.copyWith(
+            plan: fullPlan.plan,
+            days: fullPlan.days,
+          ),
         )
         .run();
   }

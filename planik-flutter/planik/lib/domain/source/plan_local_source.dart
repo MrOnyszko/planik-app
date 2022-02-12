@@ -13,4 +13,10 @@ abstract class PlanLocalSource {
     required String name,
     required bool current,
   });
+
+  TaskEither<GeneralFailure, int> updatePlan({
+    required int id,
+    required String? name,
+    required bool? current,
+  });
 }

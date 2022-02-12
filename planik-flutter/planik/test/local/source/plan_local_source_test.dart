@@ -55,6 +55,35 @@ void main() {
       );
 
       test(
+        'gets plans with success',
+        () async {
+          final planEntity = _createPlanEntity();
+          final fullPlan = _createFullPlan();
+
+          when(() => planDaoMock.findManyBy(any(), any())).thenAnswer((_) async => [planEntity]);
+
+          final result = await planLocalSource.getPlans(pageSize: 1, page: 0).run();
+
+          verify(() => planDaoMock.findManyBy(any(), any())).called(1);
+
+          result.fold(left, (result) => expect(result, [fullPlan.plan]));
+        },
+      );
+
+      test(
+        'gets plans with GeneralFailure.fatal',
+        () async {
+          when(() => planDaoMock.findManyBy(any(), any())).thenThrow(Exception('error'));
+
+          final result = await planLocalSource.getPlans(pageSize: 1, page: 0).run();
+
+          verify(() => planDaoMock.findManyBy(any(), any())).called(1);
+
+          expect(result, const Left<GeneralFailure, List<Plan>>(GeneralFailure.fatal));
+        },
+      );
+
+      test(
         'gets plan with success',
         () async {
           const planId = 1;
@@ -151,6 +180,78 @@ void main() {
           verify(() => datesMock.now()).called(1);
           verify(() => planDaoMock.insertOne(any())).called(1);
           verifyNever(() => planDayEntryDaoMock.insertMany(any()));
+
+          expect(result, const Left<GeneralFailure, int>(GeneralFailure.fatal));
+        },
+      );
+
+      test(
+        'updates plan with success',
+        () async {
+          final plan = _createPlanEntity();
+
+          when(() => datesMock.now()).thenReturn(DateTime.utc(2022, 7, 6));
+          when(() => planDaoMock.findOneById(1)).thenAnswer((_) async => plan);
+          when(() => planDaoMock.updateOne(any())).thenAnswer((_) async => 1);
+
+          final result = await planLocalSource
+              .updatePlan(
+                id: 1,
+                name: 'Plan',
+                current: true,
+              )
+              .run();
+
+          verify(() => datesMock.now()).called(1);
+          verify(() => planDaoMock.findOneById(1)).called(1);
+          verify(() => planDaoMock.updateOne(any())).called(1);
+
+          expect(result, const Right<GeneralFailure, int>(1));
+        },
+      );
+
+      test(
+        'updates plan with GeneralFailure.notFound',
+        () async {
+          when(() => datesMock.now()).thenReturn(DateTime.utc(2022, 7, 6));
+          when(() => planDaoMock.findOneById(1)).thenAnswer((_) async => null);
+          when(() => planDaoMock.updateOne(any())).thenAnswer((_) async => 1);
+
+          final result = await planLocalSource
+              .updatePlan(
+                id: 1,
+                name: 'Plan',
+                current: true,
+              )
+              .run();
+
+          verify(() => datesMock.now()).called(1);
+          verify(() => planDaoMock.findOneById(1)).called(1);
+          verifyNever(() => planDaoMock.updateOne(any()));
+
+          expect(result, const Left<GeneralFailure, int>(GeneralFailure.notFound));
+        },
+      );
+
+      test(
+        'updates plan with GeneralFailure.fatal',
+        () async {
+          final plan = _createPlanEntity();
+          when(() => datesMock.now()).thenReturn(DateTime.utc(2022, 7, 6));
+          when(() => planDaoMock.findOneById(1)).thenAnswer((_) async => plan);
+          when(() => planDaoMock.updateOne(any())).thenThrow(Exception('error'));
+
+          final result = await planLocalSource
+              .updatePlan(
+                id: 1,
+                name: 'Plan',
+                current: true,
+              )
+              .run();
+
+          verify(() => datesMock.now()).called(1);
+          verify(() => planDaoMock.findOneById(1)).called(1);
+          verify(() => planDaoMock.updateOne(any())).called(1);
 
           expect(result, const Left<GeneralFailure, int>(GeneralFailure.fatal));
         },

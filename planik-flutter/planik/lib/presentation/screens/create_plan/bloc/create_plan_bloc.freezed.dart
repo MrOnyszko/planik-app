@@ -17,8 +17,14 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$CreatePlanEventTearOff {
   const _$CreatePlanEventTearOff();
 
-  _CreatePlanStarted started() {
-    return const _CreatePlanStarted();
+  CreatePlanStarted started() {
+    return const CreatePlanStarted();
+  }
+
+  CreatePlanNameChanged planNameChanged({required String name}) {
+    return CreatePlanNameChanged(
+      name: name,
+    );
   }
 }
 
@@ -30,32 +36,38 @@ mixin _$CreatePlanEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function(String name) planNameChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function(String name)? planNameChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function(String name)? planNameChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_CreatePlanStarted value) started,
+    required TResult Function(CreatePlanStarted value) started,
+    required TResult Function(CreatePlanNameChanged value) planNameChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_CreatePlanStarted value)? started,
+    TResult Function(CreatePlanStarted value)? started,
+    TResult Function(CreatePlanNameChanged value)? planNameChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreatePlanStarted value)? started,
+    TResult Function(CreatePlanStarted value)? started,
+    TResult Function(CreatePlanNameChanged value)? planNameChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -79,28 +91,28 @@ class _$CreatePlanEventCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$CreatePlanStartedCopyWith<$Res> {
-  factory _$CreatePlanStartedCopyWith(
-          _CreatePlanStarted value, $Res Function(_CreatePlanStarted) then) =
-      __$CreatePlanStartedCopyWithImpl<$Res>;
+abstract class $CreatePlanStartedCopyWith<$Res> {
+  factory $CreatePlanStartedCopyWith(
+          CreatePlanStarted value, $Res Function(CreatePlanStarted) then) =
+      _$CreatePlanStartedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$CreatePlanStartedCopyWithImpl<$Res>
+class _$CreatePlanStartedCopyWithImpl<$Res>
     extends _$CreatePlanEventCopyWithImpl<$Res>
-    implements _$CreatePlanStartedCopyWith<$Res> {
-  __$CreatePlanStartedCopyWithImpl(
-      _CreatePlanStarted _value, $Res Function(_CreatePlanStarted) _then)
-      : super(_value, (v) => _then(v as _CreatePlanStarted));
+    implements $CreatePlanStartedCopyWith<$Res> {
+  _$CreatePlanStartedCopyWithImpl(
+      CreatePlanStarted _value, $Res Function(CreatePlanStarted) _then)
+      : super(_value, (v) => _then(v as CreatePlanStarted));
 
   @override
-  _CreatePlanStarted get _value => super._value as _CreatePlanStarted;
+  CreatePlanStarted get _value => super._value as CreatePlanStarted;
 }
 
 /// @nodoc
 
-class _$_CreatePlanStarted implements _CreatePlanStarted {
-  const _$_CreatePlanStarted();
+class _$CreatePlanStarted implements CreatePlanStarted {
+  const _$CreatePlanStarted();
 
   @override
   String toString() {
@@ -110,7 +122,7 @@ class _$_CreatePlanStarted implements _CreatePlanStarted {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _CreatePlanStarted);
+        (other.runtimeType == runtimeType && other is CreatePlanStarted);
   }
 
   @override
@@ -120,6 +132,7 @@ class _$_CreatePlanStarted implements _CreatePlanStarted {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
+    required TResult Function(String name) planNameChanged,
   }) {
     return started();
   }
@@ -128,6 +141,7 @@ class _$_CreatePlanStarted implements _CreatePlanStarted {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function(String name)? planNameChanged,
   }) {
     return started?.call();
   }
@@ -136,6 +150,7 @@ class _$_CreatePlanStarted implements _CreatePlanStarted {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
+    TResult Function(String name)? planNameChanged,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -147,7 +162,8 @@ class _$_CreatePlanStarted implements _CreatePlanStarted {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_CreatePlanStarted value) started,
+    required TResult Function(CreatePlanStarted value) started,
+    required TResult Function(CreatePlanNameChanged value) planNameChanged,
   }) {
     return started(this);
   }
@@ -155,7 +171,8 @@ class _$_CreatePlanStarted implements _CreatePlanStarted {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_CreatePlanStarted value)? started,
+    TResult Function(CreatePlanStarted value)? started,
+    TResult Function(CreatePlanNameChanged value)? planNameChanged,
   }) {
     return started?.call(this);
   }
@@ -163,7 +180,8 @@ class _$_CreatePlanStarted implements _CreatePlanStarted {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreatePlanStarted value)? started,
+    TResult Function(CreatePlanStarted value)? started,
+    TResult Function(CreatePlanNameChanged value)? planNameChanged,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -173,8 +191,143 @@ class _$_CreatePlanStarted implements _CreatePlanStarted {
   }
 }
 
-abstract class _CreatePlanStarted implements CreatePlanEvent {
-  const factory _CreatePlanStarted() = _$_CreatePlanStarted;
+abstract class CreatePlanStarted implements CreatePlanEvent {
+  const factory CreatePlanStarted() = _$CreatePlanStarted;
+}
+
+/// @nodoc
+abstract class $CreatePlanNameChangedCopyWith<$Res> {
+  factory $CreatePlanNameChangedCopyWith(CreatePlanNameChanged value,
+          $Res Function(CreatePlanNameChanged) then) =
+      _$CreatePlanNameChangedCopyWithImpl<$Res>;
+  $Res call({String name});
+}
+
+/// @nodoc
+class _$CreatePlanNameChangedCopyWithImpl<$Res>
+    extends _$CreatePlanEventCopyWithImpl<$Res>
+    implements $CreatePlanNameChangedCopyWith<$Res> {
+  _$CreatePlanNameChangedCopyWithImpl(
+      CreatePlanNameChanged _value, $Res Function(CreatePlanNameChanged) _then)
+      : super(_value, (v) => _then(v as CreatePlanNameChanged));
+
+  @override
+  CreatePlanNameChanged get _value => super._value as CreatePlanNameChanged;
+
+  @override
+  $Res call({
+    Object? name = freezed,
+  }) {
+    return _then(CreatePlanNameChanged(
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CreatePlanNameChanged implements CreatePlanNameChanged {
+  const _$CreatePlanNameChanged({required this.name});
+
+  @override
+  final String name;
+
+  @override
+  String toString() {
+    return 'CreatePlanEvent.planNameChanged(name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CreatePlanNameChanged &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, name);
+
+  @JsonKey(ignore: true)
+  @override
+  $CreatePlanNameChangedCopyWith<CreatePlanNameChanged> get copyWith =>
+      _$CreatePlanNameChangedCopyWithImpl<CreatePlanNameChanged>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String name) planNameChanged,
+  }) {
+    return planNameChanged(name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String name)? planNameChanged,
+  }) {
+    return planNameChanged?.call(name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String name)? planNameChanged,
+    required TResult orElse(),
+  }) {
+    if (planNameChanged != null) {
+      return planNameChanged(name);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(CreatePlanStarted value) started,
+    required TResult Function(CreatePlanNameChanged value) planNameChanged,
+  }) {
+    return planNameChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(CreatePlanStarted value)? started,
+    TResult Function(CreatePlanNameChanged value)? planNameChanged,
+  }) {
+    return planNameChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(CreatePlanStarted value)? started,
+    TResult Function(CreatePlanNameChanged value)? planNameChanged,
+    required TResult orElse(),
+  }) {
+    if (planNameChanged != null) {
+      return planNameChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CreatePlanNameChanged implements CreatePlanEvent {
+  const factory CreatePlanNameChanged({required String name}) =
+      _$CreatePlanNameChanged;
+
+  String get name;
+  @JsonKey(ignore: true)
+  $CreatePlanNameChangedCopyWith<CreatePlanNameChanged> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -184,11 +337,13 @@ class _$CreatePlanStateTearOff {
   _CreatePlanState call(
       {required StateType type,
       required CreatePlanArgument argument,
-      List<Day> days = const <Day>[]}) {
+      List<Day> days = const <Day>[],
+      Plan? plan = null}) {
     return _CreatePlanState(
       type: type,
       argument: argument,
       days: days,
+      plan: plan,
     );
   }
 }
@@ -201,6 +356,7 @@ mixin _$CreatePlanState {
   StateType get type => throw _privateConstructorUsedError;
   CreatePlanArgument get argument => throw _privateConstructorUsedError;
   List<Day> get days => throw _privateConstructorUsedError;
+  Plan? get plan => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CreatePlanStateCopyWith<CreatePlanState> get copyWith =>
@@ -212,7 +368,13 @@ abstract class $CreatePlanStateCopyWith<$Res> {
   factory $CreatePlanStateCopyWith(
           CreatePlanState value, $Res Function(CreatePlanState) then) =
       _$CreatePlanStateCopyWithImpl<$Res>;
-  $Res call({StateType type, CreatePlanArgument argument, List<Day> days});
+  $Res call(
+      {StateType type,
+      CreatePlanArgument argument,
+      List<Day> days,
+      Plan? plan});
+
+  $PlanCopyWith<$Res>? get plan;
 }
 
 /// @nodoc
@@ -229,6 +391,7 @@ class _$CreatePlanStateCopyWithImpl<$Res>
     Object? type = freezed,
     Object? argument = freezed,
     Object? days = freezed,
+    Object? plan = freezed,
   }) {
     return _then(_value.copyWith(
       type: type == freezed
@@ -243,7 +406,22 @@ class _$CreatePlanStateCopyWithImpl<$Res>
           ? _value.days
           : days // ignore: cast_nullable_to_non_nullable
               as List<Day>,
+      plan: plan == freezed
+          ? _value.plan
+          : plan // ignore: cast_nullable_to_non_nullable
+              as Plan?,
     ));
+  }
+
+  @override
+  $PlanCopyWith<$Res>? get plan {
+    if (_value.plan == null) {
+      return null;
+    }
+
+    return $PlanCopyWith<$Res>(_value.plan!, (value) {
+      return _then(_value.copyWith(plan: value));
+    });
   }
 }
 
@@ -254,7 +432,14 @@ abstract class _$CreatePlanStateCopyWith<$Res>
           _CreatePlanState value, $Res Function(_CreatePlanState) then) =
       __$CreatePlanStateCopyWithImpl<$Res>;
   @override
-  $Res call({StateType type, CreatePlanArgument argument, List<Day> days});
+  $Res call(
+      {StateType type,
+      CreatePlanArgument argument,
+      List<Day> days,
+      Plan? plan});
+
+  @override
+  $PlanCopyWith<$Res>? get plan;
 }
 
 /// @nodoc
@@ -273,6 +458,7 @@ class __$CreatePlanStateCopyWithImpl<$Res>
     Object? type = freezed,
     Object? argument = freezed,
     Object? days = freezed,
+    Object? plan = freezed,
   }) {
     return _then(_CreatePlanState(
       type: type == freezed
@@ -287,6 +473,10 @@ class __$CreatePlanStateCopyWithImpl<$Res>
           ? _value.days
           : days // ignore: cast_nullable_to_non_nullable
               as List<Day>,
+      plan: plan == freezed
+          ? _value.plan
+          : plan // ignore: cast_nullable_to_non_nullable
+              as Plan?,
     ));
   }
 }
@@ -295,7 +485,10 @@ class __$CreatePlanStateCopyWithImpl<$Res>
 
 class _$_CreatePlanState implements _CreatePlanState {
   const _$_CreatePlanState(
-      {required this.type, required this.argument, this.days = const <Day>[]});
+      {required this.type,
+      required this.argument,
+      this.days = const <Day>[],
+      this.plan = null});
 
   @override
   final StateType type;
@@ -304,10 +497,13 @@ class _$_CreatePlanState implements _CreatePlanState {
   @JsonKey(defaultValue: const <Day>[])
   @override
   final List<Day> days;
+  @JsonKey(defaultValue: null)
+  @override
+  final Plan? plan;
 
   @override
   String toString() {
-    return 'CreatePlanState(type: $type, argument: $argument, days: $days)';
+    return 'CreatePlanState(type: $type, argument: $argument, days: $days, plan: $plan)';
   }
 
   @override
@@ -318,12 +514,13 @@ class _$_CreatePlanState implements _CreatePlanState {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.argument, argument) ||
                 other.argument == argument) &&
-            const DeepCollectionEquality().equals(other.days, days));
+            const DeepCollectionEquality().equals(other.days, days) &&
+            (identical(other.plan, plan) || other.plan == plan));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, type, argument, const DeepCollectionEquality().hash(days));
+  int get hashCode => Object.hash(runtimeType, type, argument,
+      const DeepCollectionEquality().hash(days), plan);
 
   @JsonKey(ignore: true)
   @override
@@ -335,7 +532,8 @@ abstract class _CreatePlanState implements CreatePlanState {
   const factory _CreatePlanState(
       {required StateType type,
       required CreatePlanArgument argument,
-      List<Day> days}) = _$_CreatePlanState;
+      List<Day> days,
+      Plan? plan}) = _$_CreatePlanState;
 
   @override
   StateType get type;
@@ -343,6 +541,8 @@ abstract class _CreatePlanState implements CreatePlanState {
   CreatePlanArgument get argument;
   @override
   List<Day> get days;
+  @override
+  Plan? get plan;
   @override
   @JsonKey(ignore: true)
   _$CreatePlanStateCopyWith<_CreatePlanState> get copyWith =>

@@ -41,6 +41,25 @@ class PlanService {
         );
   }
 
+  TaskEither<GeneralFailure, FullPlan> updatePlan({
+    required int id,
+    String? name,
+    bool? current,
+  }) {
+    return _planLocalSource
+        .updatePlan(id: id, name: name, current: current)
+        .flatMap((id) => _planLocalSource.getPlan(id: id))
+        .flatMap(
+      (fullPlan) {
+        if (current == true) {
+          return _userLocalSource.setCurrentPlanId(id: fullPlan.plan.id).map((_) => fullPlan);
+        } else {
+          return TaskEither.right(fullPlan);
+        }
+      },
+    );
+  }
+
   Future<List<Plan>> getPlans({required int pageSize, required int page}) {
     return _planLocalSource
         .getPlans(pageSize: pageSize, page: page)

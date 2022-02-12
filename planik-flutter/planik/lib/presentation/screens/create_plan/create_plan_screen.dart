@@ -14,7 +14,10 @@ class CreatePlanScreen extends StatelessWidget {
 
   const CreatePlanScreen({
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          // coverage:ignore-line
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,14 @@ class CreatePlanScreen extends StatelessWidget {
               loaded: () {
                 return PlanHorizontal(
                   toolbarHeight: _toolbarHeight,
-                  title: const CreatePlanNameForm(),
+                  title: CreatePlanNameForm(
+                    initialValue: state.plan?.name ?? '',
+                    onChanged: (value) {
+                      context
+                          .read<CreatePlanBloc>()
+                          .add(CreatePlanEvent.planNameChanged(name: value));
+                    },
+                  ),
                   automaticallyImplyLeading: false,
                   days: state.days,
                   appBarActions: [
