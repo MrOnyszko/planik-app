@@ -18,14 +18,6 @@ abstract class UserDao {
   @Update(onConflict: OnConflictStrategy.replace)
   Future<int> updateOne(UserEntity entity);
 
-  @transaction
-  Future<void> insertOrUpdateOne(UserEntity entity) async {
-    final id = await insertOne(entity);
-    if (id == -1) {
-      await updateOne(entity);
-    }
-  }
-
   @Query('DELETE FROM users WHERE id = :id')
   Future<void> deleteOneById(int id);
 

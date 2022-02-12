@@ -222,20 +222,6 @@ class _$UserDao extends UserDao {
   Future<void> deleteMany(List<UserEntity> entities) async {
     await _userEntityDeletionAdapter.deleteList(entities);
   }
-
-  @override
-  Future<void> insertOrUpdateOne(UserEntity entity) async {
-    if (database is sqflite.Transaction) {
-      await super.insertOrUpdateOne(entity);
-    } else {
-      await (database as sqflite.Database)
-          .transaction<void>((transaction) async {
-        final transactionDatabase = _$AppDatabase(changeListener)
-          ..database = transaction;
-        await transactionDatabase.userDao.insertOrUpdateOne(entity);
-      });
-    }
-  }
 }
 
 class _$PlanDao extends PlanDao {
