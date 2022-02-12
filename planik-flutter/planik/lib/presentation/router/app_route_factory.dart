@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:planik/presentation/screens/create_plan/create_plan_route.dart';
+import 'package:planik/presentation/screens/create_plan/create_plan.route.dart';
 import 'package:planik/presentation/screens/create_plan/create_plan_screen.dart';
-import 'package:planik/presentation/screens/create_plan_incentive/create_plan_incentive_route.dart';
+import 'package:planik/presentation/screens/create_plan_incentive/create_plan_incentive.route.dart';
 import 'package:planik/presentation/screens/create_plan_incentive/create_plan_incentive_screen.dart';
-import 'package:planik/presentation/screens/plan/plan_route.dart';
+import 'package:planik/presentation/screens/plan/plan.route.dart';
 import 'package:planik/presentation/screens/plan/plan_screen.dart';
-import 'package:planik/presentation/screens/plans/plans_route.dart';
+import 'package:planik/presentation/screens/plans/plans.route.dart';
 import 'package:planik/presentation/screens/plans/plans_screen.dart';
 import 'package:planik/presentation/screens/splash/splash_screen.dart';
-import 'package:planik/presentation/screens/user_name/user_name_route.dart';
+import 'package:planik/presentation/screens/user_name/user_name.route.dart';
 import 'package:planik/presentation/screens/user_name/user_name_screen.dart';
 
 class AppRouteFactory {
