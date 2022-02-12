@@ -31,6 +31,28 @@ void main() {
       );
 
       test(
+        'gets has user id with success',
+        () async {
+          when(mockUserLocalSource.hasUser).thenAnswer((_) => TaskEither.right(true));
+
+          final result = await userService.hasUser().run();
+
+          expect(result, const Right(true));
+        },
+      );
+
+      test(
+        'do not get has user with success',
+        () async {
+          when(mockUserLocalSource.hasUser).thenAnswer((_) => TaskEither.left(GeneralFailure.fatal));
+
+          final result = await userService.hasUser().run();
+
+          expect(result, const Left(GeneralFailure.fatal));
+        },
+      );
+
+      test(
         'gets has plan id with success',
         () async {
           when(mockUserLocalSource.hasPlan).thenAnswer((_) => TaskEither.right(true));
